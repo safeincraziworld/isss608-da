@@ -1,0 +1,420 @@
+---
+title: "Take-Home Exercise 1"
+description: |
+  Creating data visualisation beyond default: an analysis on the demographic of the city of Engagement, Ohio USA (VAST Challenge 2022). 
+author:
+  - name: Leslie Long Nu 
+    url:  https://www.linkedin.com/in/leslielongnu/
+    affiliation: School of Computing and Information Systems (SMU)
+    affiliation_url: https://scis.smu.edu.sg/
+date: "`r Sys.Date()`"
+preview:
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: True
+    toc_depth: 3
+    toc_float: true
+---
+
+```{r global option, include = FALSE}
+knitr::opts_chunk$set(message = FALSE)
+```
+## 1. Overview
+### 1.1 Introduction
+In this take-home exercise, the demographic of the city of Engagement, Ohio USA will be revealed by applying the skills learnt in ISSS608 Visual Analytics Lesson 1 and Hands-on Exercise 1. It is assumed that the volunteer participants are representative of the city's population.
+
+The data used in this exercise is from [VAST Challenge 2022](https://vast-challenge.github.io/2022/), and processed by RStudio `tidyverse` family of packages and visualized by `ggplot2` and its extensions.
+
+### 1.2 Challenges and Proposals
+**Challenge 1: Locate and Prepare Relevant Data**
+
+One of the challenges faced in this take-home exercise is that the dataset from VAST Challenge 2022 includes a considerable large number of files, 88 in total, and it is challenging to locate all the demographic related data. Upon review, while the participant file contains the essential data on demographic of the city, such as age, education level, family size and so on, it does not provide any data on residents' income level. 
+
+To include income information into the demographic reveal, data wrangling is required to derive income data, either from the status logs files -> job ID -> jobs file -> hourly rate; or from the financial journal -> wage. Considering that, although working days and hours are provided in jobs file, no information on public holidays, vocations taken or leaves applied are provided, which could affect the ultimate income as job pay is given in hourly rate instead of monthly lump sump. Therefore, income data will be derived from financial journal -> wage as it represents the actual income received by the residents. 
+
+**Challenge 2: Outliers**
+
+From the financial journal, it is observed that the wage values range widely. Thus, derived monthly income is likely to have outliers. Outliers affect the clarity and effectiveness of distribution graphs, such as scatter plots and boxplots, as the size of majority of the distribution becomes trivial visually in the attempt to fit the outliers on the graph. 
+
+In order to eliminate this problem, data should either be transformed and plotted in percentiles, or the type of the plot must be chosen carefully. 
+
+**Challenge 3: Variable Preparation**
+
+The variables need to be prepared and checked properly for visualization. For example, the age variable should be binned by intervals, such as below 20, 20-24, ..., to allow for a more holistic understanding of the demographic representation. Another example is the education level variable, as it is in character format, when plotted the levels will be arranged alphabetically, first 'Bachelor', followed by 'Graduate', 'High School or College' and 'Low', which is not the logical order that we are used to perceive education level. For issues like this, manual adjustment using R code is required to produce a clear and comprehensive graph. 
+
+**Challenge 4: Large Raw Data File**
+
+The financial journal file used to derive income data is 80.7 MB, larger than the 50 MB size limit set by GitHub. Therefore, the raw data cannot be pushed to GitHub repository directly. 
+
+This is resolved by preparing the dataframe for visualization, and then saving it in RDS format. The raw data is not pushed or commited while only the saved RDS file is referenced for visualization, and pushed to GitHub repository. 
+
+## 2. Data Preparation
+### 2.1 Installation and Launching R Packages
+The following code chunk installs the required R packages and loads them onto RStudio environment. 
+
+```{r install package, results='hide'}
+packages = c('tidyverse', 'readr', 'knitr', 'dplyr', 'ggdist', 'ggplot2', 'scales',
+             'forcats', 'grid', 'gridExtra', 'formattable', 'patchwork', 'ggridges')
+for(p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+}
+```
+
+### 2.2 Import Datasets
+The datasets used for this exercise are provided by [VAST Challenge 2022](https://vast-challenge.github.io/2022/). Data is imported using `read_csv()` of readr package, which is useful for reading delimited files into tibbles. 
+
+```{r import csv, eval=FALSE}
+participants <- read_csv('rawdata/Participants.csv')
+financial <- read_csv('rawdata/FinancialJournal.csv')
+```
+
+The following code chunk is used to have an overview of the datasets. 
+
+```{r data overview, eval=FALSE}
+summary(participants)
+summary(financial)
+```
+
+### 2.3 Data Wrangling 
+To find out the income level of the residents, residents' monthly income is derived by calculating the total sum of wage divided by 15. The result is the average (mean) monthly income received by the residents as the data ranges for 15 months. 
+
+```{r calculate income, eval=FALSE}
+income <- financial %>% 
+  filter(category == 'Wage') %>% # extract only wage data
+  select(participantId, amount) %>% # extract participant ID and amount columns
+  group_by(participantId) %>% # group by participant ID
+  summarise(Monthly_Income = sum(amount)/15) 
+# calculate average monthly income for each participant
+
+# check the derived file income 
+summary(income)
+```
+
+It is observed from `summary(income)` that the monthly income's variance is very high as it ranges from min value of 139.9 to max value of 17369.0. It has outliers too as the mean and median values are 3328.3 and 3668.5 respectively. This indicates that we need to choose an appropriate form of data visualization, or transform the data into percentiles so that the plot is not distorted by the outliers. 
+Income file is joined with participants file based on participant ID to allow for comparison of all demographic variables. Inner join is used as both data contain exactly 1011 entries and unique identifier of participant ID ranging from 0 to 1010. 
+
+```{r join tables, eval=FALSE}
+participants <- inner_join(x= participants, y= income, by= 'participantId')
+
+# confirm tables are joined correctly
+head(participants)
+```
+
+The columns and values of participants file are renamed with below code chunk for better formatting and ease of reading. 
+
+```{r rename columns, eval=FALSE}
+# rename columns
+participants <- participants %>%
+  rename('Participant_ID' = 'participantId', 
+         'Household_Size' = 'householdSize', 
+         'Have_Kids' = 'haveKids', 
+         'Age' = 'age', 
+         'Education_Level' = 'educationLevel', 
+         'Interest_Group' = 'interestGroup', 
+         'Joviality' = 'joviality')
+
+# verify if the columns have been renamed correctly 
+colnames(participants)
+
+#rename value 
+participants$Education_Level <- sub('HighSchoolOrCollege', 'High School or College', participants$Education_Level)
+```
+
+Age variable is binned with the following code chunk:
+
+```{r bin age, eval=FALSE}
+# check min and max ages 
+summary(participants$Age)
+
+# binning
+
+brks <- c(17, 20, 25, 30, 35, 40, 45, 50, 55, 60)
+grps <- c('20 & Below', '21-25', '26-30', '31-35', '36-40', '41-45', 
+          '46-50', '51-55', '56-60')
+
+participants$Age_Group <- cut(participants$Age, breaks=brks, labels = grps)
+```
+
+### 2.4 Save as and Read RDS 
+Dataframe participants is saved and read in RDS format to avoid uploading large files to Git.
+
+```{r save RDS, eval=FALSE}
+saveRDS(participants, 'data/participants.rds')
+```
+
+```{r read RDS}
+participants <- readRDS('data/participants.rds')
+head(participants)
+```
+
+## 3. Visualizations and Insights
+### 3.1 Age Distribution of the Residents 
+A bar chart was plotted using `ggplot2` on residents' age groups distribution as follows:
+
+* `geom_text()` is used to add annotations of the count and % values of each age group
+* `theme()` is used to remove the x axis ticks as it is categorical scale.
+* Grids and background color are removed for a cleaner look as annotations are included. 
+
+From the bar chart it is observed that residents' age distribution is mostly even, with 20 & Below as the smallest group (7.1%). 
+
+```{r age barchart}
+ggplot(data= participants, 
+       aes(x= Age_Group)) +
+  geom_bar(fill= '#468499') +
+  ylim(0, 150) +
+  geom_text(stat = 'count',
+           aes(label= paste0(stat(count), ', ', 
+                             round(stat(count)/sum(stat(count))*100, 
+                             1), '%')), vjust= -0.5, size= 2.5) +
+  labs(y= 'No. of\nResidents', title = "Distribution of Residents' Age") +
+  theme(axis.title.y= element_text(angle=0), axis.ticks.x= element_blank(),
+        panel.background= element_blank(), axis.line= element_line(color= 'grey'))
+```
+
+### 3.2 Household Size of the Residents
+The bar chart of household size indicates that there are no single parent households in the city, as all households of size 2 have no kids.
+
+```{r household barchart}
+ggplot(data= participants,
+       aes(x= Household_Size,
+           fill = Have_Kids)) +
+  geom_bar()+
+  ylim(0, 400) +
+  geom_text(stat = 'count',
+           aes(label= stat(count)), 
+           vjust= -0.5, 
+           size= 3) +
+  labs(title = 'Household Size of the Residents', y= 'No of\nResidents') +
+  theme(axis.title.y= element_text(angle=0), 
+        axis.ticks.x= element_blank(),
+        panel.background= element_blank(), 
+        axis.line= element_line(color= 'grey'))
+```
+
+### 3.3 Education Level Distribution 
+Distribution of residents' education level shows that more than half of the residents are high school or college educated, followed by bachelors, graduate and lastly low education levels. 
+
+```{r education barchart}
+participants %>%
+  mutate(Education= fct_infreq(Education_Level)) %>%
+  ggplot(aes(x= Education)) +
+  geom_bar(fill= '#6897bb') +
+  geom_text(stat = 'count',
+           aes(label= paste0(stat(count), ', ', 
+                             round(stat(count)/sum(stat(count))*100, 
+                             1), '%')), vjust= -0.5, size= 3) +
+  labs(y= 'No. of\nResidents', title = "Distribution of Residents' Education Level") +
+  theme(axis.title.y= element_text(angle=0), axis.ticks.x= element_blank(),
+        panel.background= element_blank(), axis.line= element_line(color= 'grey'))
+```
+
+### 3.4 Age Distribution for Different Household Sizes 
+Volin and boxplot of age distribution for different household sizes are plotted as follows:
+
+* `scale= 'count'` is used for `geom_voilin()` as it gives a true representation of the distribution because areas are scaled proportionally to the number of observations.  
+* mean age for each household size is added to compare with median age shown in boxplot
+* `as.factor(Household_Size)` is used as household size is categorical 
+
+```{r household age voilin}
+EduLevels <- c('Low', 'High School or College', 'Bachelors', 'Graduate')
+
+ggplot(data=participants,
+       aes(x= as.factor(Household_Size), y= Age)) +
+  geom_violin(fill= '#66cdaa',
+              scale = 'count',
+              color= NA,
+              bw= 0.4) +
+  geom_boxplot(width= 0.2,
+               color = '#065535',
+               alpha= 0.3) +
+  stat_summary(geom= 'point',
+               fun= 'mean',
+               color= '#ff7373',
+               size= 2) + 
+  facet_grid(~factor(Education_Level, levels = EduLevels)) +
+  labs(title= 'Age Distribution for Different Household Sizes', 
+       x= 'Household Size') +
+  theme(panel.background = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.line= element_line(color= 'grey'),
+        panel.grid.major.y = element_line(color= 'grey', size = 0.1))
+```
+
+From the plot it can be observed:
+
+* Highest average age is in household size 2 for low education group. 
+* Highest average age is in household size 1 for high school or college education group.
+* Highest average age is in household size 2 for Low education group.
+* Age distribution for households are similar across different sizes for bachelors and graduate education group.
+
+### 3.5 Distribution of Residents' Interest Groups and Education Levels
+The distribution of both residents' interest groups and education levels are plotted as follows:
+
+* `patchwork` is used to stack two graphs together, one showing the total size of the interest groups, another showing the corresponding composition of education levels.
+* Interest groups (x axis) are ordered by number of residents in descending order
+* x-axis label for the first graph is removed to avoid redundancy.
+
+```{r interest & education stack}
+# plot p1: bar chart of interest group distribution in descending order
+number <- 
+  participants %>%
+  mutate(Interest= fct_infreq(Interest_Group)) 
+
+p1 <-  
+  ggplot(data= number, aes(x= Interest)) +
+  geom_bar(fill= '#468499') +
+  scale_y_continuous(expand = c(0.2, 0.2)) +
+  labs(y= 'No. of\nResidents', 
+       title = "Total Number of Residents in Interest Groups") +
+  theme(axis.title.y= element_text(angle=0), axis.ticks.x= element_blank(),
+        panel.background= element_blank(), axis.line= element_line(color= 'grey'),
+        panel.grid.major.y = element_line(size= 0.2, color = "grey"),
+        axis.title.x = element_blank(),
+        plot.title = element_text(hjust=0.5))
+
+# plot p2: composition of corresponding interest group in terms of education levels
+int_lvl <- c('J', 'H', 'G', 'F', 'A', 'C', 'D', 'I', 'B', 'E')
+percent <- 
+  participants %>% 
+  group_by(Interest_Group, Education_Level) %>%
+  summarise(edu_size= n()) %>%
+  mutate(edu_pct= percent(edu_size/sum(edu_size))) 
+ 
+p2<- 
+  ggplot(data= percent, 
+         aes(x= factor(Interest_Group, levels = int_lvl), y= edu_pct, 
+             group= Education_Level, 
+             color= factor(Education_Level, levels = EduLevels))) +
+  geom_line() +
+  scale_color_discrete(name= 'Education Level') +
+  scale_y_continuous(labels = percent_format(),
+                     expand = c(0.2, 0.2)) +
+  labs(y= 'Percent', x= 'Interest Group', 
+       title = "Composition of Residents' Education Level in Interest Groups")+
+  theme(legend.position = 'top', legend.direction = 'horizontal',
+        axis.title.y= element_text(angle=0), axis.ticks.x= element_blank(),
+        panel.background= element_blank(), axis.line= element_line(color= 'grey'),
+        panel.grid.major = element_line(size= 0.2, color = "grey"),
+        legend.key = element_rect(fill= NA), legend.title = element_text(size = 8.5),
+        plot.title = element_text(hjust=0.5))
+
+# use patchwork to stack 2 graphs 
+p1/p2
+```
+Distribution of residents' interest groups shows that residents' interests are fairly evenly distributed among the 10 interest groups, with group J having the largest size, 116 residents and group E having the smallest size, 83 residents. 
+The education level composition of the interest groups indicates: 
+
+* The most popular interest group among high school or college education is group F and A.
+* The most popular interest group among bachelors is group J and H followed closely by D.
+* The most popular interest group among graduates is group G.
+* The least popular interest group among low education level is group D. 
+
+### 3.6 Joviality Distribution for Different Interest Groups
+The following plot is created to show the distribution of joviality index for different interest groups using the half-eye plot. It indicates the density plot (grey shade above) as well as the medians (dots) and quantile intervals (line and shape below). 
+
+Its is observed from the plot that interest group E has the highest median joviality index while interest group H has the lowest. 
+
+```{r joviality interest ridge}
+ggplot(participants, 
+       aes(x= fct_rev(Interest_Group), y= Joviality)) +
+  stat_halfeye(adjust = .35,
+               width = .6,
+               color = '#20b2aa',
+               justification = -.15,
+               position = position_nudge(x = .12)) +
+  scale_x_discrete(expand= c(0.1, 0.1)) +
+  geom_hline(aes(yintercept = 0.5),
+             linetype= 'dashed',
+             color= '#f08080',
+             size= .6) +
+  coord_flip() +
+  labs(x = 'Interest Group',
+       title = 'Joviality Distribution in Different Interest Groups') +
+  theme(panel.background= element_blank(), axis.line= element_line(color= 'grey'),
+        axis.ticks.y = element_blank(),
+        panel.grid.major = element_line(size= 0.2, color = "grey"))
+```
+
+### 3.7 Joviality versus Monthly Income
+
+Joviality versus monthly income distribution is plotted with following:
+
+* Horizontal line of Joviality= 0.5 and vertical line of median income is added for ease of interpretation. Median income instead of mean income is used as mean value is affected by outliers in income data. 
+* Scatter points are plotted in gradient color scheme based on joviality values. High joviality values are indicated in light green and low joviality values are indicated in dark green. 
+
+```{r joviality vs income}
+ggplot(data= participants,
+       aes(x= Monthly_Income, y= Joviality, color= Joviality)) +
+  scale_color_gradient(low= '#133337', high = '#a0db8e') +
+  geom_point() +
+  scale_x_continuous(breaks= c(0,5000,10000,15000),
+                     labels = c('0', '5k', '10k', '15k')) +
+  geom_vline(aes(xintercept = median(Monthly_Income,
+                                     na.rm = T)),
+             color= 'red',
+             linetype= 'dashed',
+             size= .6) +
+  geom_text(aes(median(Monthly_Income), 1, 
+                label= 'Median Monthly Income', hjust= -0.1)) +
+  geom_hline(aes(yintercept = 0.5),
+             color= 'red',
+             linetype= 'dashed',
+             size= .6)+
+  labs(title = "Joviality versus Monthly Income")+
+  theme(panel.background= element_blank(), axis.line= element_line(color= 'grey'),
+        panel.grid.major = element_line(size= 0.2, color = "grey"))
+```
+
+This plot revealed that here is no positive correlation between joviality and income level. In fact, some residents have very high joviality index with low income, while majority of those with monthly income higher than 10k have low joviality index. 
+
+### 3.8 Income Distribution Faceted by Education Level
+This plot is done with the following:
+
+* Income distribution for each education level is plotted against the overall income distribution in the background. This allows us to look at the comparison of the overall trend versus that for each subset.
+* Mean and median monthly income lines are added to each facet. 
+
+```{r income edu bg}
+# prepare data for background fill
+d <- participants
+d_bg <- d[, -5]
+
+# prepare mean and median monthly income by different education levels
+med_in <- participants %>%
+  group_by(Education_Level) %>%
+  summarise(med_in = median(Monthly_Income),
+            mean_in = mean(Monthly_Income))
+  
+ggplot(data= d,
+       aes(x= Monthly_Income, fill= Education_Level)) +
+  geom_histogram(data= d_bg,
+                 fill= 'grey',
+                 alpha= .5) +
+  geom_histogram(color= 'black') +
+  geom_vline(data= med_in,
+             aes(xintercept = med_in, color= 'Median'),
+             linetype= 'dashed',
+             size= .4) +
+  geom_vline(data= med_in,
+             aes(xintercept = mean_in, color= 'Mean'),
+             linetype= 'dashed',
+             size= .4) +
+  scale_color_manual(name= 'Statistics', 
+                     values = c(Median= 'dark blue', Mean= 'Red')) +
+  facet_wrap(~ factor(Education_Level, levels = EduLevels)) +
+  guides(fill= 'none') +
+  labs(y= 'No of Residents', 
+       title = 'Monthly Income Distribution Faceted by Education Level') +
+  theme_bw()
+```
+
+This plot indicates, unsurprisingly, that the income distribution is higher for higher education levels. In addition, it is worth noting that, the mean value is higher than median for higher education levels, the opposite case for low education level, and almost the same for high school or college education.  
+
+## 4. Learning Points
+This take-home exercise provides an excellent opportunity to get familiarized with data preparation and data visualization using R packages, especially using `tidyverse` and `ggplot2` and their extensions. My key takeaways are:
+
+* Whether using R or Tableau, variables must be prepared properly before clear and meaningful visualizations can be built upon. The principle of 'Garbage in, garbage out.' applies here as well. For example, when exploring income distribution by different education levels, income data must be grouped first by education levels to obtain the mean and median income for each subset, to provide audience with a better interpretation. 
+* Plotting with `ggplot2` in R is highly customizable as it is based on the grammar of graphics, which allows for numerous ways of graphical composition as required. The more I used it, the more I understand systematically how complicated graphics can be constructed layer by layer. 

@@ -1,0 +1,22 @@
+name: "isss608-da"
+title: "Leslie's DA Journey"
+theme: 'da_theme.css'
+description: |
+  Leslie's DA Journey
+output_dir: "_site"
+navbar:
+  right: 
+    - text: "Home"
+      href: index.html
+    - text: "DataViz Makeover"
+      menu:
+      - text: "DataViz Makeover 1"
+        href: "DataViz1"
+      - text: 'DataViz Makeover 2'
+        href: 'DataViz2'
+    - text: 'Take-home Exercise'    
+      href: takehome.html
+    - text: "About"
+      href: about.html
+    
+output: distill::distill_article

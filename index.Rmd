@@ -1,0 +1,27 @@
+---
+title: "Leslie's Data Analytics Journey"
+image: 'beier.png'
+links: 
+  - label: LinkedIn
+    url: 'https://www.linkedin.com/in/leslielongnu/'
+  - label: GitHub
+    url: 'https://github.com/safeincraziworld/'
+  - label: Email
+    url: 'mailto:nu.long.2021@mitb.smu.edu.sg'
+output:
+  postcards::jolla
+site: distill::distill_website
+---
+
+Hi! You've reached Leslie Long Nu's Website for works done in ISSS608 Visual Analytics course, 2021-22 Apr Term. 
+
+Hope you enjoy reading my projects :)
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# Learn more about creating websites with Distill at:
+# https://rstudio.github.io/distill/website.html
+
+```
+
