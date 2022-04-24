@@ -34,9 +34,9 @@ To include income information into the demographic reveal, data wrangling is req
 
 **Challenge 2: Outliers**
 
-From the financial journal, it is observed that the wage values range widely. Thus, derived monthly income is likely to have outliers. Outliers affect the clarity and effectiveness of distribution graphs, such as scatter plots and boxplots, as the size of majority of the distribution becomes trivial visually in the attempt to fit the outliers on the graph. 
+From the financial journal, it is observed that the wage values range widely. Thus, derived monthly income is likely to have outliers. Outliers affect the clarity and effectiveness of distribution graphs, such as scatter plots and boxplots, as the majority of the data points becomes visually trivial in the attempt to fit the outliers on the graph. 
 
-In order to eliminate this problem, data should either be transformed and plotted in percentiles, or the type of the plot must be chosen carefully. 
+In order to eliminate this problem, data should either be transformed and plotted in percentiles, or the format of visualization must be chosen carefully to represent the true distribution well. 
 
 **Challenge 3: Variable Preparation**
 
@@ -52,9 +52,9 @@ This is resolved by preparing the dataframe for visualization, and then saving i
 ### 2.1 Installation and Launching R Packages
 The following code chunk installs the required R packages and loads them onto RStudio environment. 
 
-```{r install package, results='hide'}
-packages = c('tidyverse', 'readr', 'knitr', 'dplyr', 'ggdist', 'ggplot2', 'scales',
-             'forcats', 'grid', 'gridExtra', 'formattable', 'patchwork', 'ggridges')
+```{r install package, eval= FALSE, results='hide'}
+packages = c('tidyverse', 'knitr', 'ggdist', 'scales', 'grid', 'gridExtra',
+             'formattable', 'patchwork')
 for(p in packages){
   if(!require(p, character.only = T)){
     install.packages(p)
@@ -317,9 +317,9 @@ The education level composition of the interest groups indicates:
 ### 3.6 Joviality Distribution for Different Interest Groups
 The following plot is created to show the distribution of joviality index for different interest groups using the half-eye plot. It indicates the density plot (grey shade above) as well as the medians (dots) and quantile intervals (line and shape below). 
 
-Its is observed from the plot that interest group E has the highest median joviality index while interest group H has the lowest. 
+While the overall joviality distribution across different interest groups does not differ significantly, it is observed from the plot that interest group E has the highest median joviality index while interest group H has the lowest. 
 
-```{r joviality interest ridge}
+```{r joviality interest halfeye}
 ggplot(participants, 
        aes(x= fct_rev(Interest_Group), y= Joviality)) +
   stat_halfeye(adjust = .35,
@@ -412,10 +412,10 @@ ggplot(data= d,
   theme_bw()
 ```
 
-This plot indicates, unsurprisingly, that the income distribution is higher for higher education levels. In addition, it is worth noting that, the mean value is higher than median for higher education levels, the opposite case for low education level, and almost the same for high school or college education.  
+This plot indicates, unsurprisingly, that the income distribution is higher for higher education levels. In addition, it is worth noting that, the mean value is higher than median for higher education levels, it is the opposite case for low education level, and they are almost the same for high school or college education. This is because mean value is affected significantly by outliers, and there are more outliers (very high income) for bachelors and graduate levels. 
 
 ## 4. Learning Points
 This take-home exercise provides an excellent opportunity to get familiarized with data preparation and data visualization using R packages, especially using `tidyverse` and `ggplot2` and their extensions. My key takeaways are:
 
 * Whether using R or Tableau, variables must be prepared properly before clear and meaningful visualizations can be built upon. The principle of 'Garbage in, garbage out.' applies here as well. For example, when exploring income distribution by different education levels, income data must be grouped first by education levels to obtain the mean and median income for each subset, to provide audience with a better interpretation. 
-* Plotting with `ggplot2` in R is highly customizable as it is based on the grammar of graphics, which allows for numerous ways of graphical composition as required. The more I used it, the more I understand systematically how complicated graphics can be constructed layer by layer. 
+* Plotting with `ggplot2` in R is highly customizable as it is based on the grammar of graphics, which allows for numerous ways of graphical composition as required. The more I use it, the more I understand systematically how complicated graphics can be constructed layer by layer. 
