@@ -52,7 +52,7 @@ This is resolved by preparing the dataframe for visualization, and then saving i
 ### 2.1 Installation and Launching R Packages
 The following code chunk installs the required R packages and loads them onto RStudio environment. 
 
-```{r install package, eval= FALSE, results='hide'}
+```{r install package, results='hide'}
 packages = c('tidyverse', 'knitr', 'ggdist', 'scales', 'grid', 'gridExtra',
              'formattable', 'patchwork')
 for(p in packages){
@@ -419,3 +419,23 @@ This take-home exercise provides an excellent opportunity to get familiarized wi
 
 * Whether using R or Tableau, variables must be prepared properly before clear and meaningful visualizations can be built upon. The principle of 'Garbage in, garbage out.' applies here as well. For example, when exploring income distribution by different education levels, income data must be grouped first by education levels to obtain the mean and median income for each subset, to provide audience with a better interpretation. 
 * Plotting with `ggplot2` in R is highly customizable as it is based on the grammar of graphics, which allows for numerous ways of graphical composition as required. The more I use it, the more I understand systematically how complicated graphics can be constructed layer by layer. 
+
+```{r, fig.width=5, fig.height=6, fig.width=3, include=FALSE}
+ggplot(participants,
+       aes(x= factor(Education_Level,levels = EduLevels), y= Joviality)) +
+  scale_x_discrete(expand = expansion(0.4, 0.4)) +
+  stat_halfeye(#aes(thickness = stat(pdf*n)),
+               adjust = .35,
+               width = .2,
+               color = NA,
+               justification = -.15,
+               position = position_nudge(x = .12)) +
+  stat_dots(side = 'left',
+            justification = 1.1,
+            dotsize = .5) +
+  geom_boxplot(width= .1,
+               outlier.shape = NA,
+               alpha= .3) +
+  coord_flip()
+```
+

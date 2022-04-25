@@ -118,7 +118,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["data/participants.rds","takehome1_files/anchor-4.2.2/anchor.min.js","takehome1_files/bowser-1.9.3/bowser.min.js","takehome1_files/distill-2.2.21/template.v2.js","takehome1_files/figure-html5/age barchart-1.png","takehome1_files/figure-html5/education barchart-1.png","takehome1_files/figure-html5/household age voilin-1.png","takehome1_files/figure-html5/household barchart-1.png","takehome1_files/figure-html5/income edu bg-1.png","takehome1_files/figure-html5/interest & education stack-1.png","takehome1_files/figure-html5/interest & education-1.png","takehome1_files/figure-html5/joviality agegroup raincloud-1.png","takehome1_files/figure-html5/joviality agegroup rainfall-1.png","takehome1_files/figure-html5/joviality interest ridge-1.png","takehome1_files/figure-html5/joviality vs income-1.png","takehome1_files/figure-html5/unnamed-chunk-1-1.png","takehome1_files/figure-html5/unnamed-chunk-3-1.png","takehome1_files/header-attrs-2.13.7/header-attrs.js","takehome1_files/jquery-3.6.0/jquery-3.6.0.js","takehome1_files/jquery-3.6.0/jquery-3.6.0.min.js","takehome1_files/jquery-3.6.0/jquery-3.6.0.min.map","takehome1_files/popper-2.6.0/popper.min.js","takehome1_files/tippy-6.2.7/tippy-bundle.umd.min.js","takehome1_files/tippy-6.2.7/tippy-light-border.css","takehome1_files/tippy-6.2.7/tippy.css","takehome1_files/tippy-6.2.7/tippy.umd.min.js","takehome1_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["data/participants.rds","takehome1_files/anchor-4.2.2/anchor.min.js","takehome1_files/bowser-1.9.3/bowser.min.js","takehome1_files/distill-2.2.21/template.v2.js","takehome1_files/figure-html5/age barchart-1.png","takehome1_files/figure-html5/education barchart-1.png","takehome1_files/figure-html5/household age voilin-1.png","takehome1_files/figure-html5/household barchart-1.png","takehome1_files/figure-html5/income edu bg-1.png","takehome1_files/figure-html5/interest & education stack-1.png","takehome1_files/figure-html5/interest & education-1.png","takehome1_files/figure-html5/joviality agegroup raincloud-1.png","takehome1_files/figure-html5/joviality agegroup rainfall-1.png","takehome1_files/figure-html5/joviality interest halfeye-1.png","takehome1_files/figure-html5/joviality interest ridge-1.png","takehome1_files/figure-html5/joviality vs income-1.png","takehome1_files/figure-html5/unnamed-chunk-1-1.png","takehome1_files/figure-html5/unnamed-chunk-3-1.png","takehome1_files/header-attrs-2.13.7/header-attrs.js","takehome1_files/jquery-3.6.0/jquery-3.6.0.js","takehome1_files/jquery-3.6.0/jquery-3.6.0.min.js","takehome1_files/jquery-3.6.0/jquery-3.6.0.min.map","takehome1_files/popper-2.6.0/popper.min.js","takehome1_files/tippy-6.2.7/tippy-bundle.umd.min.js","takehome1_files/tippy-6.2.7/tippy-light-border.css","takehome1_files/tippy-6.2.7/tippy.css","takehome1_files/tippy-6.2.7/tippy.umd.min.js","takehome1_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1571,12 +1571,12 @@ residents.</p>
 <p>From the financial journal, it is observed that the wage values range
 widely. Thus, derived monthly income is likely to have outliers.
 Outliers affect the clarity and effectiveness of distribution graphs,
-such as scatter plots and boxplots, as the size of majority of the
-distribution becomes trivial visually in the attempt to fit the outliers
-on the graph.</p>
+such as scatter plots and boxplots, as the majority of the data points
+becomes visually trivial in the attempt to fit the outliers on the
+graph.</p>
 <p>In order to eliminate this problem, data should either be transformed
-and plotted in percentiles, or the type of the plot must be chosen
-carefully.</p>
+and plotted in percentiles, or the format of visualization must be
+chosen carefully to represent the true distribution well.</p>
 <p><strong>Challenge 3: Variable Preparation</strong></p>
 <p>The variables need to be prepared and checked properly for
 visualization. For example, the age variable should be binned by
@@ -1603,8 +1603,8 @@ Launching R Packages</h3>
 them onto RStudio environment.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>packages</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'tidyverse'</span>, <span class='st'>'readr'</span>, <span class='st'>'knitr'</span>, <span class='st'>'dplyr'</span>, <span class='st'>'ggdist'</span>, <span class='st'>'ggplot2'</span>, <span class='st'>'scales'</span>,
-             <span class='st'>'forcats'</span>, <span class='st'>'grid'</span>, <span class='st'>'gridExtra'</span>, <span class='st'>'formattable'</span>, <span class='st'>'patchwork'</span>, <span class='st'>'ggridges'</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>packages</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'tidyverse'</span>, <span class='st'>'knitr'</span>, <span class='st'>'ggdist'</span>, <span class='st'>'scales'</span>, <span class='st'>'grid'</span>, <span class='st'>'gridExtra'</span>,
+             <span class='st'>'formattable'</span>, <span class='st'>'patchwork'</span><span class='op'>)</span>
 <span class='kw'>for</span><span class='op'>(</span><span class='va'>p</span> <span class='kw'>in</span> <span class='va'>packages</span><span class='op'>)</span><span class='op'>{</span>
   <span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'>p</span>, character.only <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span>
     <span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span>
@@ -1957,8 +1957,10 @@ Joviality Distribution for Different Interest Groups</h3>
 index for different interest groups using the half-eye plot. It
 indicates the density plot (grey shade above) as well as the medians
 (dots) and quantile intervals (line and shape below).</p>
-<p>Its is observed from the plot that interest group E has the highest
-median joviality index while interest group H has the lowest.</p>
+<p>While the overall joviality distribution across different interest
+groups does not differ significantly, it is observed from the plot that
+interest group E has the highest median joviality index while interest
+group H has the lowest.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>ggplot</span><span class='op'>(</span><span class='va'>participants</span>, 
@@ -1981,7 +1983,7 @@ median joviality index while interest group H has the lowest.</p>
         panel.grid.major <span class='op'>=</span> <span class='fu'>element_line</span><span class='op'>(</span>size<span class='op'>=</span> <span class='fl'>0.2</span>, color <span class='op'>=</span> <span class='st'>"grey"</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
-<p><img src="takehome1_files/figure-html5/joviality%20interest%20ridge-1.png" width="624" /></p>
+<p><img src="takehome1_files/figure-html5/joviality%20interest%20halfeye-1.png" width="624" /></p>
 </div>
 <h3 id="joviality-versus-monthly-income">3.7 Joviality versus Monthly
 Income</h3>
@@ -2075,8 +2077,10 @@ the comparison of the overall trend versus that for each subset.</li>
 <p>This plot indicates, unsurprisingly, that the income distribution is
 higher for higher education levels. In addition, it is worth noting
 that, the mean value is higher than median for higher education levels,
-the opposite case for low education level, and almost the same for high
-school or college education.</p>
+it is the opposite case for low education level, and they are almost the
+same for high school or college education. This is because mean value is
+affected significantly by outliers, and there are more outliers (very
+high income) for bachelors and graduate levels.</p>
 <h2 id="learning-points">4. Learning Points</h2>
 <p>This take-home exercise provides an excellent opportunity to get
 familiarized with data preparation and data visualization using R
@@ -2092,7 +2096,7 @@ the mean and median income for each subset, to provide audience with a
 better interpretation.</li>
 <li>Plotting with <code>ggplot2</code> in R is highly customizable as it
 is based on the grammar of graphics, which allows for numerous ways of
-graphical composition as required. The more I used it, the more I
+graphical composition as required. The more I use it, the more I
 understand systematically how complicated graphics can be constructed
 layer by layer.</li>
 </ul>
