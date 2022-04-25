@@ -259,7 +259,7 @@ The distribution of both residents' interest groups and education levels are plo
 * Interest groups (x axis) are ordered by number of residents in descending order
 * x-axis label for the first graph is removed to avoid redundancy.
 
-```{r interest & education stack}
+```{r interest & education stack, fig.height= 6, fig.width=8}
 # plot p1: bar chart of interest group distribution in descending order
 number <- 
   participants %>%
@@ -420,7 +420,7 @@ This take-home exercise provides an excellent opportunity to get familiarized wi
 * Whether using R or Tableau, variables must be prepared properly before clear and meaningful visualizations can be built upon. The principle of 'Garbage in, garbage out.' applies here as well. For example, when exploring income distribution by different education levels, income data must be grouped first by education levels to obtain the mean and median income for each subset, to provide audience with a better interpretation. 
 * Plotting with `ggplot2` in R is highly customizable as it is based on the grammar of graphics, which allows for numerous ways of graphical composition as required. The more I use it, the more I understand systematically how complicated graphics can be constructed layer by layer. 
 
-```{r, fig.width=5, fig.height=6, fig.width=3, include=FALSE}
+```{r, include=FALSE, eval=FALSE}
 ggplot(participants,
        aes(x= factor(Education_Level,levels = EduLevels), y= Joviality)) +
   scale_x_discrete(expand = expansion(0.4, 0.4)) +
