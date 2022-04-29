@@ -5,8 +5,8 @@ description: |
 author:
   - name: Leslie Long Nu
     url: https://www.linkedin.com/in/leslielongnu/
-    affiliation: School of Computing and Information Systems (SMU)
-    affiliation_url: https://scis.smu.edu.sg/
+    affiliation: SMU, Master of IT in Business
+    affiliation_url: https://scis.smu.edu.sg/master-it-business
 date: "`r Sys.Date()`"
 preview:
 output:
@@ -15,22 +15,25 @@ output:
     self_contained: false
     toc: true
     toc_depth: 3
+bibliography: references.bib
+link-citations: yes
+csl: apa.csl
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-```{r remake site, inlcude= FALSE, eval=FALSE}
+```{r remake site, include= FALSE, eval=FALSE}
 https://visualanalytics.netlify.app/th_ex/th_ex1.html
 ```
 
-## 1. Overview 
+# 1. Overview 
 This take-home exercise is done based on a take-home exercise 1 submission prepared by a classmate. The peer submission will be critiqued in terms of clarity and aesthetics, and the original design will be remade using the data visualization principles and best practice learnt in Lesson 1 and 2. 
 
 The dataset used in take-home exercise 1 and 2 is downloaded from [VAST Challenge 2022](https://vast-challenge.github.io/2022/), and processed by RStudio `tidyverse` family of packages and visualized by `ggplot2` and its extensions.
 
-## 2. Critique
+# 2. Visualization Critique and Remake
 
 ```{r install package, include=FALSE}
 packages = c('tidyverse', 'knitr', 'ggdist', 'scales', 'grid', 'gridExtra',
@@ -49,8 +52,7 @@ participants <- read_csv('data/Participants.csv')
 # </details>
 ```
 
-
-```{r, bin age, include=FALSE}
+```{r bin age, include=FALSE}
 one <- c("18", "19", "20")
 two <- c("21", "22", "23", "24", "25", "26", "27", "28", "29", "30" )
 three <- c("31", "32", "33", "34", "35", "36", "37", "38", "39", "40")
@@ -68,7 +70,8 @@ participants <- participants %>%
 
 ```
 
-### 2.1 Distribution of Joviality
+## 2.1  Distribution of Joviality 
+### 2.1.1 Critique
 
 ```{r joviality distribution}
 ggplot(data=participants,
@@ -88,7 +91,55 @@ A histogram is used to reveal the distribution of residents' joviality.
 
 **Clarity**
 
+* The graph is generally clear, in terms of title, x-axis labels and overall layout. Caption is also included to indicate source of the data. 
+* Y-axis label 'count' is vague, can be improved to be more specific. 
+* The distribution at joviality = 1.0 gives audience the impression that there is joviality value higher than 1.0, which is not the true representation of the dataset. This look could be caused by setting `bins= 20` and `xlim=c(0.0, 1)`.
+* The histogram itself conveys limited amount of information to the audience, without additional annotations on number of count, percentage, mean or median values and etc. More additonal information can be added to the graph to provide audience with a clearer interpretation of the distribution. 
+* One of the disadvantage of histogram is that it depends too much on the number of bins [@stophistogram]. The distribution of the same data could show a different pattern when a different bin number is chosen. See below example of comparison of `bins= 20` (original) and `bins= 10`. 
+
+```{r joviality compare bin, fig.width= 10}
+p1 <- 
+  ggplot(data=participants,
+       aes(x = joviality)) +
+  geom_histogram(bins=20,
+                 boundary = 50,
+                 color="black",
+                 fill="light blue") +
+  coord_cartesian(xlim=c(0.01,1)) +
+  labs(title = "Distribution of Joviality (bins=20)",
+       caption = "demographic information, Ohio USA") +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 1),
+        plot.caption = element_text(hjust = 0))
+
+p2 <- 
+  ggplot(data=participants,
+       aes(x = joviality)) +
+  geom_histogram(bins=10,
+                 boundary = 50,
+                 color="black",
+                 fill="light blue") +
+  #coord_cartesian(xlim=c(0.0, 1)) +
+  labs(title = "Distribution of Joviality (bins=10)",
+       caption = "demographic information, Ohio USA") +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 1),
+        plot.caption = element_text(hjust = 0))
+
+p1|p2
+```
+
 **Aesthetics**
+
+* Grey background can be improved to give a more clean and professional look. 
+* Spelling of the x-axis and y-axis label can be capitalized for a more standardized formatting. 
+
+### 2.1.2 Remake 
+
+```{r joviality remake}
+
+```
+
 
 ## 2.2 Distribution of Age for Different Household Types
 
@@ -110,7 +161,7 @@ ggplot(data=participants,
 
 **Aesthetics**
 
-## 2.2 Joviality Measure
+## 2.3 Joviality Measure
 
 ```{r}
 ggplot(data=participants, 
@@ -160,8 +211,7 @@ ggplot(data=participants,
 
 **Aesthetics**
 
-## 3. Visualization Remake 
 
-## 4. Learning Points 
+# 3. Learning Points 
 
 

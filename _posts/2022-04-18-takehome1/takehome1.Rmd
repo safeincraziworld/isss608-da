@@ -5,8 +5,8 @@ description: |
 author:
   - name: Leslie Long Nu 
     url:  https://www.linkedin.com/in/leslielongnu/
-    affiliation: School of Computing and Information Systems (SMU)
-    affiliation_url: https://scis.smu.edu.sg/
+    affiliation: SMU, Master of IT in Business
+    affiliation_url: https://scis.smu.edu.sg/master-it-business
 date: "Apr 24, 2022"
 preview:
 output:
