@@ -24,10 +24,6 @@ csl: apa.csl
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-```{r remake site, include= FALSE, eval=FALSE}
-https://visualanalytics.netlify.app/th_ex/th_ex1.html
-```
-
 # 1. Overview 
 This take-home exercise is done based on a take-home exercise 1 submission prepared by a classmate. The peer submission will be critiqued in terms of clarity and aesthetics, and the original design will be remade using the data visualization principles and best practice learnt in Lesson 1 and 2. 
 
@@ -72,8 +68,10 @@ participants <- participants %>%
 
 ## 2.1  Distribution of Joviality 
 ### 2.1.1 Critique
+A histogram is used to reveal the distribution of residents' joviality. 
 
 ```{r joviality distribution}
+# current graph
 ggplot(data=participants,
        aes(x = joviality)) +
   geom_histogram(bins=20,
@@ -87,17 +85,17 @@ ggplot(data=participants,
         plot.subtitle = element_text(hjust = 1),
         plot.caption = element_text(hjust = 0))
 ```
-A histogram is used to reveal the distribution of residents' joviality. 
 
 **Clarity**
 
-* The graph is generally clear, in terms of title, x-axis labels and overall layout. Caption is also included to indicate source of the data. 
+* The graph is generally clear, in terms of title, x-axis labels and overall layout. Caption is also included to indicate source of the data. Looking at the graph, audience is able to gasp the general trend of joviality distribution. 
 * Y-axis label 'count' is vague, can be improved to be more specific. 
-* The distribution at joviality = 1.0 gives audience the impression that there is joviality value higher than 1.0, which is not the true representation of the dataset. This look could be caused by setting `bins= 20` and `xlim=c(0.0, 1)`.
-* The histogram itself conveys limited amount of information to the audience, without additional annotations on number of count, percentage, mean or median values and etc. More additonal information can be added to the graph to provide audience with a clearer interpretation of the distribution. 
-* One of the disadvantage of histogram is that it depends too much on the number of bins [@stophistogram]. The distribution of the same data could show a different pattern when a different bin number is chosen. See below example of comparison of `bins= 20` (original) and `bins= 10`. 
+* The distribution at joviality = 1.0 gives audience the impression that there is joviality value higher than 1.0, which is not true for this dataset. This look could be caused by setting both `bins= 20` and `boundary= 50`.
+* Histogram by itself conveys limited amount of information to the audience, as it does not allow for sorting or labeling of count due to the nature of continuous data. Additional annotations, such as mean or median values, can be included to provide audience with a better interpretation of the distribution. 
+* One of the disadvantage of histogram is that it depends too much on the number of bins. The distribution of the same data could show a different pattern when a different bin number is chosen. See below example of comparison of `bins= 20` (original) and `bins= 10`. 
 
 ```{r joviality compare bin, fig.width= 10}
+# comparing shapes of histograms with different number of bins
 p1 <- 
   ggplot(data=participants,
        aes(x = joviality)) +
@@ -131,19 +129,68 @@ p1|p2
 
 **Aesthetics**
 
+* Colors chosen are clean and easily readable to the audience. 
 * Grey background can be improved to give a more clean and professional look. 
-* Spelling of the x-axis and y-axis label can be capitalized for a more standardized formatting. 
+* Spelling of the x-axis and y-axis label can be capitalized for a more formal formatting. 
 
 ### 2.1.2 Remake 
 
 ```{r joviality remake}
-
+# remake
+ggplot(participants, 
+       aes(joviality)) +
+  # plot histogram
+  geom_histogram(bins = 20,
+                 color="#666666",
+                 fill="light blue") +
+  # plot density curve (y= ..density..*60 to match the second y-axis)
+  geom_density(aes(y= ..density..*60), color= '#ff7373') +
+  # add second y-axis, which is transformed from the primary y-axis (/60)
+  scale_y_continuous('No. of\nResidents',
+                     expand = c(0.05, 0.2),
+                     sec.axis = sec_axis(~. /60, name= 'Density',
+                                         breaks= seq(0, 1.2, 0.5) )) +
+  # add mean joviality line
+  geom_vline(aes(xintercept = mean(joviality)),
+             linetype= 'dashed',
+             size= .4,
+             color= '#0e2f44') +
+  # annotation for mean joviality line 
+  geom_text(aes(mean(joviality), 65, 
+                label= 'Mean Joviality Index',
+                hjust= -0.1),
+            check_overlap = T,
+            color= '#0e2f44') +
+  labs(y= 'No. of\nResidents', x= 'Joviality',
+       title = "Distribution of Residents' Joviality Index",
+       caption = "demographic information, Ohio USA") +
+  theme(axis.title.y= element_text(angle=0), 
+        axis.title.y.right = element_text(angle=0, vjust = 1),
+        panel.grid.major = element_line(color= 'grey', size = 0.1),
+        panel.background= element_blank(), 
+        axis.line= element_line(color= 'grey'),
+        plot.caption = element_text(hjust = 0))
 ```
 
+The makeover graph kept the good features of the original graph, such as the caption and the overall format, and improved on a few elements:
+
+**Clarity**
+
+* Distribution along x-axis is tidied up with no confusion on maximum jovality value. 
+* Density curve is added on the second y-axis because its shape is not affected by number of bins, like that of histogram. From the density graph we can conclude that there are two local peaks on the distribution, one around joviality= 0.15-0.30 and another around 0.85-0.90. 
+* Mean joviality value is indicated on the graph, to provide additional information on the distribution.
+
+**Aesthetics**
+
+* Title, x-axis and y-axis labels and positions are improved to allow for ease of reading. 
+* Overall theme is improved to be cleaner and easier to read. 
 
 ## 2.2 Distribution of Age for Different Household Types
+### 2.2.1 Critique
+A stacked histogram is chosen to reveal the distribution of residents' age for different household sizes. 
 
 ```{r age & edu }
+# current graph
 ggplot(data=participants, 
        aes(x=age_modified, fill = educationLevel)) +
   geom_bar()+
@@ -157,9 +204,95 @@ ggplot(data=participants,
     plot.caption = element_text(hjust = 0)
     )
 ```
+
 **Clarity**
 
+* The graph is generally clear in terms overall layout and design. Caption is included to indicate source of the data. Looking at the graph, audience is able to gasp the general trend of age distribution and its composition of different education levels. 
+* There seems to be a typo in the graph title as it says "different household types" but the graph and legend are showing "different education level".
+* Y-axis label 'count' is vague, can be improved to be more specific.
+* X-ticks can be removed here since it is representing categorical data. 
+* The order of the education level legend can be sorted to follow an order of from low to high levels, such as firstly low, high school or college, bachelors, followed by graduates. The sorted order is more intuitive to the audience and thus easier to follow. 
+* While stacked bar chart provides a good overview of the composition of each category, it does not allow for ease of comparison between the different compositions. This is because the compositions are shown in height with different starting points, and there are no labels of counts or percentage values given for reference.  
+
 **Aesthetics**
+
+* Colors chosen are clean and color contrast is easily distinguishable. 
+* Grey background can be improved to give a more clean and professional look. 
+* Capitalization and spacing of the title, x-axis, y-axis and legend labels should be standardized in a professional format to allow for ease of reading. 
+
+### 2.2.2 Remake
+
+```{r data wrangling}
+# data preparation for remake
+# rename '<=20' and '50+' for a more formal formatting
+participants$age_modified <-
+  sub('<=20', '20 and below', participants$age_modified)
+participants$age_modified[participants$age_modified == 'above 50+'] <- 'above 50'
+
+# rename 'HighSchoolOrCollege' values in dataset for ease of reading
+participants$educationLevel <- sub('HighSchoolOrCollege', 
+                                    'High School or College',
+                                    participants$educationLevel)
+
+# calculate %composition of age groups for different education levels
+percent <- 
+  participants %>% 
+  group_by(age_modified, educationLevel) %>%
+  summarise(edu_size= n()) %>%
+  mutate(edu_pct= percent(edu_size/sum(edu_size))) 
+```
+
+```{r age edu remake, fig.height= 6, fig.width=8}
+# plot remake graph
+# plot p1: bar chart of age group distribution
+p1 <-  
+  ggplot(participants, aes(x= age_modified)) +
+  geom_bar(fill= '#468499') +
+  scale_y_continuous(expand = c(0.2, 0.2)) +
+  labs(y= 'No. of\nResidents', 
+       title = "Residents' Age Group Distribution") +
+  theme(axis.title.y= element_text(angle=0), axis.ticks.x= element_blank(),
+        panel.background= element_blank(), axis.line= element_line(color= 'grey'),
+        panel.grid.major.y = element_line(size= 0.2, color = "grey"),
+        axis.title.x = element_blank(),
+        plot.title = element_text(hjust=0.5))
+
+# prepare sorted order of education levels from low to high levels
+edu_lvl <- c('Low', 'High School or College', 'Bachelors', 'Graduate')
+
+# plot p2: composition of corresponding age group in terms of education levels
+p2<- 
+  ggplot(percent, 
+         aes(x= age_modified, y= edu_pct, 
+             group= educationLevel, 
+             color= factor(educationLevel, levels = edu_lvl))) +
+  geom_line() +
+  scale_color_discrete(name= 'Education Level') +
+  scale_y_continuous(labels = percent_format(),
+                     expand = c(0.2, 0.2)) +
+  labs(y= 'Percent', x= 'Age Group', 
+       title = "Composition of Residents' Education Level in Different Age Groups",
+       caption = "demographic information, Ohio USA")+
+  theme(legend.position = 'top', legend.direction = 'horizontal',
+        axis.title.y= element_text(angle=0), axis.ticks.x= element_blank(),
+        panel.background= element_blank(), 
+        axis.line= element_line(color= 'grey'),
+        panel.grid.major = element_line(size= 0.2, color = "grey"),
+        legend.key = element_rect(fill= NA), 
+        legend.title = element_text(size = 8.5),
+        plot.title = element_text(hjust=0.5),
+        plot.caption = element_text(hjust = 0))
+
+# use patchwork to stack 2 graphs 
+p1/p2
+```
+**Clarity**
+
+* The remade graph has two components, one on top showing the bar chart of age group distribution and the one on the bottom shows the change in composition of education levels for respective age groups. This format is clearer than the stack bar chart as it shows the fluctuation of % composition of education level and links back to its age groups clearly. 
+
+**Aesthetics**
+
+* Format and postions of title, x-axis, y-axis and legend labels are adjusted respectively. 
 
 ## 2.3 Joviality Measure
 
