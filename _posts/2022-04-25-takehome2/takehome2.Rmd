@@ -7,7 +7,7 @@ author:
     url: https://www.linkedin.com/in/leslielongnu/
     affiliation: SMU, Master of IT in Business
     affiliation_url: https://scis.smu.edu.sg/master-it-business
-date: "`r Sys.Date()`"
+date: "May 1, 2022"
 preview:
 output:
   distill::distill_article:
@@ -15,9 +15,9 @@ output:
     self_contained: false
     toc: true
     toc_depth: 3
-bibliography: references.bib
-link-citations: yes
-csl: apa.csl
+#bibliography: references.bib
+#link-citations: yes
+#csl: apa.csl
 ---
 
 ```{r setup, include=FALSE}
@@ -29,9 +29,13 @@ This take-home exercise is done based on a take-home exercise 1 submission prepa
 
 The dataset used in take-home exercise 1 and 2 is downloaded from [VAST Challenge 2022](https://vast-challenge.github.io/2022/), and processed by RStudio `tidyverse` family of packages and visualized by `ggplot2` and its extensions.
 
-# 2. Visualization Critique and Remake
+# 2. Data Preparation 
+Data preparation steps taken by the original author of the critiqued graphs are listed here for easy reference. As this is not the focus of this exercise, I will not go into details about it. 
 
-```{r install package, include=FALSE}
+Installing packages and loading libraries:
+
+```{r install package}
+# install and load libraries 
 packages = c('tidyverse', 'knitr', 'ggdist', 'scales', 'grid', 'gridExtra',
              'formattable', 'patchwork')
 for(p in packages){
@@ -42,13 +46,17 @@ for(p in packages){
 }
 ```
 
-```{r import data, include=FALSE}
-# <details><summary>Code Chunk</summary>
+Import data: 
+
+```{r import data}
+# read csv file
 participants <- read_csv('data/Participants.csv')
-# </details>
 ```
 
-```{r bin age, include=FALSE}
+Bin age variable: 
+
+```{r bin age}
+# bin age variable into 5 different age groups 
 one <- c("18", "19", "20")
 two <- c("21", "22", "23", "24", "25", "26", "27", "28", "29", "30" )
 three <- c("31", "32", "33", "34", "35", "36", "37", "38", "39", "40")
@@ -63,11 +71,13 @@ participants <- participants %>%
     age %in% four ~ "40's",
     age %in% five ~ "50+")) %>%
   select(-age)
-
 ```
 
-## 2.1  Distribution of Joviality 
-### 2.1.1 Critique
+# 3. Visualization Critique and Remake
+There are four graphs in total in this take-home exercise 1 and they will be reviewed and remade in terms of clarity and aesthetics. 
+
+## 3.1  Distribution of Joviality 
+### 3.1.1 Critique
 A histogram is used to reveal the distribution of residents' joviality. 
 
 ```{r joviality distribution}
@@ -133,7 +143,7 @@ p1|p2
 * Grey background can be improved to give a more clean and professional look. 
 * Spelling of the x-axis and y-axis label can be capitalized for a more formal formatting. 
 
-### 2.1.2 Remake 
+### 3.1.2 Remake 
 
 ```{r joviality remake}
 # remake
@@ -163,7 +173,8 @@ ggplot(participants,
             color= '#0e2f44') +
   labs(y= 'No. of\nResidents', x= 'Joviality',
        title = "Distribution of Residents' Joviality Index",
-       caption = "demographic information, Ohio USA") +
+       subtitle= 'Demographics in Engagement, Ohio',
+       caption = "Source: VAST Challenge 2022") +
   theme(axis.title.y= element_text(angle=0), 
         axis.title.y.right = element_text(angle=0, vjust = 1),
         panel.grid.major = element_line(color= 'grey', size = 0.1),
@@ -176,18 +187,19 @@ The makeover graph kept the good features of the original graph, such as the cap
 
 **Clarity**
 
-* Distribution along x-axis is tidied up with no confusion on maximum jovality value. 
+* Distribution along x-axis is tidied up with no confusion on maximum joviality value. 
 * Density curve is added on the second y-axis because its shape is not affected by number of bins, like that of histogram. From the density graph we can conclude that there are two local peaks on the distribution, one around joviality= 0.15-0.30 and another around 0.85-0.90. 
 * Mean joviality value is indicated on the graph, to provide additional information on the distribution.
+* Subtitle and caption are updated to indicate data source and to avoid confusion (it is not showing the real demographics in Ohio). 
 
 **Aesthetics**
 
 * Title, x-axis and y-axis labels and positions are improved to allow for ease of reading. 
 * Overall theme is improved to be cleaner and easier to read. 
 
-## 2.2 Distribution of Age for Different Household Types
-### 2.2.1 Critique
-A stacked histogram is chosen to reveal the distribution of residents' age for different household sizes. 
+## 3.2 Distribution of Age for Different Household Types
+### 3.2.1 Critique
+A stacked bar chart is chosen to reveal the distribution of residents' age for different household sizes. 
 
 ```{r age & edu }
 # current graph
@@ -220,23 +232,25 @@ ggplot(data=participants,
 * Grey background can be improved to give a more clean and professional look. 
 * Capitalization and spacing of the title, x-axis, y-axis and legend labels should be standardized in a professional format to allow for ease of reading. 
 
-### 2.2.2 Remake
+### 3.2.2 Remake
+Further data preparation is first done before remaking graph:
 
 ```{r data wrangling}
 # data preparation for remake
 # rename '<=20' and '50+' for a more formal formatting
-participants$age_modified <-
+participants2 <- participants
+participants2$age_modified <-
   sub('<=20', '20 and below', participants$age_modified)
-participants$age_modified[participants$age_modified == 'above 50+'] <- 'above 50'
+participants2$age_modified[participants2$age_modified == 'above 50+'] <- 'above 50'
 
 # rename 'HighSchoolOrCollege' values in dataset for ease of reading
-participants$educationLevel <- sub('HighSchoolOrCollege', 
+participants2$educationLevel <- sub('HighSchoolOrCollege', 
                                     'High School or College',
-                                    participants$educationLevel)
+                                    participants2$educationLevel)
 
 # calculate %composition of age groups for different education levels
 percent <- 
-  participants %>% 
+  participants2 %>% 
   group_by(age_modified, educationLevel) %>%
   summarise(edu_size= n()) %>%
   mutate(edu_pct= percent(edu_size/sum(edu_size))) 
@@ -246,16 +260,18 @@ percent <-
 # plot remake graph
 # plot p1: bar chart of age group distribution
 p1 <-  
-  ggplot(participants, aes(x= age_modified)) +
+  ggplot(participants2, aes(x= age_modified)) +
   geom_bar(fill= '#468499') +
   scale_y_continuous(expand = c(0.2, 0.2)) +
   labs(y= 'No. of\nResidents', 
-       title = "Residents' Age Group Distribution") +
+       title = "Residents' Age Group Distribution",
+       subtitle= 'Demographics in Engagement, Ohio') +
   theme(axis.title.y= element_text(angle=0), axis.ticks.x= element_blank(),
         panel.background= element_blank(), axis.line= element_line(color= 'grey'),
         panel.grid.major.y = element_line(size= 0.2, color = "grey"),
         axis.title.x = element_blank(),
-        plot.title = element_text(hjust=0.5))
+        plot.title = element_text(hjust=0.5),
+        plot.subtitle = element_text(hjust=0.5))
 
 # prepare sorted order of education levels from low to high levels
 edu_lvl <- c('Low', 'High School or College', 'Bachelors', 'Graduate')
@@ -272,7 +288,7 @@ p2<-
                      expand = c(0.2, 0.2)) +
   labs(y= 'Percent', x= 'Age Group', 
        title = "Composition of Residents' Education Level in Different Age Groups",
-       caption = "demographic information, Ohio USA")+
+       caption = "Source: VAST Challenge 2022")+
   theme(legend.position = 'top', legend.direction = 'horizontal',
         axis.title.y= element_text(angle=0), axis.ticks.x= element_blank(),
         panel.background= element_blank(), 
@@ -288,15 +304,18 @@ p1/p2
 ```
 **Clarity**
 
-* The remade graph has two components, one on top showing the bar chart of age group distribution and the one on the bottom shows the change in composition of education levels for respective age groups. This format is clearer than the stack bar chart as it shows the fluctuation of % composition of education level and links back to its age groups clearly. 
+* The remade graph has two components, the one on top shows the bar chart of age group distribution and the one on the bottom shows the change in composition of education levels for respective age groups. This format is clearer than stacked bar chart as it presents the fluctuation of % composition of education level and links back to respective age groups clearly. 
 
 **Aesthetics**
 
-* Format and postions of title, x-axis, y-axis and legend labels are adjusted respectively. 
+* Format and positions of title, x-axis, y-axis and legend labels are adjusted respectively. 
 
-## 2.3 Joviality Measure
+## 3.3 Joviality Measure 1
+### 3.3.1 Critique
+This graph is a horizontal stacked bar chart designed to reveal the joviality distribution in relation to residents' education level, age group and whether having kids. 
 
-```{r}
+```{r joviality measure}
+# current graph 
 ggplot(data=participants, 
        aes(x= joviality, 
            y= educationLevel, fill = haveKids)) +
@@ -314,14 +333,92 @@ ggplot(data=participants,
   facet_wrap(~age_modified)
 ```
 
-
 **Clarity**
+
+* Overall design and layout of the graph is generally clear and easy to understand. Caption is included to indicate city of data source. 
+* X-axis label is confusing. If x-axis is joviality, it should range from value 0 to 1. It seems that in the current graph, x-axis is the sum of all the residents' joviality values in that category. As a result, it is not reflecting individual's joviality index as sum values are affected by number of residents. 
+* In my opinion, this graph intends to pack too much information into one graph. There are in total four variables included, namely joviality, age, education and whether have kids. As a result, audience could be overwhelmed and confused. 
+* Education levels on y-axis can be sorted to follow the order from low to high education levels. Such order is more intuitive to the audience and easier to understand. It can also be sorted in descending order of x-axis values, which is a common practice when plotting horizontal bar charts. 
+* Title of the graph can be improved to be more specific. 
+* Y-axis ticks can be removed for categorical data. 
 
 **Aesthetics**
 
-## 2.4
+* Overall color scheme and theme of the graph is very clean and appealing. 
+* Capitalization, spacing and orientation of the labels and legend can be adjusted to follow a more standadized and professional format. 
+* Labels of the age groups can also be improved for ease of reading. 
 
-```{r}
+### 3.3.2 Remake
+In this remake, I plan to split the four variables included in the current graph into two graphs. I feel the author's main intention is to explore how other variables affect joviality, therefore, the first remake will be on relationship between whether having kids and joviality while the second will be on joviality distribution in different educational and age groups. 
+
+```{r joviality kids remake}
+# remake part 1
+ggplot(participants2,
+       aes(x= joviality, color= haveKids)) +
+  geom_density() +
+  labs(y= 'Density', x= 'Joviality',
+       title = "Are Residents with Kids more Jovial?",
+       subtitle= 'Demographics in Engagement, Ohio',
+       caption = "Source: VAST Challenge 2022") +
+  scale_color_discrete(name= 'Have Kids?', labels = c('True', 'False')) +
+  theme(axis.title.y= element_text(angle=0),
+        panel.grid.major = element_line(color= 'grey', size = 0.1),
+        panel.background= element_blank(), 
+        axis.line= element_line(color= 'grey'),
+        plot.caption = element_text(hjust = 0),
+        legend.key = element_rect(fill= NA))
+  
+```
+
+This graph shows the difference in density curves of residents who have and do not have kids. It can be concluded that residents who have kids have a higher probability (area under the curve) of having lower joviality. 
+
+```{r joviality edu age, fig.width= 10, fig.height= 6}
+# remake part 2
+ggplot(participants2,
+       aes(x= fct_rev(factor(educationLevel, levels= edu_lvl)), y= joviality)) +
+  geom_violin(fill= '#66cdaa',
+              color= NA,
+              bw= 0.4) +
+  geom_boxplot(width= 0.2,
+               color = '#065535',
+               alpha= 0.3) +
+  stat_summary(aes(color= 'Mean'),
+               fun= 'mean',
+               size= 0.2) + 
+  geom_hline(aes(yintercept = 0.5),
+             color= 'black',
+             linetype= 'dashed',
+             size= .6) +
+  scale_color_manual(name= 'Statistics', 
+                     values = (Mean= '#f6546a')) +
+  facet_wrap(~ age_modified) +
+  labs(title= 'Joviality Distribution in Relation to Age and Interest Groups', 
+       x= 'Interest Group', y= 'Joviality',
+       subtitle= 'Demographics in Engagement, Ohio',
+       caption = "Source: VAST Challenge 2022") +
+  theme(panel.background = element_blank(),
+        axis.title.y = element_text(angle=0),
+        axis.ticks.y = element_blank(),
+        axis.line= element_line(color= 'grey'),
+        panel.grid.major.y = element_line(color= 'grey', size = 0.1),
+        plot.caption = element_text(hjust=0),
+        legend.key = element_rect(fill= NA),
+        axis.text = element_text(size=10),
+        axis.title = element_text(size= 12),
+        plot.title = element_text(size = 18),
+        plot.subtitle = element_text(size = 14),
+        legend.text = element_text(size= 12)) +
+  coord_flip()
+```
+
+The remade graph shows the distribution of joviality for different age groups and education levels. Additional information, such as mean joviality and joviality=0.5, is marked on the graph for audience's easy reference. The overall format and theme are also improved for a cleaner look. 
+
+## 3.4 Joviality Measure 2
+### 3.4.1 Critique
+A faceted bar chart is used to reveal the distribution of joviality with respect to different age groups and interest groups. 
+
+```{r joviality measure2}
+# current graph 
 ggplot(data=participants, 
        aes(x= interestGroup, 
            y= joviality)) +
@@ -342,9 +439,67 @@ ggplot(data=participants,
 
 **Clarity**
 
+* Overall design of the graph is easy to understand. Caption is included in the graph to indicate source of the data. 
+* Y-axis label is confusing, if it is indeed joviality, it should be ranging from 0 to 1. Since `geom_col` was used to plot `x= interestGroup, y= joviality`, the y-axis plotted could be the sum of joviality for all residents in the same interest group. If this is the case, the faceted bar chart is no longer meaningful as the joviality value (height of the bar) is affected by number of residents of the same age group in the same interest group. For example, from the group, residents in their 40s in interest group F has a high joviality value, but this could be due to there are simple more residents in their 40s in group F and does not reflect individual resident's joviality index. 
+* X-axis ticks should be removed for categorical variable.
+* Title of the graph can be improved to be more specific, current title is the same as the previous graph. 
+
 **Aesthetics**
 
+* Overall theme of the graph is clean and easy to understand, with no distracting colors or overwhelming details.
+* Formatting of the axis labels can be improved to give a more professional look. 
 
-# 3. Learning Points 
+### 3.4.2 Remake
 
+```{r joviality age interest remake}
+# remake graph
+ggplot(participants2,
+       aes(x= interestGroup, y= joviality)) +
+  geom_violin(fill= '#66cdaa',
+              color= NA,
+              bw= 0.4) +
+  geom_boxplot(width= 0.2,
+               color = '#065535',
+               alpha= 0.3) +
+  stat_summary(aes(color= 'Mean'),
+               fun= 'mean',
+               size= 0.2) + 
+  geom_hline(aes(yintercept = 0.5),
+             color= 'black',
+             linetype= 'dashed',
+             size= .6) +
+  scale_color_manual(name= 'Statistics', 
+                     values = (Mean= '#f6546a')) +
+  facet_wrap(~ age_modified) +
+  labs(title= 'Joviality Distribution in Relation to Age and Interest Groups', 
+       x= 'Interest Group', y= 'Joviality',
+       subtitle= 'Demographics in Engagement, Ohio',
+       caption = "Source: VAST Challenge 2022") +
+  theme(panel.background = element_blank(),
+        axis.title.y = element_text(angle=0),
+        axis.ticks.x = element_blank(),
+        axis.line= element_line(color= 'grey'),
+        panel.grid.major.y = element_line(color= 'grey', size = 0.1),
+        plot.caption = element_text(hjust=0),
+        legend.key = element_rect(fill= NA))
+```
+
+**Clarity**
+
+* The remade graph used a combination of violin and boxplot, instead of bar chart, to reveal the distribution of joviality for residents of different age and interest groups. 
+* Mean value point for each interest group is added for better interpretation. 
+* Joviality=0.5 horizontal line is also added to provide a bench mark and help audience better gauge the joviality distribution across different groups. 
+* Title and legend are updated to be more specific. 
+* X-axis ticks are removed for categorical data. 
+
+**Aesthetics**
+
+* Overall format, design and color selection are improved to provide a clean and professional look. 
+* Formatting and positions of axis and legend labels are improved. 
+
+# 4. Learning Points 
+Take-home exercise 2 serves as a mirror image to take-home exercise 1. It provided me with an opportunity to reflect on what I have done for take-home exercise 1 after seeing it from different perspectives of classmates' works. My key takeaways are:
+
+* There is no fixed or one right way to design a visualization. As long as the visualization is clear, aesthetically pleasing and conveys meaningful message, it is a good data visualization. 
+* It is always rewarding to reconsider the issue from another perspective, understand where it is coming from, and subsequently integrate with my own thoughts, to develop an improved version of works. Referencing classmates' works have given me new ideas on how to improve what I have done for take-home exercise 1, which I really appreciate. 
 
