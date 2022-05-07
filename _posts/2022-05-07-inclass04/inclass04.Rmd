@@ -6,7 +6,7 @@ description: |
 author:
   - name: Leslie Long Nu
     url: https://www.linkedin.com/in/leslielongnu/
-    affiliation: SMU, Master of IT in Business
+    affiliation: SMU, MITB
     affiliation_url: https://scis.smu.edu.sg/master-it-business
 date: 2022-05-07
 preview: 
