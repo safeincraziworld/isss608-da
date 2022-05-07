@@ -1,0 +1,62 @@
+---
+title: "In-class Exercise 4"
+categories: In-class Exercise 
+description: |
+  Lesson 4: Fundamentals of Visual Analytics, in-class exercise. 
+author:
+  - name: Leslie Long Nu
+    url: https://www.linkedin.com/in/leslielongnu/
+    affiliation: SMU, Master of IT in Business
+    affiliation_url: https://scis.smu.edu.sg/master-it-business
+date: 2022-05-07
+preview: 
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval= TRUE, message = FALSE, warning = FALSE, fig.retina = 3)
+```
+
+# Getting Started
+
+## Setting up R Packages 
+
+To start with, [`ggstatsplot`](https://www.rdocumentation.org/packages/ggstatsplot/versions/0.9.1) and `tidyverse` package will be launched using `library()`.
+
+```{r install load packages}
+packages = c('ggstatsplot', 'tidyverse', 'PMCMRplus')
+for (p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+}
+```
+
+## Importing Data
+
+```{r}
+exam <- read_csv("data/Exam_data.csv")
+```
+
+## Working with `ggstatsplot`
+
+### ANOVA Test
+In the code chunk below, `ggbetweenstats()` is used to build a visual for Bayes factors test on English score by race.
+
+```{r ggbetweenstats, fig.width= 6, fig.height= 6}
+set.seed(1234)
+
+ggbetweenstats(
+  data = exam,
+  x = RACE, 
+  y = ENGLISH,
+  type = 'bayes'
+)
+```
+
+

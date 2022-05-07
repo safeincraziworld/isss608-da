@@ -1,5 +1,6 @@
 ---
-title: "Take-Home Exercise 1"
+title: "Take-home Exercise 1"
+categories: Take-home Exercise
 description: |
   Creating data visualisation beyond default: an analysis on the demographic of the city of Engagement, Ohio USA (VAST Challenge 2022). 
 author:
@@ -17,7 +18,7 @@ output:
 ---
 
 ```{r global option, include = FALSE}
-knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(message = FALSE, fig.retina = 3)
 ```
 ## 1. Overview
 ### 1.1 Introduction

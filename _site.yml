@@ -8,14 +8,8 @@ navbar:
   right: 
     - text: "Home"
       href: index.html
-    - text: "DataViz Makeover"
-      menu:
-      - text: "DataViz Makeover 1"
-        href: "DataViz1"
-      - text: 'DataViz Makeover 2'
-        href: 'DataViz2'
-    - text: 'Take-home Exercise'    
-      href: takehome.html
+    - text: 'ISSS608 Visual Analytics'    
+      href: ISSS608.html
     - text: "About"
       href: about.html
     

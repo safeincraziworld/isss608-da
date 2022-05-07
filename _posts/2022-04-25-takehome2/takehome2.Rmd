@@ -1,5 +1,6 @@
 ---
 title: "Take-home Exercise 2"
+categories: Take-home Exercise
 description: |
   Creating data visualisation beyond default: peer critique and visualization remake of take-home exercise 1.
 author:
@@ -21,7 +22,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, fig.retina = 3)
 ```
 
 # 1. Overview 

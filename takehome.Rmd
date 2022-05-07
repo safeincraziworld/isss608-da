@@ -1,4 +1,0 @@
----
-title: "Take-home Exercise"
-listing: posts
----
