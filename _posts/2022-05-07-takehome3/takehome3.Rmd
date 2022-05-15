@@ -261,7 +261,7 @@ p1 <- plotly_packed_bar(input_data = jobsedu1,
                        xaxis_label = 'Average Hourly Pay',
                        hover_label = 'Average Hourly Pay',
                        min_label_width = 0.001,
-                       color_bar_color = '#66cdaa',
+                       color_bar_color = '#ffa500',
                        label_color = 'white') 
 
 plotly::config(p1, displayModeBar = FALSE)
@@ -290,7 +290,7 @@ p3 <- plotly_packed_bar(input_data = jobsedu3,
                        xaxis_label = 'Average Hourly Pay',
                        hover_label = 'Average Hourly Pay',
                        min_label_width = 0.001,
-                       color_bar_color = '#66cdaa',
+                       color_bar_color = '#bada55',
                        label_color = 'white') 
 plotly::config(p3, displayModeBar = FALSE)
 ```
@@ -304,7 +304,7 @@ p4 <- plotly_packed_bar(input_data = jobsedu4,
                        xaxis_label = 'Average Hourly Pay',
                        hover_label = 'Average Hourly Pay',
                        min_label_width = 0.001,
-                       color_bar_color = '#66cdaa',
+                       color_bar_color = '#008080',
                        label_color = 'white') 
 plotly::config(p4, displayModeBar = FALSE)
 ```
@@ -404,6 +404,31 @@ ggplot(pubs,
         plot.caption = element_text(hjust = 0))
 ```
 
+### 3.2.3 Monthly Customer Visits vs Monthly Revenue
+The following animated bubble plot is created using below code chunk to review the change in trend of customer visits and revenue for each pub during the during of the study. The plot reviewed that all of the pubs have experienced a decrease in business revenue over the period. It indicates further that pub businesses with lower revenue are likely to be struggling as they tend to stay in the lower revenue zone. 
+
+```{r time animation}
+p <- pubs %>%
+  group_by(pubId, as.Date(checkInTime)) %>%
+  summarise(visits = n(),
+            revenue = sum(spending),
+            price = mean(hourlyCost)) %>% 
+  rename('date' = 'as.Date(checkInTime)') %>%
+  ggplot(aes(x= visits, y= revenue,
+                  size= price,
+                  color= pubId)) +
+  geom_point(alpha = 0.5,
+             show.legend = FALSE) +
+  scale_size(range= c(2, 12)) + 
+  labs(title = 'Month Year: {frame_time}',
+       x = 'Daily Customer Visits',
+       y = 'Daily Revenue') +
+  theme_classic() +
+  transition_time(date) +
+  ease_aes('linear')
+
+animate(p, fps= 8)
+```
 
 
 # 4. Learning Points
