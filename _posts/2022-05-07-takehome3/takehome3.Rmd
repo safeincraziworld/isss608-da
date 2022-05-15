@@ -163,6 +163,7 @@ pubs <- readRDS('data/pubs.rds')
 # 3. Visualizations and Insights 
 ## 3.1 Workplaces 
 ### 3.1.1 Number of Jobs Provided by Each Workplace
+The following interactive dotplot shows that the size of the workplaces in Engagement ranges from 2 to 9 employees. Therefore those with 9 employees are the biggest businesses in workplace category. 
 
 ```{r job num dotplot}
 jobsnum <- jobs %>% 
@@ -204,6 +205,7 @@ girafe(ggobj = p,
 ```
 
 ### 3.1.2 Employee Hourly Pay by Workplace 
+The following code chunk plots a static treemap and converted to an interactive treemap plot based on the total and average hourly employee pay provided by each workplace. 
 
 ```{r static treemap, results='hide'}
 jobsnum <- jobsnum %>%
@@ -217,11 +219,16 @@ tm <- treemap(jobsnum,
             type = 'value')
 ```
 
-```{r interactive treemap}
+The size of the treemap is based on the total employee hourly pay and that of the color is based on the average employee pay. Therefore, it is observed from the plot that some employers, although of a smaller size, are paying high average rate to their employees. This indicates that these businesses are more prosperous as they can afford higher manpower costs. On the other hand, smaller companies that are also paying low rates for their employees are likely to be struggling, because it indicates that they are either low on funding or they will lose talents to other businesses and cost business development in the long run. 
+
+```{r interactive treemap, preview= TRUE}
 d3tree(tm, rootname = 'Employee Hourly Pay by Workplace')
 ```
 
 ### 3.1.3 Job Pay by Education Requirement 
+Next, the average workplace employee wage based on different education levels are examined. Packed bar plots are created and the top 10 employers offering highest average rates are selected to view. 
+
+Before plotting, the follow code chunks prepares four different datasets of job data on different education requirements. 
 
 ```{r jobsedu}
 jobsedu <- jobs %>%
@@ -238,7 +245,7 @@ jobsedu4 <- filter(jobsedu, educationRequirement=='Graduate')
 
 ```
 
-
+The following code chunks plot four packed bar charts of average hourly pay for jobs of different education requirements. These charts reveal businesses that are paying more for jobs of the same education requirements. 
 
 ```{r low pay, class.source = 'fold-hide'}
 p1 <- plotly_packed_bar(input_data = jobsedu1, 
@@ -300,6 +307,8 @@ plotly::config(p4, displayModeBar = FALSE)
 ## 3.2 Restaurants and Pubs 
 ### 3.2.1 Restaurants Monthly Customer Visits
 
+The following code chunk plots the monthly customer visits bar chart for each restaurant using `treliscopejs`. By viewing sort by visits, revenue or price, we are able to identify the restaurants that are prospering or struggling. While profit margin information is not available, as the price of the restaurants do not vary significantly, it is safe to assume that those with high customer visits and high revenue are doing well and vice versa. 
+
 ```{r restaurants visits trelliscope}
 restaurants <- restaurants %>%
   mutate(yearmonth = as.yearmon(checkInTime)) 
@@ -314,7 +323,7 @@ r <- ggplot(restaurantsv, aes(x= as.factor(yearmonth), y= visits)) +
   labs(x= 'Month Year', y= 'Number of\nCustomer\nVisits',
        title = 'Monthly Customer Visits by Restaurant') +
   facet_trelliscope(~ restaurantId, 
-                    nrow = 2, ncol = 2, width = 1000,
+                    nrow = 2, ncol = 2, width = 800,
                     path = 'trellisr/',
                     self_contained = TRUE) +
   theme(axis.title.y= element_text(angle=0), 
@@ -325,6 +334,7 @@ r
 ```
 
 ### 3.2.2 Pubs Monthly Customer Visits
+Similarly, the monthly customer visits bar chart for pubs are also plotted using `trelliscopejs`. By viewing sort by visits, revenue or price, we are able to identify the pubs that are prospering or struggling.  
 
 ```{r pubs visit trelliscope}
 pubs <- pubs %>%
@@ -340,7 +350,7 @@ pub <- ggplot(pubsv, aes(x= as.factor(yearmonth), y= revenue)) +
   labs(x= 'Month Year', y= 'Number of\nCustomer\nVisits',
        title = 'Monthly Customer Visits by Pub') +
   facet_trelliscope(~ pubId, 
-                    nrow = 2, ncol = 2, width = 1000,
+                    nrow = 2, ncol = 2, width = 800,
                     path = 'trellisp/',
                     self_contained = TRUE) +
   theme(axis.title.y= element_text(angle=0), 
@@ -350,6 +360,7 @@ pub <- ggplot(pubsv, aes(x= as.factor(yearmonth), y= revenue)) +
 pub
 ```
 
-# 4. Conclusions 
+# 4. Learning Points
 
-# Learning Points
+* Interactive graphs are generally more engaging and provide more options for viewing, thus are likely to generate more insights than static graphs. * However, I also find that it is more challenging to design meaningful interactive graphs that reveal insights without being distracting to the viewers. 
+* Given the complexity of the problem, this take-home exercise merely provides a surface exploration of the issue at home. Additional insights would be derived if given more time. 
