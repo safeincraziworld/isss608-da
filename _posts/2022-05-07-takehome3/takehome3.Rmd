@@ -362,5 +362,6 @@ pub
 
 # 4. Learning Points
 
-* Interactive graphs are generally more engaging and provide more options for viewing, thus are likely to generate more insights than static graphs. * However, I also find that it is more challenging to design meaningful interactive graphs that reveal insights without being distracting to the viewers. 
+* Interactive graphs are generally more engaging and provide more options for viewing, thus are likely to generate more insights than static graphs. 
+* However, I also find that it is more challenging to design meaningful interactive graphs that reveal insights without being distracting to the viewers. 
 * Given the complexity of the problem, this take-home exercise merely provides a surface exploration of the issue at home. Additional insights would be derived if given more time. 
