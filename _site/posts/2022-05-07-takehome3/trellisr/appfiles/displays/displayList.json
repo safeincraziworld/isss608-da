@@ -1,0 +1,52 @@
+[
+  {
+    "group": "common",
+    "name": "by_pubId",
+    "desc": "Monthly Customer Visits by Pub",
+    "n": 12,
+    "height": 500,
+    "width": 1000,
+    "updated": "2022-05-15 23:27:43",
+    "keySig": "214bfedb7e179194d5315977410cfe5d"
+  },
+  {
+    "group": "common",
+    "name": "by_restaurantId",
+    "desc": "Monthly Customer Visits by Restaurant",
+    "n": 20,
+    "height": 500,
+    "width": 1000,
+    "updated": "2022-05-15 23:30:18",
+    "keySig": "d0a098d66dc48ae9ad3174b4ea04f48d"
+  },
+  {
+    "group": "common",
+    "name": "Customer_Visits_and_Revenu_by_Restautant",
+    "desc": "",
+    "n": 20,
+    "height": 500,
+    "width": 1000,
+    "updated": "2022-05-15 23:00:30",
+    "keySig": "d0a098d66dc48ae9ad3174b4ea04f48d"
+  },
+  {
+    "group": "common",
+    "name": "Monthly_Customer_Visits_and_Revenue",
+    "desc": "by Restaurant",
+    "n": 20,
+    "height": 500,
+    "width": 1000,
+    "updated": "2022-05-15 22:40:26",
+    "keySig": "d0a098d66dc48ae9ad3174b4ea04f48d"
+  },
+  {
+    "group": "common",
+    "name": "revenue",
+    "desc": "Customer Visits and Revenu by Restautant",
+    "n": 20,
+    "height": 500,
+    "width": 1000,
+    "updated": "2022-05-15 22:57:23",
+    "keySig": "d0a098d66dc48ae9ad3174b4ea04f48d"
+  }
+]

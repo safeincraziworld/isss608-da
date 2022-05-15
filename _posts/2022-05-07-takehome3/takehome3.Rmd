@@ -1,0 +1,355 @@
+---
+title: "Take-home Exercise 3"
+categories: Take-home Exercise
+description: |
+  Putting Visual Analytics into Practical Use: 
+  VAST Challenge 2022, Challenge 3 Economic. 
+author:
+  - name: Leslie Long Nu
+    url: https://www.linkedin.com/in/leslielongnu/
+    affiliation: SMU, MITB
+    affiliation_url: https://scis.smu.edu.sg/master-it-business
+date: '`r Sys.Date()`'
+preview:
+output:
+  distill::distill_article:
+    code_folding: show
+    self_contained: false
+    toc: true
+    toc_depth: 3
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE)
+```
+
+# 1. Overview
+## 1.1 Introduction
+In this take-home exercise, the economic of the city of Engagement, Ohio USA will be revealed by using appropriate static and interactive statistical graphics methods. 
+
+With reference to Challenge 3 Question 1 of [VAST Challenge 2022](https://vast-challenge.github.io/2022/), the following questions will be addressed: 
+
+*Over the period covered by the dataset, which businesses appear to be more prosperous? Which appear to be struggling? Describe your rationale for your answers.*
+
+## 1.2 Methodology
+It is observed from the datasets provided by [VAST Challenge 2022](https://vast-challenge.github.io/2022/) that there are three types of businesses present in Engagement, Ohio USA, namely:
+
+* Workplaces/Employers;
+* Restaurants; 
+* Pubs
+
+In this exercise, the robustness of different types of businesses will be evaluated by different criteria as the data available is different. 
+
+**Workplaces**
+
+For workplaces, data is available on employees, jobs provided, wages, educational level requirement and etc. For restaurants and pubs, data is available on prices, customers' visits, spending and etc. Therefore, in this exercise, workplaces will be evaluated base on two main criteria: 
+
+* Number of employees;
+* Wages offered. 
+
+**Restaurants and Pubs**
+
+On the other hand, restaurants and pubs will be evaluated based on:
+
+* Frequency and number of participants' visits;
+* Revenue (participants' spending)
+
+According to the dataset descriptions provided by VAST Challenge, all restaurants have a Prix Fixe food cost for participants to dine in and all pubs have a hourly cost to visit the pub. Therefore, assuming all visits to restaurants are for dinning, restaurants' revenue will be calculated by number of visits times Prix Fixe food cost. Similarly, pubs' revenue will be calculated by duration of visits times hourly cost of visits.  
+
+Alternative approach of deriving balance difference before and after restaurants and pubs visits as spending is considered but not preferred as balance differences are inconsistent and could be due to unknown reasons.   
+
+# 2. Data Preparation 
+## 2.1 Install and Load Packages 
+The following code chunk installs the required R packages and loads them onto RStudio environment. 
+
+```{r import packages, results='hide'}
+packages = c('ggiraph', 'plotly', 'DT', 'patchwork',
+             'gganimate', 'tidyverse','readxl', 'gifski', 
+             'gapminder', 'treemap', 'treemapify', 'rPackedBar',
+             'trelliscopejs', 'zoo', 'd3treeR', 'ggridges')
+for (p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p,character.only = T)
+}
+```
+
+## 2.2 Import Raw Datasets
+Relevant datasets are imported using `read_csv()` of readr package, which is useful for reading delimited files into tibbles. 
+
+```{r import raw data, eval=FALSE}
+jobs <- read_csv('rawdata/Jobs.csv')
+pubs <- read_csv('rawdata/Pubs.csv')
+restaurants <- read_csv('rawdata/Restaurants.csv')
+travel <- read_csv('rawdata/TravelJournal.csv')
+```
+
+The following code chunk is used to have an overview of the datasets. 
+
+```{r data overview, eval=FALSE}
+summary(jobs)
+summary(pubs)
+summary(restaurants)
+summary(travel)
+```
+
+## 2.3 Data Wrangling
+### 2.3.1 Workplace 
+File `jobs` is cleaned by renaming values for ease of reading. A new file `jobsedu` is created using `group_by()` to reveal data on jobs offered for different education requirements. 
+
+```{r jobs, eval=FALSE}
+jobs$educationRequirement <- sub('HighSchoolOrCollege', 
+                                    'High School or College',
+                                    jobs$educationRequirement)
+
+```
+
+### 2.3.2 Restaurants and Pubs
+The following code chunk extracts travel records related to restaurants and pubs using `filter()` and derives spending of each visit using `inner_join()` and `mutate()`.
+
+Datasets are also cleaned by removing irrelevant columns using `select()` and renaming column names using `rename()` for ease of understanding. 
+
+```{r travel rp, eval=FALSE}
+restaurantstr <- travel %>%
+  filter(purpose == 'Eating') %>% 
+  mutate(travelTime = travelEndTime - travelStartTime) %>%
+  select(-c(travelStartTime:travelEndTime, endingBalance)) %>%
+  inner_join(y= restaurants, 
+            by = c('travelEndLocationId'= 'restaurantId')) %>%
+  mutate(visitDuration = checkOutTime - checkInTime) %>%
+  select(-c(purpose, location, checkOutTime)) %>%
+  rename('restaurantId' = 'travelEndLocationId',
+         'spending' = 'foodCost')
+  
+
+pubstr <- travel %>%
+  filter(purpose == 'Recreation (Social Gathering)') %>%
+  mutate(travelTime = travelEndTime - travelStartTime) %>%
+  select(-c(travelStartTime: travelEndTime, endingBalance)) %>%
+  inner_join(y= pubs, 
+             by = c('travelEndLocationId'= 'pubId')) %>%
+  mutate(visitDuration = checkOutTime - checkInTime,
+         spending = as.numeric(visitDuration/60)* hourlyCost) %>%
+  select(-c(purpose, location, checkOutTime)) %>%
+  rename('pubId' = 'travelEndLocationId')
+```
+
+The following code chunk is used to check for missing values. 
+
+```{r rp check missing, eval=FALSE}
+sum(is.na(restaurantstr))
+sum(is.na(pubstr))
+```
+
+## 2.4 Save as and Read RDS Files
+The cleaned datasets are saved and read in RDS format to avoid uploading large files to Git.
+
+```{r save RDS, eval=FALSE}
+saveRDS(jobs, 'data/jobs.rds')
+saveRDS(jobsedu, 'data/jobsedu.rds')
+saveRDS(restaurantstr, 'data/restaurants.rds')
+saveRDS(pubstr, 'data/pubs.rds')
+```
+
+```{r read RDS}
+jobs <- readRDS('data/jobs.rds')
+jobsedu <- readRDS('data/jobsedu.rds')
+restaurants <- readRDS('data/restaurants.rds')
+pubs <- readRDS('data/pubs.rds')
+```
+
+# 3. Visualizations and Insights 
+## 3.1 Workplaces 
+### 3.1.1 Number of Jobs Provided by Each Workplace
+
+```{r job num dotplot}
+jobsnum <- jobs %>% 
+  group_by(employerId) %>%
+  summarise(jobNum = n(),
+            totalPay = sum(hourlyRate),
+            avgPay = mean(hourlyRate))
+
+tooltip_css <- 'background-color: #008080;
+font-stype: bold; color: white'
+jobsnum$tooltip <- c(paste0('Employer ID: ', jobsnum$employerId,
+                         '\n Number of Employees: ', jobsnum $jobNum))
+
+p <- ggplot(data = jobsnum, aes(x= jobNum)) +
+  geom_dotplot_interactive(aes(tooltip = tooltip),
+                           fill = '#bada55',
+                           stackgroups = TRUE,
+                           binwidth = 0.1,
+                           color = NA,
+                           method = 'histodot') +
+  scale_y_continuous(NULL, breaks = NULL) + 
+  scale_x_continuous(limits = c(1, 10),
+                     breaks = c(1,2,3,4,5,6,7,8,9,10), 
+                     labels = c(1,2,3,4,5,6,7,8,9,10)) +
+  labs(x= 'Number of Employees',
+       title = "How Many Jobs Is Each Workplace Provding?",
+       subtitle= 'Economic in Engagement, Ohio',
+       caption = "Source: VAST Challenge 2022") +
+  theme(panel.grid.major = element_line(color= 'grey', size = 0.1),
+        panel.background= element_blank(), 
+        axis.line= element_line(color= 'grey'),
+        plot.caption = element_text(hjust = 0))
+
+girafe(ggobj = p,
+       width_svg = 8,
+       height_svg = 8*0.618,
+       options = list(opts_tooltip(css = tooltip_css)))
+
+```
+
+### 3.1.2 Employee Hourly Pay by Workplace 
+
+```{r static treemap, results='hide'}
+jobsnum <- jobsnum %>%
+  rename('Average Hourly Pay' = 'avgPay') %>%
+  mutate(group = paste(jobNum, 'Employees'))
+
+tm <- treemap(jobsnum,
+            index = c('group', 'employerId'),
+            vSize = 'totalPay',
+            vColor = 'Average Hourly Pay',
+            type = 'value')
+```
+
+```{r interactive treemap}
+d3tree(tm, rootname = 'Employee Hourly Pay by Workplace')
+```
+
+### 3.1.3 Job Pay by Education Requirement 
+
+```{r jobsedu}
+jobsedu <- jobs %>%
+  group_by(employerId, educationRequirement) %>%
+  summarise(jobnum = n(),
+            avgHourlyPay = round(mean(hourlyRate),2),
+            totalHourlyPay = sum(hourlyRate)) %>%
+  rename('Average Hourly Pay' = 'avgHourlyPay') 
+
+jobsedu1 <- filter(jobsedu, educationRequirement=='Low')
+jobsedu2 <- filter(jobsedu, educationRequirement=='High School or College')
+jobsedu3 <- filter(jobsedu, educationRequirement=='Bachelors')
+jobsedu4 <- filter(jobsedu, educationRequirement=='Graduate')
+
+```
+
+
+
+```{r low pay, class.source = 'fold-hide'}
+p1 <- plotly_packed_bar(input_data = jobsedu1, 
+                       label_column = 'employerId',
+                       value_column = 'Average Hourly Pay',
+                       number_rows = 10,
+                       plot_title = 'Top 10 Workplaces for Low Education - by average hourly pay', 
+                       xaxis_label = 'Average Hourly Pay',
+                       hover_label = 'Average Hourly Pay',
+                       min_label_width = 0.001,
+                       color_bar_color = '#66cdaa',
+                       label_color = 'white') 
+
+plotly::config(p1, displayModeBar = FALSE)
+```
+
+```{r highschool pay}
+p2 <- plotly_packed_bar(input_data = jobsedu2, 
+                       label_column = 'employerId',
+                       value_column = 'Average Hourly Pay',
+                       number_rows = 10,
+                       plot_title = 'Top 10 Workplaces for Low Education - by average hourly pay', 
+                       xaxis_label = 'Average Hourly Pay',
+                       hover_label = 'Average Hourly Pay',
+                       min_label_width = 0.001,
+                       color_bar_color = '#66cdaa',
+                       label_color = 'white') 
+plotly::config(p2, displayModeBar = FALSE)
+```
+
+```{r bachelors}
+p3 <- plotly_packed_bar(input_data = jobsedu3, 
+                       label_column = 'employerId',
+                       value_column = 'Average Hourly Pay',
+                       number_rows = 10,
+                       plot_title = 'Top 10 Workplaces for Low Education - by average hourly pay', 
+                       xaxis_label = 'Average Hourly Pay',
+                       hover_label = 'Average Hourly Pay',
+                       min_label_width = 0.001,
+                       color_bar_color = '#66cdaa',
+                       label_color = 'white') 
+plotly::config(p3, displayModeBar = FALSE)
+```
+
+```{r graduate}
+p4 <- plotly_packed_bar(input_data = jobsedu4, 
+                       label_column = 'employerId',
+                       value_column = 'Average Hourly Pay',
+                       number_rows = 10,
+                       plot_title = 'Top 10 Workplaces for Low Education - by average hourly pay', 
+                       xaxis_label = 'Average Hourly Pay',
+                       hover_label = 'Average Hourly Pay',
+                       min_label_width = 0.001,
+                       color_bar_color = '#66cdaa',
+                       label_color = 'white') 
+plotly::config(p4, displayModeBar = FALSE)
+```
+
+## 3.2 Restaurants and Pubs 
+### 3.2.1 Restaurants Monthly Customer Visits
+
+```{r restaurants visits trelliscope}
+restaurants <- restaurants %>%
+  mutate(yearmonth = as.yearmon(checkInTime)) 
+restaurantsv <- restaurants %>%
+  group_by(restaurantId, yearmonth) %>%
+  summarise(visits = n(),
+            revenue = sum(spending),
+            price = mean(spending))
+
+r <- ggplot(restaurantsv, aes(x= as.factor(yearmonth), y= visits)) +
+  geom_col(fill= '#008080') +
+  labs(x= 'Month Year', y= 'Number of\nCustomer\nVisits',
+       title = 'Monthly Customer Visits by Restaurant') +
+  facet_trelliscope(~ restaurantId, 
+                    nrow = 2, ncol = 2, width = 1000,
+                    path = 'trellisr/',
+                    self_contained = TRUE) +
+  theme(axis.title.y= element_text(angle=0), 
+        axis.ticks.x= element_blank(),
+        panel.background= element_blank(), 
+        axis.line= element_line(color= 'grey'))
+r
+```
+
+### 3.2.2 Pubs Monthly Customer Visits
+
+```{r pubs visit trelliscope}
+pubs <- pubs %>%
+  mutate(yearmonth = as.yearmon(checkInTime)) 
+pubsv <- pubs %>%
+  group_by(pubId, yearmonth) %>%
+  summarise(visits = n(),
+            revenue = sum(spending),
+            price = mean(hourlyCost))
+
+pub <- ggplot(pubsv, aes(x= as.factor(yearmonth), y= revenue)) +
+  geom_col(fill= '#008080') +
+  labs(x= 'Month Year', y= 'Number of\nCustomer\nVisits',
+       title = 'Monthly Customer Visits by Pub') +
+  facet_trelliscope(~ pubId, 
+                    nrow = 2, ncol = 2, width = 1000,
+                    path = 'trellisp/',
+                    self_contained = TRUE) +
+  theme(axis.title.y= element_text(angle=0), 
+        axis.ticks.x= element_blank(),
+        panel.background= element_blank(), 
+        axis.line= element_line(color= 'grey'))
+pub
+```
+
+# 4. Conclusions 
+
+# Learning Points
