@@ -9,7 +9,7 @@ author:
     url: https://www.linkedin.com/in/leslielongnu/
     affiliation: SMU, MITB
     affiliation_url: https://scis.smu.edu.sg/master-it-business
-date: '`r Sys.Date()`'
+date: 'May 15, 2022'
 preview:
 output:
   distill::distill_article:
@@ -289,7 +289,7 @@ p3 <- plotly_packed_bar(input_data = jobsedu3,
                        plot_title = 'Top 10 Paying Workplaces for Bachelor Education Jobs',
                        xaxis_label = 'Average Hourly Pay',
                        hover_label = 'Average Hourly Pay',
-                       min_label_width = 0.001,
+                       min_label_width = 0.002,
                        color_bar_color = '#bada55',
                        label_color = 'white') 
 plotly::config(p3, displayModeBar = FALSE)
@@ -373,7 +373,7 @@ pub <- ggplot(pubsv, aes(x= as.factor(yearmonth), y= revenue)) +
 pub
 ```
 
-### 3.2.2 Pubs Price and Customer Visit Duration 
+### 3.2.3 Pubs Price and Customer Visit Duration 
 As the price of the pubs vary much more significantly than restaurants and is charged base on stay duration, ridge plot on the relationship of price and visit duration is examined. 
 
 It is observed from the ridge plot that generally the distribution pattern of visit duration is the same among different price range groups. All groups have the highest density of stay duration of 90-110 min, indicating that they all have a pool of steady customers. On the other hand, the higher the price of the pub, the more likely that some customers only stay for a short while (less than 20 min). 
@@ -404,7 +404,7 @@ ggplot(pubs,
         plot.caption = element_text(hjust = 0))
 ```
 
-### 3.2.3 Monthly Customer Visits vs Monthly Revenue
+### 3.2.4 Monthly Customer Visits vs Monthly Revenue
 The following animated bubble plot is created using below code chunk to review the change in trend of customer visits and revenue for each pub during the during of the study. The plot reviewed that all of the pubs have experienced a decrease in business revenue over the period. It indicates further that pub businesses with lower revenue are likely to be struggling as they tend to stay in the lower revenue zone. 
 
 ```{r time animation}
@@ -435,4 +435,4 @@ animate(p, fps= 8)
 
 * Interactive graphs are generally more engaging and provide more options for viewing, thus are likely to generate more insights than static graphs. 
 * However, I also find that it is more challenging to design meaningful interactive graphs that reveal insights without being distracting to the viewers. 
-* Given the complexity of the problem, this take-home exercise merely provides a surface exploration of the issue at home. Additional insights would be derived if given more time. 
+* Given the complexity of the problem, this take-home exercise merely provides a surface exploration of the issue at hand using interactive visualization tools learnt in week 3 and week 4 lessons. 
