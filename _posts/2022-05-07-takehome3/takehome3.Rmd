@@ -420,19 +420,21 @@ p <- pubs %>%
   geom_point(alpha = 0.5,
              show.legend = FALSE) +
   scale_size(range= c(2, 12)) + 
-  labs(title = 'Month Year: {frame_time}',
+  labs(title = 'Date: {frame_time}',
        x = 'Daily Customer Visits',
        y = 'Daily Revenue') +
   theme_classic() +
   transition_time(date) +
   ease_aes('linear')
 
-animate(p, fps= 8)
+animate(p, fps= 12)
 ```
 
 
 # 4. Learning Points
+In this take-home exercise, interactive visualization R Packages, such as `plotly`, `gganimate`, `treemapify`, `ggiraph`, `trelliscopejs` and `rPackedBar` are explored and applied to answer VAST Challenge 2022 Challenge 3 Question 1 on business status evaluation. My key takeaways are:
 
-* Interactive graphs are generally more engaging and provide more options for viewing, thus are likely to generate more insights than static graphs. 
-* However, I also find that it is more challenging to design meaningful interactive graphs that reveal insights without being distracting to the viewers. 
-* Given the complexity of the problem, this take-home exercise merely provides a surface exploration of the issue at hand using interactive visualization tools learnt in week 3 and week 4 lessons. 
+* Rstudio have many available R packages that allow for different forms of interactive visualizations. It is definitely worth further practice and exploration on my own time. 
+* Interactive graphs are generally more engaging and provide more options for customized viewing, thus are able to uncover more underlying insights to the audience than static graphs. 
+* However, I also find that it is challenging to design meaningful interactive graphs that reveal insights without being distracting to the viewers. Interactive visualizations should be selected with caution where applicable. 
+* Given the complexity of the problem, this take-home exercise merely provides a surface exploration of the issue using interactive visualization tools learnt in week 3 and week 4 lessons. 
