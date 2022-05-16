@@ -1,0 +1,46 @@
+---
+title: "Take-home Exercise 4"
+description: |
+  Putting Visual Analytics into Practical Use: 
+  VAST Challenge 2022, Challenge 2: Patterns of Life. 
+author:
+  - name: Leslie Long Nu
+    url: https://www.linkedin.com/in/leslielongnu/
+    affiliation: SMU, MITB
+    affiliation_url: https://scis.smu.edu.sg/master-it-business
+date: 2022-05-22
+preview:
+output:
+  distill::distill_article:
+    code_folding: show
+    self_contained: false
+    toc: true
+    toc_depth: 3
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE)
+```
+
+# 1. Overview
+## 1.1 Introduction
+With reference to Challenge 2 Question 3 of [VAST Challenge 2022](https://vast-challenge.github.io/2022/), this take-home exercise will reveal the daily routines of **two** selected participants of the city of Engagement, Ohio USA. [`ViSiElse`](https://rdrr.io/cran/ViSiElse/man/) and other appropriate visual analytics R pacakges will be used. 
+
+*Challenge 2: Patterns of Life, Question 3*
+
+*Participants have given permission to have their daily routines captured. Choose two different participants with different routines and describe their daily patterns, with supporting evidence.*
+
+## 1.2 Methodology
+
+# 2. Data Preparation 
+## 2.1 Install and Load Packages 
+## 2.2 Import Raw Datasets
+## 2.3 Data Wrangling
+## 2.4 Save as and Read RDS Files
+
+# 3. Visualizations and Insights
+
+# 4. Learning Points
+
+
