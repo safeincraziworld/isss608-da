@@ -1,5 +1,6 @@
 ---
 title: "Take-home Exercise 4"
+categories: Take-home Exercise
 description: |
   Putting Visual Analytics into Practical Use: 
   VAST Challenge 2022, Challenge 2: Patterns of Life. 

@@ -13,9 +13,9 @@ output:
 site: distill::distill_website
 ---
 
-Hi! You've reached Leslie Long Nu's Website for works done in ISSS608 Visual Analytics course, 2021-22 Apr Term. 
+Hi! You've reached Leslie Long Nu's website for works done in ISSS608 Visual Analytics course, 2021-22 Apr Term. 
 
-Hope you enjoy reading my projects :)
+Hope you enjoy reading my projects. :)
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
