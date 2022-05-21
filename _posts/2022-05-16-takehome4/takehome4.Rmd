@@ -26,17 +26,37 @@ knitr::opts_chunk$set(message = FALSE)
 
 # 1. Overview
 ## 1.1 Introduction
-With reference to Challenge 2 Question 3 of [VAST Challenge 2022](https://vast-challenge.github.io/2022/), this take-home exercise will reveal the daily routines of **two** selected participants of the city of Engagement, Ohio USA. [`ViSiElse`](https://rdrr.io/cran/ViSiElse/man/) and other appropriate visual analytics R pacakges will be used. 
+With reference to Challenge 2 Question 3 of [VAST Challenge 2022](https://vast-challenge.github.io/2022/), this take-home exercise will reveal the daily routines of **two** selected participants of the city of Engagement, Ohio USA. [`ViSiElse`](https://rdrr.io/cran/ViSiElse/man/) and other appropriate visual analytics R packages will be used. 
 
 *Challenge 2: Patterns of Life, Question 3*
 
 *Participants have given permission to have their daily routines captured. Choose two different participants with different routines and describe their daily patterns, with supporting evidence.*
 
 ## 1.2 Methodology
+**Scope**
+As the VAST challenge data include participants' daily routine logs spanning for 15 months, the scope of this take-home exercise is scaled down time limit (1 week) of the take-home exercise, the scope of this take-home exercise is defined as: 
 
 # 2. Data Preparation 
 ## 2.1 Install and Load Packages 
+The following code chunk installs the required R packages and loads them onto RStudio environment. 
+
+```{r load libraries}
+packages = c('scales', 'viridis', 'lubridate', 'ggthemes', 
+             'gridExtra', 'tidyverse', 'readxl', 'knitr',
+             'data.table', 'ViSiElse')
+for (p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p,character.only = T)
+}
+```
+
 ## 2.2 Import Raw Datasets
+Relevant datasets are imported using `read_csv()` of readr package, which is useful for reading delimited files into tibbles. 
+
+
+
 ## 2.3 Data Wrangling
 ## 2.4 Save as and Read RDS Files
 

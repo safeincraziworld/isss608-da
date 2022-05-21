@@ -22,8 +22,6 @@ output:
 knitr::opts_chunk$set(echo = TRUE, eval= TRUE, message = FALSE, warning = FALSE, fig.retina = 3)
 ```
 
-# Getting Started
-
 ## Setting up R Packages 
 
 To start with, [`ggstatsplot`](https://www.rdocumentation.org/packages/ggstatsplot/versions/0.9.1) and `tidyverse` package will be launched using `library()`.
