@@ -118,7 +118,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["data/logs_14.rds","data/logs_21.rds","data/Participants.csv","takehome4_files/anchor-4.2.2/anchor.min.js","takehome4_files/bowser-1.9.3/bowser.min.js","takehome4_files/distill-2.2.21/template.v2.js","takehome4_files/figure-html5/both with title-1.png","takehome4_files/figure-html5/both1-1.png","takehome4_files/figure-html5/default-1.png","takehome4_files/figure-html5/default-2.png","takehome4_files/figure-html5/unnamed-chunk-1-1.png","takehome4_files/figure-html5/visibook plot14-1.png","takehome4_files/figure-html5/visibook plot14-2.png","takehome4_files/figure-html5/visibook plot21-1.png","takehome4_files/figure-html5/visibook plot21-2.png","takehome4_files/figure-html5/with title 14-1.png","takehome4_files/figure-html5/with title 21-1.png","takehome4_files/header-attrs-2.13.7/header-attrs.js","takehome4_files/jquery-3.6.0/jquery-3.6.0.js","takehome4_files/jquery-3.6.0/jquery-3.6.0.min.js","takehome4_files/jquery-3.6.0/jquery-3.6.0.min.map","takehome4_files/popper-2.6.0/popper.min.js","takehome4_files/tippy-6.2.7/tippy-bundle.umd.min.js","takehome4_files/tippy-6.2.7/tippy-light-border.css","takehome4_files/tippy-6.2.7/tippy.css","takehome4_files/tippy-6.2.7/tippy.umd.min.js","takehome4_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["data/logs_14.rds","data/logs_21.rds","data/Participants.csv","takehome4_files/anchor-4.2.2/anchor.min.js","takehome4_files/bowser-1.9.3/bowser.min.js","takehome4_files/distill-2.2.21/template.v2.js","takehome4_files/figure-html5/both with title-1.png","takehome4_files/figure-html5/both-1.png","takehome4_files/figure-html5/both1-1.png","takehome4_files/figure-html5/default-1.png","takehome4_files/figure-html5/default-2.png","takehome4_files/figure-html5/unnamed-chunk-1-1.png","takehome4_files/figure-html5/visibook plot14-1.png","takehome4_files/figure-html5/visibook plot14-2.png","takehome4_files/figure-html5/visibook plot21-1.png","takehome4_files/figure-html5/visibook plot21-2.png","takehome4_files/figure-html5/with title 14-1.png","takehome4_files/figure-html5/with title 21-1.png","takehome4_files/header-attrs-2.13.7/header-attrs.js","takehome4_files/jquery-3.6.0/jquery-3.6.0.js","takehome4_files/jquery-3.6.0/jquery-3.6.0.min.js","takehome4_files/jquery-3.6.0/jquery-3.6.0.min.map","takehome4_files/popper-2.6.0/popper.min.js","takehome4_files/tippy-6.2.7/tippy-bundle.umd.min.js","takehome4_files/tippy-6.2.7/tippy-light-border.css","takehome4_files/tippy-6.2.7/tippy.css","takehome4_files/tippy-6.2.7/tippy.umd.min.js","takehome4_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -2115,19 +2115,11 @@ show
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v12</span> <span class='op'>&lt;-</span> <span class='fu'>visielse</span><span class='op'>(</span><span class='va'>log_21f</span>,
                 book <span class='op'>=</span> <span class='va'>b1</span>, 
+                doplot <span class='op'>=</span> <span class='cn'>F</span>,
                 informer <span class='op'>=</span> <span class='cn'>NULL</span>,
                 pixel <span class='op'>=</span> <span class='fl'>60</span><span class='op'>)</span>
-</code></pre>
-</div>
-</details>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<details>
-<summary>
-show
-</summary>
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>v12</span>,
+
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>v12</span>,
      vp0w <span class='op'>=</span> <span class='fl'>0.7</span>, 
      unit.tps <span class='op'>=</span> <span class='st'>"min"</span>, 
      scal.unit.tps <span class='op'>=</span> <span class='fl'>60</span>, 
@@ -2135,7 +2127,7 @@ show
 </code></pre>
 </div>
 </details>
-<p><img src="takehome4_files/figure-html5/with%20title%2021-1.png" width="624" /></p>
+<p><img src="takehome4_files/figure-html5/visibook%20plot21-1.png" width="960" /></p>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -2145,19 +2137,10 @@ show
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v22</span> <span class='op'>&lt;-</span> <span class='fu'>visielse</span><span class='op'>(</span><span class='va'>log_14f</span>,
                 book <span class='op'>=</span> <span class='va'>b2</span>, 
+                doplot <span class='op'>=</span> <span class='cn'>F</span>,
                 informer <span class='op'>=</span> <span class='cn'>NULL</span>,
                 pixel <span class='op'>=</span> <span class='fl'>60</span><span class='op'>)</span>
-</code></pre>
-</div>
-</details>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<details>
-<summary>
-show
-</summary>
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>v22</span>,
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>v22</span>,
      vp0w <span class='op'>=</span> <span class='fl'>0.7</span>, 
      unit.tps <span class='op'>=</span> <span class='st'>"min"</span>, 
      scal.unit.tps <span class='op'>=</span> <span class='fl'>60</span>, 
@@ -2165,7 +2148,7 @@ show
 </code></pre>
 </div>
 </details>
-<p><img src="takehome4_files/figure-html5/with%20title%2014-1.png" width="624" /></p>
+<p><img src="takehome4_files/figure-html5/visibook%20plot14-1.png" width="960" /></p>
 </div>
 <p>From the above two plots, we can tell that one key difference of
 these two participants’ day is that participant 14 went to restaurants
@@ -2218,20 +2201,12 @@ show
 <span class='va'>v3</span> <span class='op'>&lt;-</span> <span class='fu'>visielse</span><span class='op'>(</span><span class='va'>log_both</span>,
                group <span class='op'>=</span> <span class='va'>g</span>,
                book <span class='op'>=</span> <span class='va'>b1</span>, 
+               doplot <span class='op'>=</span> <span class='cn'>F</span>,
                informer <span class='op'>=</span> <span class='cn'>NULL</span>,
                pixel <span class='op'>=</span> <span class='fl'>60</span>,
                method <span class='op'>=</span> <span class='st'>'cut'</span><span class='op'>)</span>
-</code></pre>
-</div>
-</details>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<details>
-<summary>
-show
-</summary>
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>v3</span>,
+
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>v3</span>,
      vp0w <span class='op'>=</span> <span class='fl'>0.7</span>, 
      unit.tps <span class='op'>=</span> <span class='st'>"min"</span>, 
      scal.unit.tps <span class='op'>=</span> <span class='fl'>60</span>, 
@@ -2239,7 +2214,7 @@ show
 </code></pre>
 </div>
 </details>
-<p><img src="takehome4_files/figure-html5/both%20with%20title-1.png" width="960" data-distill-preview=1 /></p>
+<p><img src="takehome4_files/figure-html5/both-1.png" width="960" /></p>
 </div>
 <h2 id="insights">Insights</h2>
 <p>Recap on our target participants’ demographic:</p>

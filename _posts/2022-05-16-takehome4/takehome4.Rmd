@@ -352,13 +352,13 @@ b2 <- b2[order(as.numeric(b2$showorder)), ]
 ## ViSiElSe with Long Activities 
 The following ViSiElSe is plotted taking into account of participants' long actions: 
 
-```{r visibook plot21, fig.show='hide'}
+```{r visibook plot21, fig.height=8, fig.width=10}
 v12 <- visielse(log_21f,
                 book = b1, 
+                doplot = F,
                 informer = NULL,
                 pixel = 60)
-```
-```{r with title 21}
+
 plot(v12,
      vp0w = 0.7, 
      unit.tps = "min", 
@@ -367,13 +367,12 @@ plot(v12,
 ```
 
 
-```{r visibook plot14, fig.show='hide'}
+```{r visibook plot14, fig.height=8, fig.width=10}
 v22 <- visielse(log_14f,
                 book = b2, 
+                doplot = F,
                 informer = NULL,
                 pixel = 60)
-```
-```{r with title 14}
 plot(v22,
      vp0w = 0.7, 
      unit.tps = "min", 
@@ -408,17 +407,17 @@ log_both[4, 1] = 'Participant 14'
 
 The following code chunk plots both participants' routines on the same graph:
 
-```{r both1, fig.show='hide'}
+```{r both, fig.height=8, fig.width=10}
 g <- c("Participant 21 (Low)", "Participant 14 (Graduate)", 
        "Participant 21 (Low)", "Participant 14 (Graduate)")
 v3 <- visielse(log_both,
                group = g,
                book = b1, 
+               doplot = F,
                informer = NULL,
                pixel = 60,
                method = 'cut')
-```
-```{r both with title, fig.width=10, fig.height=6, preview= TRUE}
+
 plot(v3,
      vp0w = 0.7, 
      unit.tps = "min", 
