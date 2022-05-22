@@ -118,7 +118,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["takehome4_files/anchor-4.2.2/anchor.min.js","takehome4_files/bowser-1.9.3/bowser.min.js","takehome4_files/distill-2.2.21/template.v2.js","takehome4_files/header-attrs-2.13.7/header-attrs.js","takehome4_files/jquery-3.6.0/jquery-3.6.0.js","takehome4_files/jquery-3.6.0/jquery-3.6.0.min.js","takehome4_files/jquery-3.6.0/jquery-3.6.0.min.map","takehome4_files/popper-2.6.0/popper.min.js","takehome4_files/tippy-6.2.7/tippy-bundle.umd.min.js","takehome4_files/tippy-6.2.7/tippy-light-border.css","takehome4_files/tippy-6.2.7/tippy.css","takehome4_files/tippy-6.2.7/tippy.umd.min.js","takehome4_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["data/logs_14.rds","data/logs_21.rds","data/Participants.csv","takehome4_files/anchor-4.2.2/anchor.min.js","takehome4_files/bowser-1.9.3/bowser.min.js","takehome4_files/distill-2.2.21/template.v2.js","takehome4_files/figure-html5/both with title-1.png","takehome4_files/figure-html5/both1-1.png","takehome4_files/figure-html5/default-1.png","takehome4_files/figure-html5/default-2.png","takehome4_files/figure-html5/unnamed-chunk-1-1.png","takehome4_files/figure-html5/visibook plot14-1.png","takehome4_files/figure-html5/visibook plot14-2.png","takehome4_files/figure-html5/visibook plot21-1.png","takehome4_files/figure-html5/visibook plot21-2.png","takehome4_files/figure-html5/with title 14-1.png","takehome4_files/figure-html5/with title 21-1.png","takehome4_files/header-attrs-2.13.7/header-attrs.js","takehome4_files/jquery-3.6.0/jquery-3.6.0.js","takehome4_files/jquery-3.6.0/jquery-3.6.0.min.js","takehome4_files/jquery-3.6.0/jquery-3.6.0.min.map","takehome4_files/popper-2.6.0/popper.min.js","takehome4_files/tippy-6.2.7/tippy-bundle.umd.min.js","takehome4_files/tippy-6.2.7/tippy-light-border.css","takehome4_files/tippy-6.2.7/tippy.css","takehome4_files/tippy-6.2.7/tippy.umd.min.js","takehome4_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1510,12 +1510,28 @@ class="uri">https://scis.smu.edu.sg/master-it-business</a>
 <li><a href="#install-and-load-packages">2.1 Install and Load
 Packages</a></li>
 <li><a href="#import-raw-datasets">2.2 Import Raw Datasets</a></li>
-<li><a href="#data-wrangling">2.3 Data Wrangling</a></li>
-<li><a href="#save-as-and-read-rds-files">2.4 Save as and Read RDS
-Files</a></li>
+<li><a href="#data-wrangling">2.3 Data Wrangling</a>
+<ul>
+<li><a href="#locate-target-participants">Locate Target
+Participants</a></li>
+<li><a href="#extract-relevant-subsets">Extract Relevant
+Subsets</a></li>
+<li><a href="#overview-of-data">Overview of Data</a></li>
+<li><a href="#deriving-activity-labels">Deriving Activity
+Labels</a></li>
+</ul></li>
 </ul></li>
 <li><a href="#visualizations-and-insights">3. Visualizations and
-Insights</a></li>
+Insights</a>
+<ul>
+<li><a href="#ploting-default-visielse">3.1 Ploting Default
+ViSiElSe</a></li>
+<li><a href="#visibook">3.2 ViSibook</a></li>
+<li><a href="#visielse-with-long-activities">ViSiElSe with Long
+Activities</a></li>
+<li><a href="#combine-both-routines">3.3 Combine Both Routines</a></li>
+<li><a href="#insights">Insights</a></li>
+</ul></li>
 <li><a href="#learning-points">4. Learning Points</a></li>
 </ul>
 </nav>
@@ -1527,21 +1543,767 @@ href="https://vast-challenge.github.io/2022/">VAST Challenge 2022</a>,
 this take-home exercise will reveal the daily routines of
 <strong>two</strong> selected participants of the city of Engagement,
 Ohio USA. <a
-href="https://rdrr.io/cran/ViSiElse/man/"><code>ViSiElse</code></a> and
-other appropriate visual analytics R pacakges will be used.</p>
+href="https://rdrr.io/cran/ViSiElse/man/"><code>ViSiElSe</code></a> and
+other appropriate visual analytics R packages will be used.</p>
 <p><em>Challenge 2: Patterns of Life, Question 3</em></p>
 <p><em>Participants have given permission to have their daily routines
 captured. Choose two different participants with different routines and
 describe their daily patterns, with supporting evidence.</em></p>
 <h2 id="methodology">1.2 Methodology</h2>
+<p>As VAST challenge datasets include participants’ daily routine logs
+spanning for 15 months, given the time limit (1 week) of this take-home
+exercise, the scope of this take-home exercise is scaled down to focus
+on specific areas of participant’s daily life routine:</p>
+<ul>
+<li>The two participants are selected by choosing one participant from
+low education level and another from graduate education level. This
+take-home exercise is interested to find out how their daily life
+routines differ.</li>
+<li>This take-home exercise will look at their daily life routines based
+on the first day of the study, Mar 1 2022, a weekday, to examine the
+difference.</li>
+<li>The status log data will be cleaned to fit ViSiElSe format and life
+routines will be plotted accordingly.</li>
+</ul>
 <h1 id="data-preparation">2. Data Preparation</h1>
 <h2 id="install-and-load-packages">2.1 Install and Load Packages</h2>
+<p>The following code chunk installs the required R packages and loads
+them onto RStudio environment.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>packages</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'scales'</span>, <span class='st'>'viridis'</span>, <span class='st'>'lubridate'</span>, <span class='st'>'ggthemes'</span>, 
+             <span class='st'>'gridExtra'</span>, <span class='st'>'tidyverse'</span>, <span class='st'>'readxl'</span>, <span class='st'>'knitr'</span>,
+             <span class='st'>'data.table'</span>, <span class='st'>'ViSiElse'</span>, <span class='st'>'patchwork'</span><span class='op'>)</span>
+<span class='kw'>for</span> <span class='op'>(</span><span class='va'>p</span> <span class='kw'>in</span> <span class='va'>packages</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'>p</span>, character.only <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span>
+    <span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span>
+  <span class='op'>}</span>
+  <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>p</span>,character.only <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span>
+<span class='op'>}</span>
+</code></pre>
+</div>
+</details>
+</div>
 <h2 id="import-raw-datasets">2.2 Import Raw Datasets</h2>
+<p>Relevant datasets are imported using <code>read_csv()</code> of readr
+package, which is useful for reading delimited files into tibbles.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>participants</span> <span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='st'>'data/Participants.csv'</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>logs1</span> <span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='st'>'rawdata/ParticipantStatusLogs1.csv'</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
 <h2 id="data-wrangling">2.3 Data Wrangling</h2>
-<h2 id="save-as-and-read-rds-files">2.4 Save as and Read RDS Files</h2>
+<h3 id="locate-target-participants">Locate Target Participants</h3>
+<p>The following code chunk is used to extract participants with
+educations levels of <em>low</em> and <em>graduate</em> to locate our
+target participants.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>low</span> <span class='op'>&lt;-</span> <span class='va'>participants</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>educationLevel</span> <span class='op'>==</span> <span class='st'>'Low'</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>low</span>, <span class='fl'>5</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<pre><code># A tibble: 5 × 7
+  participantId householdSize haveKids   age educationLevel
+          &lt;dbl&gt;         &lt;dbl&gt; &lt;lgl&gt;    &lt;dbl&gt; &lt;chr&gt;         
+1            21             3 TRUE        35 Low           
+2            23             3 TRUE        57 Low           
+3            29             3 TRUE        18 Low           
+4            34             3 TRUE        23 Low           
+5            35             3 TRUE        20 Low           
+# … with 2 more variables: interestGroup &lt;chr&gt;, joviality &lt;dbl&gt;</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>graduate</span> <span class='op'>&lt;-</span> <span class='va'>participants</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>educationLevel</span> <span class='op'>==</span> <span class='st'>'Graduate'</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>graduate</span>, <span class='fl'>5</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<pre><code># A tibble: 5 × 7
+  participantId householdSize haveKids   age educationLevel
+          &lt;dbl&gt;         &lt;dbl&gt; &lt;lgl&gt;    &lt;dbl&gt; &lt;chr&gt;         
+1            14             3 TRUE        38 Graduate      
+2            18             3 TRUE        20 Graduate      
+3            31             3 TRUE        40 Graduate      
+4            36             3 TRUE        41 Graduate      
+5            45             3 TRUE        50 Graduate      
+# … with 2 more variables: interestGroup &lt;chr&gt;, joviality &lt;dbl&gt;</code></pre>
+</div>
+<p>Given the two data table of different educational levels, the
+following two participants are chosen:</p>
+<ul>
+<li><strong>Participant Id 21</strong>: household size 3, have kids, age
+35, low education level, interest group E and joviality index of
+0.931.</li>
+<li><strong>Participant Id 14</strong>: household size 3, have kids, age
+38, graduate education level, interest group H and joviality index of
+0.930.</li>
+</ul>
+<p>This exercise is interested to find out how these two participants’
+daily routine varies due to different education levels, as they have
+otherwise very similar demographic.</p>
+<h3 id="extract-relevant-subsets">Extract Relevant Subsets</h3>
+<p>The following code chunk extracts participant id 21 &amp; 14’s daily
+life routine on Mar 1, 2022.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># participant id 21:</span>
+<span class='va'>logs_21</span> <span class='op'>&lt;-</span> <span class='va'>logs1</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>date <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/date.html'>date</a></span><span class='op'>(</span><span class='va'>timestamp</span><span class='op'>)</span>,
+         time <span class='op'>=</span> <span class='op'>(</span><span class='fu'>hour</span><span class='op'>(</span><span class='va'>timestamp</span><span class='op'>)</span><span class='op'>*</span><span class='fl'>60</span><span class='op'>+</span><span class='fu'>minute</span><span class='op'>(</span><span class='va'>timestamp</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>participantId</span><span class='op'>==</span> <span class='fl'>21</span>,
+         <span class='va'>date</span> <span class='op'>==</span> <span class='st'>'2022-03-01'</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>participantId</span>, <span class='va'>date</span>, <span class='va'>time</span>, <span class='va'>currentMode</span><span class='op'>:</span><span class='va'>sleepStatus</span>, <span class='va'>timestamp</span><span class='op'>)</span>
+
+<span class='co'># participant id 14:</span>
+<span class='va'>logs_14</span> <span class='op'>&lt;-</span> <span class='va'>logs1</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>date <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/date.html'>date</a></span><span class='op'>(</span><span class='va'>timestamp</span><span class='op'>)</span>,
+         time <span class='op'>=</span> <span class='op'>(</span><span class='fu'>hour</span><span class='op'>(</span><span class='va'>timestamp</span><span class='op'>)</span><span class='op'>*</span><span class='fl'>60</span><span class='op'>+</span><span class='fu'>minute</span><span class='op'>(</span><span class='va'>timestamp</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>participantId</span><span class='op'>==</span> <span class='fl'>14</span>,
+         <span class='va'>date</span> <span class='op'>==</span> <span class='st'>'2022-03-01'</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span><span class='va'>participantId</span>, <span class='va'>date</span>, <span class='va'>time</span>, <span class='va'>currentMode</span><span class='op'>:</span><span class='va'>sleepStatus</span>, <span class='va'>timestamp</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<p>The following code chunk saves the two logs into RDS format and read
+as RDS to avoid uploading large files onto GitHub.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>saveRDS</a></span><span class='op'>(</span><span class='va'>logs_21</span>, <span class='st'>'data/logs_21.rds'</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>saveRDS</a></span><span class='op'>(</span><span class='va'>logs_14</span>, <span class='st'>'data/logs_14.rds'</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>logs_21</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='st'>'data/logs_21.rds'</span><span class='op'>)</span>
+<span class='va'>logs_14</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='st'>'data/logs_14.rds'</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<h3 id="overview-of-data">Overview of Data</h3>
+<p>The following code chunk allows us to have an overview of the two
+status logs.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>logs_21</span>, <span class='fl'>10</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<pre><code># A tibble: 10 × 7
+   participantId date        time currentMode hungerStatus sleepStatus
+           &lt;dbl&gt; &lt;date&gt;     &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;        &lt;chr&gt;      
+ 1            21 2022-03-01     0 AtHome      JustAte      Awake      
+ 2            21 2022-03-01     5 AtHome      JustAte      Awake      
+ 3            21 2022-03-01    10 AtHome      JustAte      Awake      
+ 4            21 2022-03-01    15 AtHome      JustAte      Awake      
+ 5            21 2022-03-01    20 AtHome      JustAte      Awake      
+ 6            21 2022-03-01    25 AtHome      JustAte      Awake      
+ 7            21 2022-03-01    30 AtHome      JustAte      Sleeping   
+ 8            21 2022-03-01    35 AtHome      JustAte      Sleeping   
+ 9            21 2022-03-01    40 AtHome      JustAte      Sleeping   
+10            21 2022-03-01    45 AtHome      JustAte      Sleeping   
+# … with 1 more variable: timestamp &lt;dttm&gt;</code></pre>
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>logs_14</span>, <span class='fl'>10</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<pre><code># A tibble: 10 × 7
+   participantId date        time currentMode hungerStatus sleepStatus
+           &lt;dbl&gt; &lt;date&gt;     &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;        &lt;chr&gt;      
+ 1            14 2022-03-01     0 AtHome      JustAte      Awake      
+ 2            14 2022-03-01     5 AtHome      JustAte      Awake      
+ 3            14 2022-03-01    10 AtHome      JustAte      Sleeping   
+ 4            14 2022-03-01    15 AtHome      JustAte      Sleeping   
+ 5            14 2022-03-01    20 AtHome      JustAte      Sleeping   
+ 6            14 2022-03-01    25 AtHome      JustAte      Sleeping   
+ 7            14 2022-03-01    30 AtHome      JustAte      Sleeping   
+ 8            14 2022-03-01    35 AtHome      JustAte      Sleeping   
+ 9            14 2022-03-01    40 AtHome      JustAte      Sleeping   
+10            14 2022-03-01    45 AtHome      BecameFull   Sleeping   
+# … with 1 more variable: timestamp &lt;dttm&gt;</code></pre>
+</div>
+<p>From the overview we can tell that some of the values are not
+reliable as both participants are <em>just ate</em> while they are
+<em>sleeping</em>.</p>
+<p>The following code chunk aims to examine the various activities
+recorded in the status log using <code>unique()</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span><span class='op'>(</span><span class='va'>logs_21</span><span class='op'>$</span><span class='va'>currentMode</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<pre><code>[1] &quot;AtHome&quot;       &quot;Transport&quot;    &quot;AtWork&quot;       &quot;AtRestaurant&quot;
+[5] &quot;AtRecreation&quot;</code></pre>
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span><span class='op'>(</span><span class='va'>logs_21</span><span class='op'>$</span><span class='va'>hungerStatus</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<pre><code>[1] &quot;JustAte&quot;        &quot;BecameFull&quot;     &quot;BecomingHungry&quot;
+[4] &quot;Hungry&quot;        </code></pre>
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span><span class='op'>(</span><span class='va'>logs_21</span><span class='op'>$</span><span class='va'>sleepStatus</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<pre><code>[1] &quot;Awake&quot;    &quot;Sleeping&quot;</code></pre>
+</div>
+<p>The following meaningful activities will be tracked based on the
+status log:</p>
+<ul>
+<li>Start work, end work, at restaurant, leave restaurant, start
+recreation, end recreation from <em>current mode</em>;</li>
+<li>Start sleep, stop sleep from <em>sleep status</em>;</li>
+</ul>
+<p>Hunger status column is not used for several reasons here. Firstly,
+the labels indicate participant’s hunger feelings instead of what they
+did at the time, therefore, it is challenging to determine their meal
+times based on this column. For example, both <em>just ate</em> and
+<em>became full</em> could be interpreted as during meal or just
+finished meal. Secondly, the values in this column are unreliable as it
+is found that both participants recorded <em>just ate</em> during their
+sleep. Therefore, this take-home exercise did not use hunger status to
+reflect participant’s daily life routine.</p>
+<h3 id="deriving-activity-labels">Deriving Activity Labels</h3>
+<p>The following code chunk is used to label the activity status with
+numbers and focus on the activities we intend to track.
+<code>cumsum()</code> is used to label only the tracked activities by
+giving them the same number label, while the other activities are labels
+as the accumulative sum. For example, to track <em>sleeping</em>, all
+other status in <em>sleep mode</em> are given incremental numbers while
+it stays the same for <em>sleeping</em>. The same is applied for all the
+tracked activities.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># mark number labels for each activity</span>
+<span class='co'># if there is no change in status: number label increase by 1</span>
+<span class='co'># if there is change in status: number label stays the same</span>
+<span class='va'>logs_21num</span> <span class='op'>&lt;-</span> <span class='va'>logs_21</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>work<span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span><span class='op'>(</span><span class='va'>currentMode</span> <span class='op'>!=</span> <span class='st'>'AtWork'</span><span class='op'>)</span>,
+         restaurant<span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span><span class='op'>(</span><span class='va'>currentMode</span> <span class='op'>!=</span> <span class='st'>'AtRestaurant'</span><span class='op'>)</span>,
+         recreation<span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span><span class='op'>(</span><span class='va'>currentMode</span> <span class='op'>!=</span> <span class='st'>'AtRecreation'</span><span class='op'>)</span>,
+         sleep <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span><span class='op'>(</span><span class='va'>sleepStatus</span> <span class='op'>!=</span> <span class='st'>'Sleeping'</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<p>The following code chunk is used to match number labels to <em>start
+…</em> and <em>stop …</em> labels, for the first and last record of the
+tracked activities. For example, when the sleep status changed from
+<em>awake</em> to <em>sleeping</em> (when the number label stops
+increasing), the first <em>sleeping</em> status is marked as <em>start
+sleep</em>, and the last <em>sleeping</em> is marked as <em>stop
+sleep</em>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># create 'start...' and 'stop...' labels based on the number labels</span>
+<span class='va'>logs_21label</span> <span class='op'>&lt;-</span> <span class='va'>logs_21num</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>wlabel<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>work</span><span class='op'>!=</span><span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span><span class='op'>(</span><span class='va'>work</span>, default<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>, <span class='st'>'NA'</span>,
+                       <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>work</span><span class='op'>!=</span><span class='fu'>lead</span><span class='op'>(</span><span class='va'>work</span>, default<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>,
+                               <span class='st'>'Stop Work'</span>, <span class='st'>'Start Work'</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,
+         wlabelf<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>wlabel</span><span class='op'>==</span><span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span><span class='op'>(</span><span class='va'>wlabel</span>, default<span class='op'>=</span><span class='st'>'NA'</span><span class='op'>)</span><span class='op'>|</span><span class='va'>wlabel</span><span class='op'>==</span><span class='st'>'NA'</span>,
+                                 <span class='cn'>NA</span>, <span class='va'>wlabel</span><span class='op'>)</span>,
+         rtlabel<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>restaurant</span><span class='op'>!=</span><span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span><span class='op'>(</span><span class='va'>restaurant</span>, default<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>, <span class='st'>'NA'</span>,
+                       <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>restaurant</span><span class='op'>!=</span><span class='fu'>lead</span><span class='op'>(</span><span class='va'>restaurant</span>, default<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>,
+                               <span class='st'>'Leave Restaurant'</span>, <span class='st'>'At Restaurant'</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,
+         rtlabelf<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>rtlabel</span><span class='op'>==</span><span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span><span class='op'>(</span><span class='va'>rtlabel</span>, default<span class='op'>=</span><span class='st'>'NA'</span><span class='op'>)</span><span class='op'>|</span><span class='va'>rtlabel</span><span class='op'>==</span><span class='st'>'NA'</span>,
+                                 <span class='cn'>NA</span>, <span class='va'>rtlabel</span><span class='op'>)</span>,
+         rnlabel<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>recreation</span><span class='op'>!=</span><span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span><span class='op'>(</span><span class='va'>recreation</span>, default<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>, <span class='st'>'NA'</span>,
+                       <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>recreation</span><span class='op'>!=</span><span class='fu'>lead</span><span class='op'>(</span><span class='va'>recreation</span>, default<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>,
+                               <span class='st'>'Stop Recreation'</span>, <span class='st'>'Start Recreation'</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,
+         rnlabelf<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>rnlabel</span><span class='op'>==</span><span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span><span class='op'>(</span><span class='va'>rnlabel</span>, default<span class='op'>=</span><span class='st'>'NA'</span><span class='op'>)</span><span class='op'>|</span><span class='va'>rnlabel</span><span class='op'>==</span><span class='st'>'NA'</span>,
+                                 <span class='cn'>NA</span>, <span class='va'>rnlabel</span><span class='op'>)</span>,
+         slabel<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>sleep</span><span class='op'>!=</span><span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span><span class='op'>(</span><span class='va'>sleep</span>, default<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>, <span class='st'>'NA'</span>,
+                       <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>sleep</span><span class='op'>!=</span><span class='fu'>lead</span><span class='op'>(</span><span class='va'>sleep</span>, default<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>,
+                               <span class='st'>'Stop Sleep'</span>, <span class='st'>'Start Sleep'</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,
+         slabelf<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>slabel</span><span class='op'>==</span><span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span><span class='op'>(</span><span class='va'>slabel</span>, default<span class='op'>=</span><span class='st'>'NA'</span><span class='op'>)</span><span class='op'>|</span><span class='va'>slabel</span><span class='op'>==</span><span class='st'>'NA'</span>,
+                                 <span class='cn'>NA</span>, <span class='va'>slabel</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<p>Lastly, the derived dataset is cleaned and transposed to fit into
+VisiElSe format.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># extract relevant status </span>
+<span class='va'>logs_21f</span> <span class='op'>&lt;-</span> <span class='va'>logs_21label</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, <span class='va'>wlabelf</span>, <span class='va'>rtlabelf</span>, <span class='va'>rnlabelf</span>, <span class='va'>slabelf</span><span class='op'>)</span>
+
+<span class='co'># derive final status </span>
+<span class='va'>logs_21ff</span> <span class='op'>&lt;-</span> <span class='va'>logs_21f</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>unite</span><span class='op'>(</span><span class='st'>"final"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>wlabelf</span>, <span class='va'>rtlabelf</span>, <span class='va'>rnlabelf</span>, <span class='va'>slabelf</span><span class='op'>)</span>, sep<span class='op'>=</span><span class='st'>""</span>, 
+        remove <span class='op'>=</span> <span class='cn'>TRUE</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span><span class='fl'>4</span>, <span class='fl'>3</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate_all</span><span class='op'>(</span><span class='va'>na_if</span>,<span class='st'>""</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>drop_na</span><span class='op'>(</span><span class='va'>final</span><span class='op'>)</span> 
+
+<span class='co'># transpose logs_21f into ViSiElSe data template</span>
+<span class='va'>log_21f</span> <span class='op'>&lt;-</span> <span class='fu'>transpose</span><span class='op'>(</span><span class='va'>logs_21ff</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>log_21f</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>logs_21ff</span><span class='op'>$</span><span class='va'>final</span>
+
+<span class='co'># add id column </span>
+<span class='va'>log_21f</span> <span class='op'>&lt;-</span> <span class='fu'>rowid_to_column</span><span class='op'>(</span><span class='va'>log_21f</span>, <span class='st'>'id'</span> <span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<p>The following code chunk applies the same procedures to prepare the
+data for participant 14’s daily routine.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># mark number labels for each activity</span>
+<span class='co'># if there is no change in status: number label increase by 1</span>
+<span class='co'># if there is change in status: number label stays the same</span>
+<span class='va'>logs_14num</span> <span class='op'>&lt;-</span> <span class='va'>logs_14</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>work<span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span><span class='op'>(</span><span class='va'>currentMode</span> <span class='op'>!=</span> <span class='st'>'AtWork'</span><span class='op'>)</span>,
+         restaurant<span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span><span class='op'>(</span><span class='va'>currentMode</span> <span class='op'>!=</span> <span class='st'>'AtRestaurant'</span><span class='op'>)</span>,
+         recreation<span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span><span class='op'>(</span><span class='va'>currentMode</span> <span class='op'>!=</span> <span class='st'>'AtRecreation'</span><span class='op'>)</span>,
+         sleep <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span><span class='op'>(</span><span class='va'>sleepStatus</span> <span class='op'>!=</span> <span class='st'>'Sleeping'</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='co'># create 'start...' and 'stop...' labels based on the number labels</span>
+<span class='va'>logs_14label</span> <span class='op'>&lt;-</span> <span class='va'>logs_14num</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>wlabel<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>work</span><span class='op'>!=</span><span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span><span class='op'>(</span><span class='va'>work</span>, default<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>, <span class='st'>'NA'</span>,
+                       <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>work</span><span class='op'>!=</span><span class='fu'>lead</span><span class='op'>(</span><span class='va'>work</span>, default<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>,
+                               <span class='st'>'Stop Work'</span>, <span class='st'>'Start Work'</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,
+         wlabelf<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>wlabel</span><span class='op'>==</span><span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span><span class='op'>(</span><span class='va'>wlabel</span>, default<span class='op'>=</span><span class='st'>'NA'</span><span class='op'>)</span><span class='op'>|</span><span class='va'>wlabel</span><span class='op'>==</span><span class='st'>'NA'</span>,
+                                 <span class='cn'>NA</span>, <span class='va'>wlabel</span><span class='op'>)</span>,
+         rtlabel<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>restaurant</span><span class='op'>!=</span><span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span><span class='op'>(</span><span class='va'>restaurant</span>, default<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>, <span class='st'>'NA'</span>,
+                       <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>restaurant</span><span class='op'>!=</span><span class='fu'>lead</span><span class='op'>(</span><span class='va'>restaurant</span>, default<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>,
+                               <span class='st'>'Leave Restaurant'</span>, <span class='st'>'At Restaurant'</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,
+         rtlabelf<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>rtlabel</span><span class='op'>==</span><span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span><span class='op'>(</span><span class='va'>rtlabel</span>, default<span class='op'>=</span><span class='st'>'NA'</span><span class='op'>)</span><span class='op'>|</span><span class='va'>rtlabel</span><span class='op'>==</span><span class='st'>'NA'</span>,
+                                 <span class='cn'>NA</span>, <span class='va'>rtlabel</span><span class='op'>)</span>,
+         rnlabel<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>recreation</span><span class='op'>!=</span><span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span><span class='op'>(</span><span class='va'>recreation</span>, default<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>, <span class='st'>'NA'</span>,
+                       <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>recreation</span><span class='op'>!=</span><span class='fu'>lead</span><span class='op'>(</span><span class='va'>recreation</span>, default<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>,
+                               <span class='st'>'Stop Recreation'</span>, <span class='st'>'Start Recreation'</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,
+         rnlabelf<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>rnlabel</span><span class='op'>==</span><span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span><span class='op'>(</span><span class='va'>rnlabel</span>, default<span class='op'>=</span><span class='st'>'NA'</span><span class='op'>)</span><span class='op'>|</span><span class='va'>rnlabel</span><span class='op'>==</span><span class='st'>'NA'</span>,
+                                 <span class='cn'>NA</span>, <span class='va'>rnlabel</span><span class='op'>)</span>,
+         slabel<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>sleep</span><span class='op'>!=</span><span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span><span class='op'>(</span><span class='va'>sleep</span>, default<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>, <span class='st'>'NA'</span>,
+                       <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>sleep</span><span class='op'>!=</span><span class='fu'>lead</span><span class='op'>(</span><span class='va'>sleep</span>, default<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>,
+                               <span class='st'>'Stop Sleep'</span>, <span class='st'>'Start Sleep'</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,
+         slabelf<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>slabel</span><span class='op'>==</span><span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span><span class='op'>(</span><span class='va'>slabel</span>, default<span class='op'>=</span><span class='st'>'NA'</span><span class='op'>)</span><span class='op'>|</span><span class='va'>slabel</span><span class='op'>==</span><span class='st'>'NA'</span>,
+                                 <span class='cn'>NA</span>, <span class='va'>slabel</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='co'># extract relevant status </span>
+<span class='va'>logs_14f</span> <span class='op'>&lt;-</span> <span class='va'>logs_14label</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, <span class='va'>wlabelf</span>, <span class='va'>rtlabelf</span>, <span class='va'>rnlabelf</span>, <span class='va'>slabelf</span><span class='op'>)</span>
+
+<span class='co'># derive final status </span>
+<span class='va'>logs_14ff</span> <span class='op'>&lt;-</span> <span class='va'>logs_14f</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>unite</span><span class='op'>(</span><span class='st'>"final"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>wlabelf</span>, <span class='va'>rtlabelf</span>, <span class='va'>rnlabelf</span>, <span class='va'>slabelf</span><span class='op'>)</span>, sep<span class='op'>=</span><span class='st'>""</span>, 
+        remove <span class='op'>=</span> <span class='cn'>TRUE</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span><span class='fl'>4</span>, <span class='fl'>3</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate_all</span><span class='op'>(</span><span class='va'>na_if</span>,<span class='st'>""</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>drop_na</span><span class='op'>(</span><span class='va'>final</span><span class='op'>)</span> 
+
+<span class='co'># transpose logs_21f into ViSiElSe data template</span>
+<span class='va'>log_14f</span> <span class='op'>&lt;-</span> <span class='fu'>transpose</span><span class='op'>(</span><span class='va'>logs_14ff</span><span class='op'>[</span>,<span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>log_14f</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>logs_14ff</span><span class='op'>$</span><span class='va'>final</span>
+
+<span class='co'># add id column </span>
+<span class='va'>log_14f</span> <span class='op'>&lt;-</span> <span class='fu'>rowid_to_column</span><span class='op'>(</span><span class='va'>log_14f</span>, <span class='st'>'id'</span> <span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
 <h1 id="visualizations-and-insights">3. Visualizations and Insights</h1>
+<h2 id="ploting-default-visielse">3.1 Ploting Default ViSiElSe</h2>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v1</span> <span class='op'>&lt;-</span> <span class='fu'>visielse</span><span class='op'>(</span><span class='va'>log_21f</span>, informer <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<img src="takehome4_files/figure-html5/default-1.png" width="960" />
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v2</span> <span class='op'>&lt;-</span> <span class='fu'>visielse</span><span class='op'>(</span><span class='va'>log_14f</span>, informer <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<p><img src="takehome4_files/figure-html5/default-2.png" width="960" /></p>
+</div>
+<h2 id="visibook">3.2 ViSibook</h2>
+<p>The following code chunk changes the labels and add long actions to
+the graph.</p>
+<ul>
+<li>For participant id 21:</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># for participant 21</span>
+<span class='va'>b1</span> <span class='op'>&lt;-</span> <span class='fu'>ConvertFromViSibook</span><span class='op'>(</span><span class='va'>v1</span><span class='op'>@</span><span class='va'>book</span><span class='op'>)</span>
+
+<span class='va'>b1</span> <span class='op'>&lt;-</span> <span class='va'>b1</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>b1</span><span class='op'>$</span><span class='va'>showorder</span><span class='op'>)</span><span class='op'>)</span>, <span class='op'>]</span> 
+
+<span class='co'># label punctual activities </span>
+<span class='va'>b1</span><span class='op'>$</span><span class='va'>label</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Start sleep"</span>, <span class='st'>"Stop sleep"</span>,<span class='st'>"Start AM work"</span>, 
+              <span class='st'>"Stop AM work"</span>, <span class='st'>"At restaurant"</span>, <span class='st'>"Leave restaurant"</span>, 
+              <span class='st'>"Start PM work"</span>, <span class='st'>"Stop PM work"</span>, <span class='st'>"Start recreation1"</span>,
+              <span class='st'>"Stop recreation1"</span>, <span class='st'>"Start recreation2"</span>,<span class='st'>"Stop recreation2"</span>, 
+              <span class='st'>"Start recreation3"</span>,<span class='st'>"Stop recreation3"</span><span class='op'>)</span>
+
+<span class='co'># label long activities </span>
+<span class='va'>b1</span><span class='op'>[</span><span class='fl'>15</span>,<span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"sleep"</span>, <span class='st'>"Sleep"</span>, <span class='st'>"l"</span>, <span class='fl'>1</span>, <span class='st'>"Start Sleep"</span>, <span class='st'>"Stop Sleep"</span><span class='op'>)</span>
+<span class='va'>b1</span><span class='op'>[</span><span class='fl'>16</span>,<span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"work1"</span>, <span class='st'>"AM Work"</span>, <span class='st'>"l"</span>, <span class='fl'>2</span>, <span class='st'>"Start Work"</span>, <span class='st'>"Stop Work"</span><span class='op'>)</span>
+<span class='va'>b1</span><span class='op'>[</span><span class='fl'>17</span>,<span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"restaurant1"</span>, <span class='st'>"Lunch at Restaurant"</span>, <span class='st'>"l"</span>, <span class='fl'>3</span>, <span class='st'>"At Restaurant"</span>, 
+             <span class='st'>"Leave Restaurant"</span><span class='op'>)</span>
+<span class='va'>b1</span><span class='op'>[</span><span class='fl'>18</span>,<span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"work2"</span>, <span class='st'>"PM Work"</span>, <span class='st'>"l"</span>, <span class='fl'>4</span>, <span class='st'>"Start Work.1"</span>, <span class='st'>"Stop Work.1"</span><span class='op'>)</span>
+<span class='va'>b1</span><span class='op'>[</span><span class='fl'>19</span>,<span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"recreation1"</span>, <span class='st'>"First Recreation"</span>, <span class='st'>"l"</span>, <span class='fl'>5</span>, <span class='st'>"Start Recreation"</span>, 
+             <span class='st'>"Stop Recreation"</span><span class='op'>)</span>
+<span class='va'>b1</span><span class='op'>[</span><span class='fl'>20</span>,<span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"recreation2"</span>, <span class='st'>"Second Recreation"</span>, <span class='st'>"l"</span>, <span class='fl'>7</span>, <span class='st'>"Start Recreation.1"</span>, 
+             <span class='st'>"Stop Recreation.1"</span><span class='op'>)</span>
+<span class='va'>b1</span><span class='op'>[</span><span class='fl'>21</span>,<span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"recreation3"</span>, <span class='st'>"Third Recreation"</span>, <span class='st'>"l"</span>, <span class='fl'>8</span>, <span class='st'>"Start Recreation.2"</span>, 
+             <span class='st'>"Stop Recreation.2"</span><span class='op'>)</span>
+<span class='va'>b1</span><span class='op'>$</span><span class='va'>showorder</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, 
+                  <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>5</span>, <span class='fl'>6</span>, <span class='fl'>7</span><span class='op'>)</span> 
+<span class='va'>b1</span> <span class='op'>&lt;-</span> <span class='va'>b1</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>b1</span><span class='op'>$</span><span class='va'>showorder</span><span class='op'>)</span><span class='op'>)</span>, <span class='op'>]</span>
+</code></pre>
+</div>
+</details>
+</div>
+<ul>
+<li>For participant id 14:</li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># for participant 14</span>
+<span class='va'>b2</span> <span class='op'>&lt;-</span> <span class='fu'>ConvertFromViSibook</span><span class='op'>(</span><span class='va'>v2</span><span class='op'>@</span><span class='va'>book</span><span class='op'>)</span>
+
+<span class='va'>b2</span> <span class='op'>&lt;-</span> <span class='va'>b2</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>b2</span><span class='op'>$</span><span class='va'>showorder</span><span class='op'>)</span><span class='op'>)</span>, <span class='op'>]</span> 
+
+<span class='co'># label punctual activities </span>
+<span class='va'>b2</span><span class='op'>$</span><span class='va'>label</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Start sleep"</span>, <span class='st'>"Stop sleep"</span>,<span class='st'>"Start AM work"</span>, 
+              <span class='st'>"Stop AM work"</span>, <span class='st'>"At restaurant1"</span>, <span class='st'>"Leave restaurant1"</span>, 
+              <span class='st'>"Start PM work"</span>, <span class='st'>"Stop PM work"</span>, <span class='st'>"Start recreation1"</span>,
+              <span class='st'>"Stop recreation1"</span>, <span class='st'>"At restaurant2"</span>, <span class='st'>"Leave restaurant2"</span>,
+              <span class='st'>"Start recreation2"</span>,<span class='st'>"Stop recreation2"</span>, <span class='st'>"Start recreation3"</span>,
+              <span class='st'>"Stop recreation3"</span><span class='op'>)</span>
+
+<span class='co'># label long activities </span>
+<span class='va'>b2</span><span class='op'>[</span><span class='fl'>17</span>,<span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"sleep"</span>, <span class='st'>"Sleep"</span>, <span class='st'>"l"</span>, <span class='fl'>1</span>, <span class='st'>"Start Sleep"</span>, <span class='st'>"Stop Sleep"</span><span class='op'>)</span>
+<span class='va'>b2</span><span class='op'>[</span><span class='fl'>18</span>,<span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"work1"</span>, <span class='st'>"AM Work"</span>, <span class='st'>"l"</span>, <span class='fl'>2</span>, <span class='st'>"Start Work"</span>, <span class='st'>"Stop Work"</span><span class='op'>)</span>
+<span class='va'>b2</span><span class='op'>[</span><span class='fl'>19</span>,<span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"restaurant"</span>, <span class='st'>"Lunch at Restaurant"</span>, <span class='st'>"l"</span>, <span class='fl'>3</span>, <span class='st'>"At Restaurant"</span>, 
+             <span class='st'>"Leave Restaurant"</span><span class='op'>)</span>
+<span class='va'>b2</span><span class='op'>[</span><span class='fl'>20</span>,<span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"work2"</span>, <span class='st'>"PM Work"</span>, <span class='st'>"l"</span>, <span class='fl'>4</span>, <span class='st'>"Start Work.1"</span>, <span class='st'>"Stop Work.1"</span><span class='op'>)</span>
+<span class='va'>b2</span><span class='op'>[</span><span class='fl'>21</span>,<span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"recreation1"</span>, <span class='st'>"First Recreation"</span>, <span class='st'>"l"</span>, <span class='fl'>5</span>, <span class='st'>"Start Recreation"</span>, 
+             <span class='st'>"Stop Recreation"</span><span class='op'>)</span>
+<span class='va'>b2</span><span class='op'>[</span><span class='fl'>22</span>,<span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"restaurant2"</span>, <span class='st'>"Dinner at Restaurant"</span>, <span class='st'>"l"</span>, <span class='fl'>6</span>, <span class='st'>"At Restaurant.1"</span>, 
+             <span class='st'>"Leave Restaurant.1"</span><span class='op'>)</span>
+<span class='va'>b2</span><span class='op'>[</span><span class='fl'>23</span>,<span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"recreation2"</span>, <span class='st'>"Second Recreation"</span>, <span class='st'>"l"</span>, <span class='fl'>7</span>, <span class='st'>"Start Recreation.1"</span>, 
+             <span class='st'>"Stop Recreation.1"</span><span class='op'>)</span>
+<span class='va'>b2</span><span class='op'>[</span><span class='fl'>24</span>,<span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"recreation3"</span>, <span class='st'>"Third Recreation"</span>, <span class='st'>"l"</span>, <span class='fl'>8</span>, <span class='st'>"Start Recreation.2"</span>, 
+             <span class='st'>"Stop Recreation.2"</span><span class='op'>)</span>
+<span class='va'>b2</span><span class='op'>$</span><span class='va'>showorder</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, 
+                  <span class='cn'>NA</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>5</span>, <span class='fl'>6</span>, <span class='fl'>7</span>, <span class='fl'>8</span><span class='op'>)</span> 
+<span class='va'>b2</span> <span class='op'>&lt;-</span> <span class='va'>b2</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>b2</span><span class='op'>$</span><span class='va'>showorder</span><span class='op'>)</span><span class='op'>)</span>, <span class='op'>]</span>
+</code></pre>
+</div>
+</details>
+</div>
+<h2 id="visielse-with-long-activities">ViSiElSe with Long
+Activities</h2>
+<p>The following ViSiElSe is plotted taking into account of
+participants’ long actions:</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v12</span> <span class='op'>&lt;-</span> <span class='fu'>visielse</span><span class='op'>(</span><span class='va'>log_21f</span>,
+                book <span class='op'>=</span> <span class='va'>b1</span>, 
+                informer <span class='op'>=</span> <span class='cn'>NULL</span>,
+                pixel <span class='op'>=</span> <span class='fl'>60</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>v12</span>,
+     vp0w <span class='op'>=</span> <span class='fl'>0.7</span>, 
+     unit.tps <span class='op'>=</span> <span class='st'>"min"</span>, 
+     scal.unit.tps <span class='op'>=</span> <span class='fl'>60</span>, 
+     main <span class='op'>=</span> <span class='st'>"Participant 21 on 1 Mar, 2022 (Education Low)"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<p><img src="takehome4_files/figure-html5/with%20title%2021-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>v22</span> <span class='op'>&lt;-</span> <span class='fu'>visielse</span><span class='op'>(</span><span class='va'>log_14f</span>,
+                book <span class='op'>=</span> <span class='va'>b2</span>, 
+                informer <span class='op'>=</span> <span class='cn'>NULL</span>,
+                pixel <span class='op'>=</span> <span class='fl'>60</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>v22</span>,
+     vp0w <span class='op'>=</span> <span class='fl'>0.7</span>, 
+     unit.tps <span class='op'>=</span> <span class='st'>"min"</span>, 
+     scal.unit.tps <span class='op'>=</span> <span class='fl'>60</span>, 
+     main <span class='op'>=</span> <span class='st'>"Participant 14 on 1 Mar, 2022 (Education Graduate)"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<p><img src="takehome4_files/figure-html5/with%20title%2014-1.png" width="624" /></p>
+</div>
+<p>From the above two plots, we can tell that one key difference of
+these two participants’ day is that participant 14 went to restaurants
+for both lunch and dinner while participant 21 only went to restaurant
+for lunch. We can’t tell for sure where participant 21 had dinner from
+the data.</p>
+<h2 id="combine-both-routines">3.3 Combine Both Routines</h2>
+<p>Given both participants’ daily activities are similar except dinner,
+we bear this in mind and take out dinner for participant 14 in order to
+plot both routines on one graph for better comparison.</p>
+<p>The following code chunk take out dinner activity from visibook:
+<em>Note: both participants’ daily routines are added in twice in
+<code>log_both</code> so that <code>group</code> function can be used
+when plotting ViSiElSe. It does not affect the accuracy of the plot as
+weights are the same for both.</em></p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># remove dinner activity from dataset</span>
+<span class='va'>log_14f1</span> <span class='op'>&lt;-</span> <span class='va'>log_14f</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span><span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>`At Restaurant.1`</span>, <span class='va'>`Leave Restaurant.1`</span><span class='op'>)</span><span class='op'>)</span> 
+
+<span class='co'># combine both daily routine into one dataset</span>
+<span class='co'># weight= 2 is added for both participants to allow for plotting visielse </span>
+<span class='co'># group function </span>
+<span class='va'>log_both</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span><span class='va'>log_21f</span>, <span class='va'>log_14f1</span>, <span class='va'>log_21f</span>, <span class='va'>log_14f1</span><span class='op'>)</span> 
+
+<span class='co'># rename id </span>
+<span class='va'>log_both</span><span class='op'>[</span><span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>]</span> <span class='op'>=</span> <span class='st'>'Participant 21'</span>
+<span class='va'>log_both</span><span class='op'>[</span><span class='fl'>2</span>, <span class='fl'>1</span><span class='op'>]</span> <span class='op'>=</span> <span class='st'>'Participant 14'</span>
+<span class='va'>log_both</span><span class='op'>[</span><span class='fl'>3</span>, <span class='fl'>1</span><span class='op'>]</span> <span class='op'>=</span> <span class='st'>'Participant 21'</span>
+<span class='va'>log_both</span><span class='op'>[</span><span class='fl'>4</span>, <span class='fl'>1</span><span class='op'>]</span> <span class='op'>=</span> <span class='st'>'Participant 14'</span>
+</code></pre>
+</div>
+</details>
+</div>
+<p>The following code chunk plots both participants’ routines on the
+same graph:</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>g</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Participant 21 (Low)"</span>, <span class='st'>"Participant 14 (Graduate)"</span>, 
+       <span class='st'>"Participant 21 (Low)"</span>, <span class='st'>"Participant 14 (Graduate)"</span><span class='op'>)</span>
+<span class='va'>v3</span> <span class='op'>&lt;-</span> <span class='fu'>visielse</span><span class='op'>(</span><span class='va'>log_both</span>,
+               group <span class='op'>=</span> <span class='va'>g</span>,
+               book <span class='op'>=</span> <span class='va'>b1</span>, 
+               informer <span class='op'>=</span> <span class='cn'>NULL</span>,
+               pixel <span class='op'>=</span> <span class='fl'>60</span>,
+               method <span class='op'>=</span> <span class='st'>'cut'</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>v3</span>,
+     vp0w <span class='op'>=</span> <span class='fl'>0.7</span>, 
+     unit.tps <span class='op'>=</span> <span class='st'>"min"</span>, 
+     scal.unit.tps <span class='op'>=</span> <span class='fl'>60</span>, 
+     main <span class='op'>=</span> <span class='st'>"Participant 21 and 14's Routines on 1 Mar, 2022"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<p><img src="takehome4_files/figure-html5/both%20with%20title-1.png" width="960" data-distill-preview=1 /></p>
+</div>
+<h2 id="insights">Insights</h2>
+<p>Recap on our target participants’ demographic:</p>
+<ul>
+<li><strong>Participant Id 21</strong>: household size 3, have kids, age
+35, low education level, interest group E and joviality index of
+0.931.</li>
+<li><strong>Participant Id 14</strong>: household size 3, have kids, age
+38, graduate education level, interest group H and joviality index of
+0.930.</li>
+</ul>
+<p>From the above graph we are able to derive the following insights on
+their routines:</p>
+<ul>
+<li>Participant 14 went to restaurant for both lunch and dinner while
+participant 21 only went to restaurant for lunch. This could be random
+or could also be due to the reason that participant 14 has a much higher
+education level hence higher pay, and is willing to spend more on daily
+expenses.</li>
+<li>Participant 14 slept for a longer time than participant 21 did, for
+about an additional 1.5hrs, although both slept after midnight.</li>
+<li>Their working schedules and lunch breaks are quite different.
+Participant 14 works for a longer time in the morning and a shorter time
+in the afternoon, as a result, he/she also takes lunch at a later time
+(around 2pm). On the other hand, participant 21 have a more balance
+working schedule where his/her PM work is slightly longer than AM and
+he/she took lunch at an earlier time, at around 12pm. Given that they
+have very different education levels, it is natural that the nature of
+their works are very different.</li>
+<li>In terms of recreation, both participants took part in three
+recreations on Mar 1, 2022 (Tue), and participant 14’s third recreation
+started earlier than participant 14. As we extracted data for one day
+only, we are not sure if both third recreation lasted beyond midnight.
+The number of recreation activities are in line with their high
+joviality indexes. In addition, as both participants have kids and are
+in their 30s, their high number of daily recreation could be due to
+family time with young kids as well.</li>
+</ul>
 <h1 id="learning-points">4. Learning Points</h1>
-<div class="sourceCode" id="cb1"><pre
+<p>In this take-home exercise, I was able to apply a lot of data
+wrangling techniques in R while preparing the data to plot in
+<code>ViSiElSe</code>. In addition, we were able to explore plotting
+with <code>ViSiElSe</code>, especially by labeling and plotting long
+activities using <code>ViSibook</code>. Given the time constraint, I
+felt that the following could be explored further to better answer this
+question:</p>
+<ul>
+<li>Other possible angles to approach this question is to look at daily
+routines of participants with very low and very high joviality, or very
+low and very high wage, or single and those with kids, or different age
+groups, to examine the difference.<br />
+</li>
+<li>It would be more meaningful to look at daily routine over a longer
+period of time, say at least for one month, to reveal the general
+pattern of one’s life style and compare the differences. It would also
+be interesting to look at one’s daily routine at the beginning and end
+of the study (15 months), to see if there is any change in
+routines.</li>
+<li>Inspired by a classmate, the daily routines could also be plotted
+out using <code>geom_segment()</code> and even add animation to it. I
+would be very interested to try it out as well when I have spare time.
+:)</li>
+</ul>
+<div class="sourceCode" id="cb8"><pre
 class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
