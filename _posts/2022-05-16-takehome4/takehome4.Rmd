@@ -352,7 +352,7 @@ b2 <- b2[order(as.numeric(b2$showorder)), ]
 ## ViSiElSe with Long Activities 
 The following ViSiElSe is plotted taking into account of participants' long actions: 
 
-```{r visibook plot21, fig.height=8, fig.width=10}
+```{r visibook plot21, fig.height=6, fig.width=10}
 v12 <- visielse(log_21f,
                 book = b1, 
                 doplot = F,
@@ -367,7 +367,7 @@ plot(v12,
 ```
 
 
-```{r visibook plot14, fig.height=8, fig.width=10}
+```{r visibook plot14, fig.height=6, fig.width=10}
 v22 <- visielse(log_14f,
                 book = b2, 
                 doplot = F,
@@ -407,7 +407,7 @@ log_both[4, 1] = 'Participant 14'
 
 The following code chunk plots both participants' routines on the same graph:
 
-```{r both, fig.height=8, fig.width=10}
+```{r both, fig.height=6, fig.width=10, preview= TRUE}
 g <- c("Participant 21 (Low)", "Participant 14 (Graduate)", 
        "Participant 21 (Low)", "Participant 14 (Graduate)")
 v3 <- visielse(log_both,
