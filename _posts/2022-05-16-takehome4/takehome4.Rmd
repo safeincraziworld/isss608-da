@@ -443,7 +443,7 @@ From the above graph we are able to derive the following insights on their routi
 In this take-home exercise, I was able to apply a lot of data wrangling techniques in R while preparing the data to plot in `ViSiElSe`. In addition, we were able to explore plotting with `ViSiElSe`, especially by labeling and plotting long activities using `ViSibook`. Given the time constraint, I felt that the following could be explored further to better answer this question: 
 
 * Other possible angles to approach this question is to look at daily routines of participants with very low and very high joviality, or very low and very high wage, or single and those with kids, or different age groups, to examine the difference.  
-* It would be more meaningful to look at daily routine over a longer period of time, say at least for one month, to reveal the general pattern of one's life style and compare the differences. It would also be interesting to look at one's daily routine at the beginning and end of the study (15 months), to see if there is any change in routines. 
+* It would be more meaningful to look at daily routine over a longer period of time, say at least for one month, and divide into weekdays and weekends routines, to reveal the general pattern of one's life style and compare the differences. It would also be interesting to look at one's daily routine at the beginning and end of the study (15 months), to see if there is any change in routines. 
 * Inspired by a classmate, the daily routines could also be plotted out using `geom_segment()` and even add animation to it. I would be very interested to try it out as well when I have spare time. :)
 
 
