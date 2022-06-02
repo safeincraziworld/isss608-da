@@ -1,0 +1,34 @@
+---
+title: "Take-home Exercise 6"
+categories: Take-home Exercise
+description: |
+  Putting Visual Analytics into Practical Use: 
+  VAST Challenge 2022, Challenge 1: Demographics and Relationships.
+author:
+  - name: Leslie Long Nu
+    url: https://www.linkedin.com/in/leslielongnu/
+    affiliation: SMU, MITB
+    affiliation_url: https://scis.smu.edu.sg/master-it-business
+date: 2022-06-05
+preview:
+output:
+  distill::distill_article:
+    code_folding: show
+    self_contained: false
+    toc: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE)
+```
+
+# 1. Overview
+## 1.1 Introduction
+With reference to Challenge 1 Question 2 of [VAST Challenge 2022](https://vast-challenge.github.io/2022/), this take-home exercise will reveal  the patterns of community interactions of the city of Engagement, Ohio USA by using social network analysis approach.
+
+*Challenge 1: Demographics and Relationships*
+
+*Consider the social activities in the community. What patterns do you see in the social networks in the town? Describe up to ten significant patterns you observe, with evidence and rationale. *
+
+## 1.2 Methodology
