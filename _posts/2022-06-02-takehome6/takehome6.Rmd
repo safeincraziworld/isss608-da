@@ -32,3 +32,27 @@ With reference to Challenge 1 Question 2 of [VAST Challenge 2022](https://vast-c
 *Consider the social activities in the community. What patterns do you see in the social networks in the town? Describe up to ten significant patterns you observe, with evidence and rationale. *
 
 ## 1.2 Methodology
+
+
+# 2. Data Preparation
+## 2.1 Install and Load Packages 
+The following code chunk installs the required R packages and loads them onto RStudio environment. 
+
+```{r load libraries, results='hide'}
+packages = c('igraph', 'tidygraph', 'ggraph', 'visNetwork', 
+             'lubridate', 'clock', 'tidyverse', 'graphlayouts')
+for(p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p, character.only = T)
+}
+```
+
+## 2.2 Import Datasets
+
+
+
+
+
+

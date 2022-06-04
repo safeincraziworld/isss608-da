@@ -173,6 +173,7 @@ map
 ```
 
 **Insights**
+
 From the above map, we observe that the most active social areas (with most number of restaurants and pubs) are in the north-west region and central region of the city. While the rest of the areas have few restaurants and pubs. 
 
 ![Social Area: North-West Region](picture/north-west.png){width=20%}
