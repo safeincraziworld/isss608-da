@@ -119,7 +119,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["takehome6_files/anchor-4.2.2/anchor.min.js","takehome6_files/bowser-1.9.3/bowser.min.js","takehome6_files/distill-2.2.21/template.v2.js","takehome6_files/header-attrs-2.14.2/header-attrs.js","takehome6_files/jquery-3.6.0/jquery-3.6.0.js","takehome6_files/jquery-3.6.0/jquery-3.6.0.min.js","takehome6_files/jquery-3.6.0/jquery-3.6.0.min.map","takehome6_files/popper-2.6.0/popper.min.js","takehome6_files/tippy-6.2.7/tippy-bundle.umd.min.js","takehome6_files/tippy-6.2.7/tippy-light-border.css","takehome6_files/tippy-6.2.7/tippy.css","takehome6_files/tippy-6.2.7/tippy.umd.min.js","takehome6_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["data/Participants.csv","data/social.rds","takehome6_files/anchor-4.2.2/anchor.min.js","takehome6_files/bowser-1.9.3/bowser.min.js","takehome6_files/distill-2.2.21/template.v2.js","takehome6_files/figure-html5/unnamed-chunk-1-1.png","takehome6_files/figure-html5/unnamed-chunk-2-1.png","takehome6_files/figure-html5/unnamed-chunk-3-1.png","takehome6_files/header-attrs-2.14.2/header-attrs.js","takehome6_files/jquery-3.6.0/jquery-3.6.0.js","takehome6_files/jquery-3.6.0/jquery-3.6.0.min.js","takehome6_files/jquery-3.6.0/jquery-3.6.0.min.map","takehome6_files/popper-2.6.0/popper.min.js","takehome6_files/tippy-6.2.7/tippy-bundle.umd.min.js","takehome6_files/tippy-6.2.7/tippy-light-border.css","takehome6_files/tippy-6.2.7/tippy.css","takehome6_files/tippy-6.2.7/tippy.umd.min.js","takehome6_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2434,7 +2434,19 @@ class="uri">https://scis.smu.edu.sg/master-it-business</a>
 <li><a href="#overview">1. Overview</a>
 <ul>
 <li><a href="#introduction">1.1 Introduction</a></li>
-<li><a href="#methodology">1.2 Methodology</a></li>
+<li><a href="#approach">1.2 Approach</a></li>
+</ul></li>
+<li><a href="#data-preparation">2. Data Preparation</a>
+<ul>
+<li><a href="#install-and-load-packages">2.1 Install and Load
+Packages</a></li>
+<li><a href="#import-datasets">2.2 Import Datasets</a></li>
+<li><a href="#data-wrangling">2.3 Data Wrangling</a></li>
+</ul></li>
+<li><a href="#network-visualizations-and-insights">3. Network
+Visualizations and Insights</a>
+<ul>
+<li><a href="#section">3.1</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -2450,8 +2462,321 @@ analysis approach.</p>
 <p><em>Consider the social activities in the community. What patterns do
 you see in the social networks in the town? Describe up to ten
 significant patterns you observe, with evidence and rationale. </em></p>
-<h2 id="methodology">1.2 Methodology</h2>
-<div class="sourceCode" id="cb1"><pre
+<h2 id="approach">1.2 Approach</h2>
+<p>This take-home exercise aims to reveal the social activities in the
+community by analyzing the social relationship information in the social
+network file, and joining with the participants file to look at the
+social activities for different demographics. For example, we can look
+at the social activities for different age groups, education levels,
+interest groups, whether they have kids and etc.</p>
+<p>Due to time constraint of the take-home exercise, the scope of this
+analysis is limited to the social activities happened during Mar 2022,
+at the start of the study.</p>
+<h1 id="data-preparation">2. Data Preparation</h1>
+<h2 id="install-and-load-packages">2.1 Install and Load Packages</h2>
+<p>The following code chunk installs the required R packages and loads
+them onto RStudio environment. The loaded packages including four
+network data modeling and visualization packages, namely <a
+href="https://igraph.org/r/">igraph</a>, <a
+href="https://cran.r-project.org/web/packages/tidygraph/index.html">tidygraph</a>,
+<a
+href="https://cran.r-project.org/web/packages/ggraph/index.html">ggraph</a>
+and <a
+href="https://datastorm-open.github.io/visNetwork/">visNetwork</a>, as
+well as some time data wrangling packages such as <a
+href="https://www.tidyverse.org/">tidyverse</a> and <a
+href="https://lubridate.tidyverse.org/">lubridate</a>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>packages</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'igraph'</span>, <span class='st'>'tidygraph'</span>, <span class='st'>'ggraph'</span>, <span class='st'>'visNetwork'</span>, 
+             <span class='st'>'lubridate'</span>, <span class='st'>'clock'</span>, <span class='st'>'tidyverse'</span>, <span class='st'>'graphlayouts'</span>,
+             <span class='st'>'zoo'</span><span class='op'>)</span>
+<span class='kw'>for</span><span class='op'>(</span><span class='va'>p</span> <span class='kw'>in</span> <span class='va'>packages</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'>p</span>, character.only <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span>
+    <span class='fu'><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></span><span class='op'>(</span><span class='va'>p</span><span class='op'>)</span>
+  <span class='op'>}</span>
+  <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>p</span>, character.only <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span>
+<span class='op'>}</span>
+</code></pre>
+</div>
+</details>
+</div>
+<h2 id="import-datasets">2.2 Import Datasets</h2>
+<p><strong>Edges Data</strong></p>
+<p>The edges data, or the link data, contains information on the
+interaction of the objects (nodes) in the context. In this take-home
+exercise, the edges data is the social network file that contains
+information on time and social activities initiated and received by the
+participants. The social network data is imported using the following
+code chunk:</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>social</span> <span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='st'>'rawdata/SocialNetwork.csv'</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<p><strong>Nodes Data</strong></p>
+<p>The nodes data in this context is the participants file that contains
+information on the demographics of the participants, such as their
+household sizes, ages, education level, interest group and etc. The
+social network data is imported using the following code chunk:</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>participants</span> <span class='op'>&lt;-</span> <span class='fu'>read_csv</span><span class='op'>(</span><span class='st'>'data/Participants.csv'</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<h2 id="data-wrangling">2.3 Data Wrangling</h2>
+<p>The following code chunk is used to extract social activities data
+for the month of Mar 2022.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>social</span> <span class='op'>&lt;-</span> <span class='va'>social</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>yearmonth <span class='op'>=</span> <span class='fu'>as.yearmon</span><span class='op'>(</span><span class='va'>timestamp</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>yearmonth</span> <span class='op'>==</span> <span class='st'>'Mar 2022'</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<p>The following code chunk is used to identify the day of the week of
+the social interaction.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>social</span> <span class='op'>&lt;-</span> <span class='va'>social</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>dow <span class='op'>=</span> <span class='fu'>wday</span><span class='op'>(</span><span class='va'>timestamp</span><span class='op'>)</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<p>The <code>wday()</code> component of a POSIXct object is the numeric
+weekday, ranging from 0-6 starting on Sunday. Therefore, the following
+code chunk identifies whether the interaction happened on a weekday or
+weekend.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>social</span> <span class='op'>&lt;-</span> <span class='va'>social</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>daytype <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>dow</span><span class='op'>==</span><span class='fl'>0</span><span class='op'>|</span><span class='va'>dow</span><span class='op'>==</span><span class='fl'>7</span>, <span class='st'>'Weekend'</span>, <span class='st'>'Weekday'</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>select</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, <span class='fl'>6</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<p>The extracted social file is saved and read as RDS format to avoid
+uploading large data file to GitHub.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>saveRDS</a></span><span class='op'>(</span><span class='va'>social</span>, <span class='st'>'data/social.rds'</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>social</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='st'>'data/social.rds'</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<p>The following code chunk aggregate the social interactions by to and
+from participants as well as day type of interaction. Also, interactions
+less than 4 times are also filtered as we are interested to look at more
+frequent social relationships.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>social_edges</span> <span class='op'>&lt;-</span> <span class='va'>social</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>participantIdFrom</span>, <span class='va'>participantIdTo</span>, <span class='va'>daytype</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>summarise</span><span class='op'>(</span>weight <span class='op'>=</span> <span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>weight</span> <span class='op'>&gt;</span> <span class='fl'>4</span>,
+         <span class='va'>participantIdFrom</span> <span class='op'>!=</span> <span class='va'>participantIdTo</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ungroup</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<p>The following code chunk cleans the participants file by renaming
+some columns and values for easy of reading.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># rename columns</span>
+<span class='va'>participants</span> <span class='op'>&lt;-</span> <span class='va'>participants</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>rename</span><span class='op'>(</span><span class='st'>'Participant_ID'</span> <span class='op'>=</span> <span class='st'>'participantId'</span>, 
+         <span class='st'>'Household_Size'</span> <span class='op'>=</span> <span class='st'>'householdSize'</span>, 
+         <span class='st'>'Have_Kids'</span> <span class='op'>=</span> <span class='st'>'haveKids'</span>, 
+         <span class='st'>'Age'</span> <span class='op'>=</span> <span class='st'>'age'</span>, 
+         <span class='st'>'Education_Level'</span> <span class='op'>=</span> <span class='st'>'educationLevel'</span>, 
+         <span class='st'>'Interest_Group'</span> <span class='op'>=</span> <span class='st'>'interestGroup'</span>, 
+         <span class='st'>'Joviality'</span> <span class='op'>=</span> <span class='st'>'joviality'</span><span class='op'>)</span>
+
+<span class='co'>#rename value </span>
+<span class='va'>participants</span><span class='op'>$</span><span class='va'>Education_Level</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>sub</a></span><span class='op'>(</span><span class='st'>'HighSchoolOrCollege'</span>, 
+                                    <span class='st'>'High School or College'</span>,
+                                    <span class='va'>participants</span><span class='op'>$</span><span class='va'>Education_Level</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<p>Age variable is binned with the following code chunk:</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># check min and max ages </span>
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>participants</span><span class='op'>$</span><span class='va'>Age</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  18.00   29.00   39.00   39.07   50.00   60.00 </code></pre>
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># binning</span>
+<span class='va'>brks</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>17</span>, <span class='fl'>20</span>, <span class='fl'>25</span>, <span class='fl'>30</span>, <span class='fl'>35</span>, <span class='fl'>40</span>, <span class='fl'>45</span>, <span class='fl'>50</span>, <span class='fl'>55</span>, <span class='fl'>60</span><span class='op'>)</span>
+<span class='va'>grps</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'20 &amp; Below'</span>, <span class='st'>'21-25'</span>, <span class='st'>'26-30'</span>, <span class='st'>'31-35'</span>, <span class='st'>'36-40'</span>, <span class='st'>'41-45'</span>, 
+          <span class='st'>'46-50'</span>, <span class='st'>'51-55'</span>, <span class='st'>'56-60'</span><span class='op'>)</span>
+
+<span class='va'>participants</span><span class='op'>$</span><span class='va'>Age_Group</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cut.html'>cut</a></span><span class='op'>(</span><span class='va'>participants</span><span class='op'>$</span><span class='va'>Age</span>, breaks<span class='op'>=</span><span class='va'>brks</span>, labels <span class='op'>=</span> <span class='va'>grps</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<p>The following code chunk bins joviality variable:</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>brks</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span>, <span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>grps</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'Low'</span>, <span class='st'>'Medium to Low'</span>, <span class='st'>'Medium to High'</span>, <span class='st'>'High'</span><span class='op'>)</span>
+
+<span class='va'>participants</span><span class='op'>$</span><span class='va'>Joviality_Group</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cut.html'>cut</a></span><span class='op'>(</span><span class='va'>participants</span><span class='op'>$</span><span class='va'>Joviality</span>, breaks<span class='op'>=</span><span class='va'>brks</span>, labels <span class='op'>=</span> <span class='va'>grps</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<p>The following code chunk uses <code>graph_from_data_frame()</code> of
+tidygraoh package to build a network graph data.frame.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>social_graph</span> <span class='op'>&lt;-</span> <span class='fu'>graph_from_data_frame</span><span class='op'>(</span><span class='va'>social_edges</span>,
+                                      vertices <span class='op'>=</span> <span class='va'>participants</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>as_tbl_graph</span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>social_graph</span>
+</code></pre>
+</div>
+</details>
+<pre><code># A tbl_graph: 1011 nodes and 10434 edges
+#
+# A directed simple graph with 133 components
+#
+# Node Data: 1,011 × 9 (active)
+  name  Household_Size Have_Kids   Age Education_Level Interest_Group
+  &lt;chr&gt;          &lt;dbl&gt; &lt;lgl&gt;     &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;         
+1 0                  3 TRUE         36 High School or… H             
+2 1                  3 TRUE         25 High School or… B             
+3 2                  3 TRUE         35 High School or… A             
+4 3                  3 TRUE         21 High School or… I             
+5 4                  3 TRUE         43 Bachelors       H             
+6 5                  3 TRUE         32 High School or… D             
+# … with 1,005 more rows, and 3 more variables: Joviality &lt;dbl&gt;,
+#   Age_Group &lt;chr&gt;, Joviality_Group &lt;chr&gt;
+#
+# Edge Data: 10,434 × 4
+   from    to daytype weight
+  &lt;int&gt; &lt;int&gt; &lt;chr&gt;    &lt;int&gt;
+1     1   227 Weekday     14
+2     1   619 Weekday      5
+3     1   645 Weekday     13
+# … with 10,431 more rows</code></pre>
+</div>
+<p>The output of reveals that the social_ net_graph is a tbl_graph
+object with 1011 nodes (number of participants) and 10434 edges (social
+interactions above weight 4).</p>
+<h1 id="network-visualizations-and-insights">3. Network Visualizations
+and Insights</h1>
+<h2 id="section">3.1</h2>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>social_graph</span> <span class='op'>%&gt;%</span> <span class='fu'>activate</span><span class='op'>(</span><span class='va'>edges</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<p><img src="takehome6_files/figure-html5/unnamed-chunk-1-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>g</span> <span class='op'>&lt;-</span> <span class='fu'>ggraph</span><span class='op'>(</span><span class='va'>social_graph</span>,
+            layout <span class='op'>=</span> <span class='st'>'nicely'</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_edge_link</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>width <span class='op'>=</span> <span class='va'>weight</span>,
+                     alpha <span class='op'>=</span> <span class='fl'>0.6</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_node_point</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>colour <span class='op'>=</span> <span class='va'>Education_Level</span>,
+                      size <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>g</span> <span class='op'>+</span> <span class='fu'>theme_graph</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<p><img src="takehome6_files/figure-html5/unnamed-chunk-2-1.png" width="624" /></p>
+</div>
+<div class="sourceCode" id="cb3"><pre
 class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

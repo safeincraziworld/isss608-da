@@ -20,7 +20,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(cho = TRUE, eval = TRUE, message = FALSE, warning = FALSE, fig.retina = 3)
 ```
 
 # 1. Overview
@@ -31,16 +31,19 @@ With reference to Challenge 1 Question 2 of [VAST Challenge 2022](https://vast-c
 
 *Consider the social activities in the community. What patterns do you see in the social networks in the town? Describe up to ten significant patterns you observe, with evidence and rationale. *
 
-## 1.2 Methodology
+## 1.2 Approach 
+This take-home exercise aims to reveal the social activities in the community by analyzing the social relationship information in the social network file, and joining with the participants file to look at the social activities for different demographics. For example, we can look at the social activities for different age groups, education levels, interest groups, whether they have kids and etc. 
 
+Due to time constraint of the take-home exercise, the scope of this analysis is limited to the social activities happened during Mar 2022, at the start of the study. 
 
 # 2. Data Preparation
 ## 2.1 Install and Load Packages 
-The following code chunk installs the required R packages and loads them onto RStudio environment. 
+The following code chunk installs the required R packages and loads them onto RStudio environment. The loaded packages including four network data modeling and visualization packages, namely [igraph](https://igraph.org/r/), [tidygraph](https://cran.r-project.org/web/packages/tidygraph/index.html), [ggraph](https://cran.r-project.org/web/packages/ggraph/index.html) and [visNetwork](https://datastorm-open.github.io/visNetwork/), as well as some time data wrangling packages such as [tidyverse](https://www.tidyverse.org/) and [lubridate](https://lubridate.tidyverse.org/). 
 
 ```{r load libraries, results='hide'}
 packages = c('igraph', 'tidygraph', 'ggraph', 'visNetwork', 
-             'lubridate', 'clock', 'tidyverse', 'graphlayouts')
+             'lubridate', 'clock', 'tidyverse', 'graphlayouts',
+             'zoo')
 for(p in packages){
   if(!require(p, character.only = T)){
     install.packages(p)
@@ -51,8 +54,142 @@ for(p in packages){
 
 ## 2.2 Import Datasets
 
+**Edges Data**
+
+The edges data, or the link data, contains information on the interaction of the objects (nodes) in the context. In this take-home exercise, the edges data is the social network file that contains information on time and social activities initiated and received by the participants. 
+The social network data is imported using the following code chunk: 
+
+```{r import social, eval=FALSE}
+social <- read_csv('rawdata/SocialNetwork.csv')
+```
+
+**Nodes Data**
+
+The nodes data in this context is the participants file that contains information on the demographics of the participants, such as their household sizes, ages, education level, interest group and etc. 
+The social network data is imported using the following code chunk: 
+
+```{r import participants}
+participants <- read_csv('data/Participants.csv')
+```
+
+## 2.3 Data Wrangling
+The following code chunk is used to extract social activities data for the month of Mar 2022.
+
+```{r social Mar, eval=FALSE}
+social <- social %>%
+  mutate(yearmonth = as.yearmon(timestamp)) %>%
+  filter(yearmonth == 'Mar 2022')
+```
+
+The following code chunk is used to identify the day of the week of the social interaction. 
+
+```{r day of week, eval=FALSE}
+social <- social %>%
+  mutate(dow = wday(timestamp))
+```
+
+The `wday()` component of a POSIXct object is the numeric weekday, ranging from 0-6 starting on Sunday. Therefore, the following code chunk identifies whether the interaction happened on a weekday or weekend. 
+
+```{r weekday, eval=FALSE}
+social <- social %>%
+  mutate(daytype = ifelse(dow==0|dow==7, 'Weekend', 'Weekday')) %>%
+  select(1:3, 6)
+```
+
+The extracted social file is saved and read as RDS format to avoid uploading large data file to GitHub.
+
+```{r save RDS, eval=FALSE}
+saveRDS(social, 'data/social.rds')
+```
+
+```{r read rds}
+social <- readRDS('data/social.rds')
+```
+
+The following code chunk aggregate the social interactions by to and from participants as well as day type of interaction. Also, interactions less than 4 times are also filtered as we are interested to look at more frequent social relationships. 
+
+```{r aggregate social}
+social_edges <- social %>%
+  group_by(participantIdFrom, participantIdTo, daytype) %>%
+  summarise(weight = n()) %>%
+  filter(weight > 4,
+         participantIdFrom != participantIdTo) %>%
+  ungroup()
+```
+
+
+The following code chunk cleans the participants file by renaming some columns and values for easy of reading. 
+
+```{r rename participants}
+# rename columns
+participants <- participants %>%
+  rename('Participant_ID' = 'participantId', 
+         'Household_Size' = 'householdSize', 
+         'Have_Kids' = 'haveKids', 
+         'Age' = 'age', 
+         'Education_Level' = 'educationLevel', 
+         'Interest_Group' = 'interestGroup', 
+         'Joviality' = 'joviality')
+
+#rename value 
+participants$Education_Level <- sub('HighSchoolOrCollege', 
+                                    'High School or College',
+                                    participants$Education_Level)
+```
+
+Age variable is binned with the following code chunk:
+
+```{r bin age}
+# check min and max ages 
+summary(participants$Age)
+
+# binning
+brks <- c(17, 20, 25, 30, 35, 40, 45, 50, 55, 60)
+grps <- c('20 & Below', '21-25', '26-30', '31-35', '36-40', '41-45', 
+          '46-50', '51-55', '56-60')
+
+participants$Age_Group <- cut(participants$Age, breaks=brks, labels = grps)
+
+```
+
+The following code chunk bins joviality variable:
+
+```{r bin joviality}
+brks <- c(0, 0.25, 0.5, 0.75, 1)
+grps <- c('Low', 'Medium to Low', 'Medium to High', 'High')
+
+participants$Joviality_Group <- cut(participants$Joviality, breaks=brks, labels = grps)
+```
+
+The following code chunk uses `graph_from_data_frame()` of tidygraoh package to build a network graph data.frame. 
+
+```{r social_graph}
+social_graph <- graph_from_data_frame(social_edges,
+                                      vertices = participants) %>%
+  as_tbl_graph()
+social_graph
+```
+
+The output of reveals that the social_ net_graph is a tbl_graph object with 1011 nodes (number of participants) and 10434 edges (social interactions above weight 4).
+
+# 3. Network Visualizations and Insights
+## 3.1
+
+
+```{r}
+social_graph %>% activate(edges) %>% plot()
+```
 
 
 
 
+```{r}
+g <- ggraph(social_graph,
+            layout = 'nicely') +
+  geom_edge_link(aes(width = weight,
+                     alpha = 0.6)) +
+  geom_node_point(aes(colour = Education_Level,
+                      size = 3))
+g + theme_graph()
+```
 
