@@ -119,7 +119,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["data/Participants.csv","data/social.rds","takehome6_files/anchor-4.2.2/anchor.min.js","takehome6_files/bowser-1.9.3/bowser.min.js","takehome6_files/distill-2.2.21/template.v2.js","takehome6_files/figure-html5/unnamed-chunk-1-1.png","takehome6_files/figure-html5/unnamed-chunk-2-1.png","takehome6_files/figure-html5/unnamed-chunk-3-1.png","takehome6_files/header-attrs-2.14.2/header-attrs.js","takehome6_files/jquery-3.6.0/jquery-3.6.0.js","takehome6_files/jquery-3.6.0/jquery-3.6.0.min.js","takehome6_files/jquery-3.6.0/jquery-3.6.0.min.map","takehome6_files/popper-2.6.0/popper.min.js","takehome6_files/tippy-6.2.7/tippy-bundle.umd.min.js","takehome6_files/tippy-6.2.7/tippy-light-border.css","takehome6_files/tippy-6.2.7/tippy.css","takehome6_files/tippy-6.2.7/tippy.umd.min.js","takehome6_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["data/Participants.csv","data/social.rds","takehome6_files/anchor-4.2.2/anchor.min.js","takehome6_files/bowser-1.9.3/bowser.min.js","takehome6_files/distill-2.2.21/template.v2.js","takehome6_files/figure-html5/education-1.png","takehome6_files/figure-html5/unnamed-chunk-1-1.png","takehome6_files/figure-html5/unnamed-chunk-2-1.png","takehome6_files/figure-html5/unnamed-chunk-3-1.png","takehome6_files/header-attrs-2.14.2/header-attrs.js","takehome6_files/htmlwidgets-1.5.4/htmlwidgets.js","takehome6_files/jquery-3.6.0/jquery-3.6.0.js","takehome6_files/jquery-3.6.0/jquery-3.6.0.min.js","takehome6_files/jquery-3.6.0/jquery-3.6.0.min.map","takehome6_files/popper-2.6.0/popper.min.js","takehome6_files/tippy-6.2.7/tippy-bundle.umd.min.js","takehome6_files/tippy-6.2.7/tippy-light-border.css","takehome6_files/tippy-6.2.7/tippy.css","takehome6_files/tippy-6.2.7/tippy.umd.min.js","takehome6_files/vis-9.1.0/add_css.txt","takehome6_files/vis-9.1.0/img/network/acceptDeleteIcon.png","takehome6_files/vis-9.1.0/img/network/addNodeIcon.png","takehome6_files/vis-9.1.0/img/network/backIcon.png","takehome6_files/vis-9.1.0/img/network/connectIcon.png","takehome6_files/vis-9.1.0/img/network/cross.png","takehome6_files/vis-9.1.0/img/network/cross2.png","takehome6_files/vis-9.1.0/img/network/deleteIcon.png","takehome6_files/vis-9.1.0/img/network/downArrow.png","takehome6_files/vis-9.1.0/img/network/editIcon.png","takehome6_files/vis-9.1.0/img/network/leftArrow.png","takehome6_files/vis-9.1.0/img/network/minus.png","takehome6_files/vis-9.1.0/img/network/plus.png","takehome6_files/vis-9.1.0/img/network/rightArrow.png","takehome6_files/vis-9.1.0/img/network/upArrow.png","takehome6_files/vis-9.1.0/img/network/zoomExtends.png","takehome6_files/vis-9.1.0/vis-network.min.css","takehome6_files/vis-9.1.0/vis-network.min.js","takehome6_files/visNetwork-binding-2.1.0/visNetwork.js","takehome6_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2363,6 +2363,10 @@ d-appendix d-footnote-list a.footnote-backlink {
 }</style>
 <!--/radix_placeholder_distill-->
   <script src="../../site_libs/header-attrs-2.14.2/header-attrs.js"></script>
+  <script src="../../site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+  <link href="../../site_libs/vis-9.1.0/vis-network.min.css" rel="stylesheet" />
+  <script src="../../site_libs/vis-9.1.0/vis-network.min.js"></script>
+  <script src="../../site_libs/visNetwork-binding-2.1.0/visNetwork.js"></script>
   <script src="../../site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -2446,7 +2450,13 @@ Packages</a></li>
 <li><a href="#network-visualizations-and-insights">3. Network
 Visualizations and Insights</a>
 <ul>
-<li><a href="#section">3.1</a></li>
+<li><a href="#who-are-the-social-butterflies-at-work">3.1 Who are the
+social butterflies at work?</a></li>
+<li><a href="#who-are-the-most-sociable-participants">3.2 Who are the
+most sociable participants?</a></li>
+<li><a
+href="#are-sociable-participants-initiating-or-receiving-interactions">3.3
+Are sociable participants initiating or receiving interactions?</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -2465,13 +2475,10 @@ significant patterns you observe, with evidence and rationale. </em></p>
 <h2 id="approach">1.2 Approach</h2>
 <p>This take-home exercise aims to reveal the social activities in the
 community by analyzing the social relationship information in the social
-network file, and joining with the participants file to look at the
-social activities for different demographics. For example, we can look
-at the social activities for different age groups, education levels,
-interest groups, whether they have kids and etc.</p>
-<p>Due to time constraint of the take-home exercise, the scope of this
-analysis is limited to the social activities happened during Mar 2022,
-at the start of the study.</p>
+network file, and demographics of the participants in participants
+file.</p>
+<p>The scope of this analysis is limited to the social activities
+happened during weekdays in Mar 2022, at the start of the study.</p>
 <h1 id="data-preparation">2. Data Preparation</h1>
 <h2 id="install-and-load-packages">2.1 Install and Load Packages</h2>
 <p>The following code chunk installs the required R packages and loads
@@ -2492,8 +2499,8 @@ href="https://lubridate.tidyverse.org/">lubridate</a>.</p>
 show
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>packages</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'igraph'</span>, <span class='st'>'tidygraph'</span>, <span class='st'>'ggraph'</span>, <span class='st'>'visNetwork'</span>, 
-             <span class='st'>'lubridate'</span>, <span class='st'>'clock'</span>, <span class='st'>'tidyverse'</span>, <span class='st'>'graphlayouts'</span>,
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>packages</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'igraph'</span>, <span class='st'>'tidygraph'</span>, <span class='st'>'ggraph'</span>, <span class='st'>'visNetwork'</span>,
+             <span class='st'>'lubridate'</span>, <span class='st'>'tidyverse'</span>, <span class='st'>'graphlayouts'</span>,
              <span class='st'>'zoo'</span><span class='op'>)</span>
 <span class='kw'>for</span><span class='op'>(</span><span class='va'>p</span> <span class='kw'>in</span> <span class='va'>packages</span><span class='op'>)</span><span class='op'>{</span>
   <span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'>p</span>, character.only <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span>
@@ -2611,26 +2618,6 @@ show
 </div>
 </details>
 </div>
-<p>The following code chunk aggregate the social interactions by to and
-from participants as well as day type of interaction. Also, interactions
-less than 4 times are also filtered as we are interested to look at more
-frequent social relationships.</p>
-<div class="layout-chunk" data-layout="l-body">
-<details>
-<summary>
-show
-</summary>
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>social_edges</span> <span class='op'>&lt;-</span> <span class='va'>social</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>participantIdFrom</span>, <span class='va'>participantIdTo</span>, <span class='va'>daytype</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>summarise</span><span class='op'>(</span>weight <span class='op'>=</span> <span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>weight</span> <span class='op'>&gt;</span> <span class='fl'>4</span>,
-         <span class='va'>participantIdFrom</span> <span class='op'>!=</span> <span class='va'>participantIdTo</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>ungroup</span><span class='op'>(</span><span class='op'>)</span>
-</code></pre>
-</div>
-</details>
-</div>
 <p>The following code chunk cleans the participants file by renaming
 some columns and values for easy of reading.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2701,82 +2688,352 @@ show
 </div>
 </details>
 </div>
-<p>The following code chunk uses <code>graph_from_data_frame()</code> of
-tidygraoh package to build a network graph data.frame.</p>
-<div class="layout-chunk" data-layout="l-body">
-<details>
-<summary>
-show
-</summary>
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>social_graph</span> <span class='op'>&lt;-</span> <span class='fu'>graph_from_data_frame</span><span class='op'>(</span><span class='va'>social_edges</span>,
-                                      vertices <span class='op'>=</span> <span class='va'>participants</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>as_tbl_graph</span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>social_graph</span>
-</code></pre>
-</div>
-</details>
-<pre><code># A tbl_graph: 1011 nodes and 10434 edges
-#
-# A directed simple graph with 133 components
-#
-# Node Data: 1,011 × 9 (active)
-  name  Household_Size Have_Kids   Age Education_Level Interest_Group
-  &lt;chr&gt;          &lt;dbl&gt; &lt;lgl&gt;     &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;         
-1 0                  3 TRUE         36 High School or… H             
-2 1                  3 TRUE         25 High School or… B             
-3 2                  3 TRUE         35 High School or… A             
-4 3                  3 TRUE         21 High School or… I             
-5 4                  3 TRUE         43 Bachelors       H             
-6 5                  3 TRUE         32 High School or… D             
-# … with 1,005 more rows, and 3 more variables: Joviality &lt;dbl&gt;,
-#   Age_Group &lt;chr&gt;, Joviality_Group &lt;chr&gt;
-#
-# Edge Data: 10,434 × 4
-   from    to daytype weight
-  &lt;int&gt; &lt;int&gt; &lt;chr&gt;    &lt;int&gt;
-1     1   227 Weekday     14
-2     1   619 Weekday      5
-3     1   645 Weekday     13
-# … with 10,431 more rows</code></pre>
-</div>
-<p>The output of reveals that the social_ net_graph is a tbl_graph
-object with 1011 nodes (number of participants) and 10434 edges (social
-interactions above weight 4).</p>
 <h1 id="network-visualizations-and-insights">3. Network Visualizations
 and Insights</h1>
-<h2 id="section">3.1</h2>
+<p>The following code chunk checks the composition of social
+interactions between weekday and weekend. Surprisingly, there are
+predominately more interaction on weekdays then weekends, weekend social
+interactions accounts for only 12% of the total, less than half of the
+average interactions (2/7 = 28.6%). This could be because that as we
+have found out in the previous take-home exercise that many participants
+have 2 to 3 recreation activities on weekdays. Another possible reason
+could be that the social interactions includes interactions in
+workplaces as well.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
 show
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>social_graph</span> <span class='op'>%&gt;%</span> <span class='fu'>activate</span><span class='op'>(</span><span class='va'>edges</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>check</span> <span class='op'>&lt;-</span> <span class='va'>social</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>daytype</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>summarise</span><span class='op'>(</span>percent <span class='op'>=</span> <span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>.</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>check</span>
 </code></pre>
 </div>
 </details>
-<p><img src="takehome6_files/figure-html5/unnamed-chunk-1-1.png" width="624" /></p>
+<pre><code># A tibble: 2 × 2
+  daytype percent
+  &lt;chr&gt;     &lt;dbl&gt;
+1 Weekday   0.877
+2 Weekend   0.123</code></pre>
 </div>
+<h2 id="who-are-the-social-butterflies-at-work">3.1 Who are the social
+butterflies at work?</h2>
+<p>The following code chunk filters the weekday interactions and
+aggregates the social interactions by to and from participants. due to
+the nature of high frequency workplace interactions, weight less than 20
+are eliminated to reveal the pattern of participants having more than
+daily interactions.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
 show
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>g</span> <span class='op'>&lt;-</span> <span class='fu'>ggraph</span><span class='op'>(</span><span class='va'>social_graph</span>,
-            layout <span class='op'>=</span> <span class='st'>'nicely'</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>geom_edge_link</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>width <span class='op'>=</span> <span class='va'>weight</span>,
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>social_edges_weekday</span> <span class='op'>&lt;-</span> <span class='va'>social</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>daytype</span> <span class='op'>==</span> <span class='st'>'Weekday'</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>participantIdFrom</span>, <span class='va'>participantIdTo</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>summarise</span><span class='op'>(</span>Weight <span class='op'>=</span> <span class='fu'>n</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Weight</span> <span class='op'>&gt;</span> <span class='fl'>20</span>,
+         <span class='va'>participantIdFrom</span> <span class='op'>!=</span> <span class='va'>participantIdTo</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ungroup</span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<p>The following code chunk first filters out irrelevant nodes in
+partifipants file, then creates a tbl_graph item using
+<code>as_tbl_graph()</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># filter irrelevant nodes </span>
+<span class='va'>participants_weekday</span> <span class='op'>&lt;-</span> <span class='va'>participants</span> <span class='op'>%&gt;%</span> 
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Participant_ID</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>social_edges_weekday</span><span class='op'>$</span><span class='va'>participantIdFrom</span> <span class='op'>|</span>
+           <span class='va'>Participant_ID</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>social_edges_weekday</span><span class='op'>$</span><span class='va'>participantIdTo</span><span class='op'>)</span>
+
+<span class='co'>#tbl_graph</span>
+<span class='va'>social_graph_weekday</span> <span class='op'>&lt;-</span> <span class='fu'>graph_from_data_frame</span><span class='op'>(</span><span class='va'>social_edges_weekday</span>,
+                                      vertices <span class='op'>=</span> <span class='va'>participants_weekday</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>as_tbl_graph</span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>social_graph_weekday</span>
+</code></pre>
+</div>
+</details>
+<pre><code># A tbl_graph: 790 nodes and 2302 edges
+#
+# A directed simple graph with 44 components
+#
+# Node Data: 790 × 9 (active)
+  name  Household_Size Have_Kids   Age Education_Level Interest_Group
+  &lt;chr&gt;          &lt;dbl&gt; &lt;lgl&gt;     &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;         
+1 1                  3 TRUE         25 High School or… B             
+2 2                  3 TRUE         35 High School or… A             
+3 5                  3 TRUE         32 High School or… D             
+4 6                  3 TRUE         26 High School or… I             
+5 7                  3 TRUE         27 Bachelors       A             
+6 8                  3 TRUE         20 Bachelors       G             
+# … with 784 more rows, and 3 more variables: Joviality &lt;dbl&gt;,
+#   Age_Group &lt;chr&gt;, Joviality_Group &lt;chr&gt;
+#
+# Edge Data: 2,302 × 3
+   from    to Weight
+  &lt;int&gt; &lt;int&gt;  &lt;int&gt;
+1     1    45     22
+2     1   674     25
+3     2   168     21
+# … with 2,299 more rows</code></pre>
+</div>
+<p>The output reveals that there are 790 nodes (participants) and 2302
+links.</p>
+<p>The following code chunk plots the social network graph using
+<code>ggraph()</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>edu_lvl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'Low'</span>, <span class='st'>'High School or College'</span>, <span class='st'>'Bachelors'</span>, <span class='st'>'Graduate'</span><span class='op'>)</span>
+
+<span class='va'>social_graph_weekday</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>mutate</span><span class='op'>(</span>Centrality <span class='op'>=</span> <span class='fu'>centrality_betweenness</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>ggraph</span><span class='op'>(</span>layout <span class='op'>=</span> <span class='st'>'stress'</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_edge_link</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>width <span class='op'>=</span> <span class='va'>Weight</span>,
                      alpha <span class='op'>=</span> <span class='fl'>0.6</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>geom_node_point</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>colour <span class='op'>=</span> <span class='va'>Education_Level</span>,
-                      size <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>g</span> <span class='op'>+</span> <span class='fu'>theme_graph</span><span class='op'>(</span><span class='op'>)</span>
+  <span class='fu'>scale_edge_alpha</span><span class='op'>(</span>guide <span class='op'>=</span> <span class='st'>'none'</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_edge_width</span><span class='op'>(</span>range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.1</span>, <span class='fl'>1</span><span class='op'>)</span>, 
+                   guide <span class='op'>=</span> <span class='st'>'none'</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_node_point</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>color<span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>Education_Level</span>, levels <span class='op'>=</span> <span class='va'>edu_lvl</span><span class='op'>)</span>,
+                      alpha <span class='op'>=</span> <span class='fl'>0.2</span>,
+                      size <span class='op'>=</span> <span class='va'>Centrality</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_alpha</span><span class='op'>(</span>guide <span class='op'>=</span> <span class='st'>'none'</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>scale_color_discrete</span><span class='op'>(</span>name<span class='op'>=</span> <span class='st'>'Education Level'</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>geom_node_text</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span>filter<span class='op'>=</span><span class='va'>Centrality</span> <span class='op'>&gt;</span> <span class='fl'>40000</span>, 
+                     label <span class='op'>=</span> <span class='va'>name</span><span class='op'>)</span>,
+                 repel <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>labs</span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>'Who are the social butterflies at work?'</span>,
+       subtitle <span class='op'>=</span> <span class='st'>'Weekday Social Network Analysis, Engagement City, Ohio, USA'</span>,
+       caption <span class='op'>=</span> <span class='st'>'Source: Vast Chellenge 2022'</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>theme</span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='st'>'bottom'</span>,
+        panel.background <span class='op'>=</span> <span class='fu'>element_blank</span><span class='op'>(</span><span class='op'>)</span>,
+        legend.key <span class='op'>=</span> <span class='fu'>element_rect</span><span class='op'>(</span>fill<span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span>,
+        plot.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>22</span><span class='op'>)</span>,
+        plot.subtitle <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>16</span><span class='op'>)</span>,
+        plot.caption <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>12</span><span class='op'>)</span>,
+        legend.title <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>14</span><span class='op'>)</span>,
+        legend.text <span class='op'>=</span> <span class='fu'>element_text</span><span class='op'>(</span>size<span class='op'>=</span> <span class='fl'>12</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
 </details>
-<p><img src="takehome6_files/figure-html5/unnamed-chunk-2-1.png" width="624" /></p>
+<p><img src="takehome6_files/figure-html5/education-1.png" width="1152" /></p>
 </div>
-<div class="sourceCode" id="cb3"><pre
+<p><strong>Insights</strong></p>
+<p>From the plot, we can derive the following insights:</p>
+<ul>
+<li>There are two types of people in terms of social interactions during
+weekdays(at work), one that have high interactions with many others on a
+daily basis (<em>social butterflies</em>), and another that have
+closed-loop high interactions with a small group of people.</li>
+<li>There are no clear patterns of participants only having high social
+interactions with people of the same educational background, even for
+those in small closed-loop social groups. In fact, the plot reveals that
+participants interact with each other on weekdays/at work regardless of
+their educational levels.</li>
+<li>The labelled nodes are the participants that have the highest
+centralizes on weekdays, namely participants 991, 469, 359, 274, 362,
+408, 984, 596, 565 and 544. These participants are closely related to
+many others and are likely celebrities or opinion leaders of the
+community.</li>
+<li>From take-home exercise 1 we learnt that the biggest group of
+education level is high school or college. However, from the plot we can
+tell that other than high school and college participants, graduates are
+highly sociable as well, despite their relatively small group size.</li>
+</ul>
+<h2 id="who-are-the-most-sociable-participants">3.2 Who are the most
+sociable participants?</h2>
+<p>From the code chunk below, we take a closer look at the most sociable
+participants at work (on weekdays):</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>top10</span> <span class='op'>&lt;-</span> <span class='va'>participants_weekday</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Participant_ID</span> <span class='op'>==</span> <span class='fl'>991</span> <span class='op'>|</span>
+           <span class='va'>Participant_ID</span> <span class='op'>==</span> <span class='fl'>469</span> <span class='op'>|</span>
+           <span class='va'>Participant_ID</span> <span class='op'>==</span> <span class='fl'>359</span> <span class='op'>|</span>
+           <span class='va'>Participant_ID</span> <span class='op'>==</span> <span class='fl'>274</span> <span class='op'>|</span>
+           <span class='va'>Participant_ID</span> <span class='op'>==</span> <span class='fl'>362</span> <span class='op'>|</span>
+           <span class='va'>Participant_ID</span> <span class='op'>==</span> <span class='fl'>408</span> <span class='op'>|</span>
+           <span class='va'>Participant_ID</span> <span class='op'>==</span> <span class='fl'>984</span> <span class='op'>|</span>
+           <span class='va'>Participant_ID</span> <span class='op'>==</span> <span class='fl'>596</span> <span class='op'>|</span>
+           <span class='va'>Participant_ID</span> <span class='op'>==</span> <span class='fl'>565</span> <span class='op'>|</span>
+           <span class='va'>Participant_ID</span> <span class='op'>==</span> <span class='fl'>544</span><span class='op'>)</span>
+
+<span class='va'>top10</span> <span class='op'>%&gt;%</span> <span class='fu'>select</span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>5</span>, <span class='fl'>9</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<pre><code># A tibble: 10 × 4
+   Participant_ID Have_Kids Education_Level        Joviality_Group
+            &lt;dbl&gt; &lt;lgl&gt;     &lt;chr&gt;                  &lt;fct&gt;          
+ 1            274 TRUE      High School or College High           
+ 2            359 FALSE     High School or College High           
+ 3            362 FALSE     High School or College High           
+ 4            408 FALSE     Bachelors              High           
+ 5            469 FALSE     Bachelors              Medium to High 
+ 6            544 TRUE      Bachelors              Medium to High 
+ 7            565 TRUE      Bachelors              High           
+ 8            596 FALSE     Graduate               High           
+ 9            984 FALSE     Low                    High           
+10            991 FALSE     Low                    High           </code></pre>
+</div>
+<p>From the table above, we can tell that the top 10 sociable
+participants at work do have some similarities:</p>
+<ul>
+<li>Most of them do not have kids</li>
+<li>Most of them have high joviality index</li>
+</ul>
+<h2
+id="are-sociable-participants-initiating-or-receiving-interactions">3.3
+Are sociable participants initiating or receiving interactions?</h2>
+<p>We take a closer look at the top participants initiating (from)
+interactions and the top participants receiving (to) interactions.</p>
+<p>The following code chunk locates the top 10 initiator of the weekday
+social interactions.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>initiation</span> <span class='op'>&lt;-</span> <span class='va'>social_edges_weekday</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>participantIdFrom</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>summarise</span><span class='op'>(</span>Initiation <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>Weight</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>arrange</span><span class='op'>(</span><span class='fu'>desc</span><span class='op'>(</span><span class='va'>Initiation</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='fu'>row_number</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>&lt;=</span> <span class='fl'>10</span><span class='op'>)</span>
+
+<span class='va'>top_initiation</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>initiation</span><span class='op'>$</span><span class='va'>participantIdFrom</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<p>The following code chunk locates the top 10 receiver of the weekday
+social interactions.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>receiver</span> <span class='op'>&lt;-</span> <span class='va'>social_edges_weekday</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>participantIdTo</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>summarise</span><span class='op'>(</span>Receiving <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>Weight</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>arrange</span><span class='op'>(</span><span class='fu'>desc</span><span class='op'>(</span><span class='va'>Receiving</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='fu'>row_number</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>&lt;=</span> <span class='fl'>10</span><span class='op'>)</span>
+
+<span class='va'>top_receiver</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>receiver</span><span class='op'>$</span><span class='va'>participantIdTo</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<p>Comparing the list, we realized that the top receivers are also the
+top initiators of social interactions.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>top_initiation</span> 
+</code></pre>
+</div>
+</details>
+<pre><code>[[1]]
+ [1]  323  565  436 1009  929  362  417  283  456  994</code></pre>
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>top_receiver</span>
+</code></pre>
+</div>
+</details>
+<pre><code>[[1]]
+ [1]  323  565  436 1009  929  362  417  283  456  994</code></pre>
+</div>
+<p>The social interactions for these participants are extracted and
+prepared using below code chunk.</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># filter relevant data on the top 10 initiation and receiving participants</span>
+<span class='va'>social_edges_weekday_most</span> <span class='op'>&lt;-</span> <span class='va'>social_edges_weekday</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>participantIdFrom</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>initiation</span><span class='op'>$</span><span class='va'>participantIdFrom</span> <span class='op'>|</span>
+           <span class='va'>participantIdTo</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>initiation</span><span class='op'>$</span><span class='va'>participantIdFrom</span><span class='op'>)</span>
+
+<span class='va'>participants_most</span> <span class='op'>&lt;-</span> <span class='va'>participants</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Participant_ID</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>social_edges_weekday_most</span><span class='op'>$</span><span class='va'>participantIdFrom</span> <span class='op'>|</span>
+           <span class='va'>Participant_ID</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>social_edges_weekday_most</span><span class='op'>$</span><span class='va'>participantIdTo</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<p>The following code chunk prepares the nodes and edges with ‘id’,
+‘from’, ‘to’ and ‘label’ columns and plots the network graph using
+<code>vizNetwork()</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>participants_most</span> <span class='op'>&lt;-</span> <span class='va'>participants_most</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>rename</span><span class='op'>(</span>group <span class='op'>=</span> <span class='va'>Joviality_Group</span>,
+         id <span class='op'>=</span> <span class='va'>Participant_ID</span><span class='op'>)</span>
+
+<span class='va'>social_most</span> <span class='op'>&lt;-</span> <span class='va'>social_edges_weekday_most</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>rename</span><span class='op'>(</span>from <span class='op'>=</span> <span class='va'>participantIdFrom</span>,
+         to <span class='op'>=</span> <span class='va'>participantIdTo</span><span class='op'>)</span>
+
+<span class='fu'>visNetwork</span><span class='op'>(</span><span class='va'>participants_most</span>,
+           <span class='va'>social_most</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>visIgraphLayout</span><span class='op'>(</span>layout <span class='op'>=</span> <span class='st'>'layout_with_fr'</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>visOptions</span><span class='op'>(</span>highlightNearest <span class='op'>=</span> <span class='cn'>TRUE</span>,
+              nodesIdSelection <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>visLegend</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>visLayout</span><span class='op'>(</span>randomSeed <span class='op'>=</span> <span class='fl'>1234</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+<div id="htmlwidget-1a7e0795e32f3f13477f" style="width:624px;height:384px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1a7e0795e32f3f13477f">{"x":{"nodes":{"id":[21,89,90,145,159,249,252,255,257,258,272,273,277,283,287,291,322,323,333,336,341,342,348,349,355,357,362,363,370,371,390,394,417,421,436,447,450,452,456,460,464,467,469,472,476,478,492,544,556,559,561,565,596,640,650,686,777,803,835,841,861,870,891,915,929,940,948,957,963,977,979,994,1009],"Household_Size":[3,2,2,2,2,1,3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,3,3,3,3,2,2,2,1,3,3,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1],"Have_Kids":[true,false,false,false,false,false,true,true,true,true,true,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true,false,false,false,false,true,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],"Age":[35,54,20,30,39,25,59,59,24,37,47,46,34,60,51,37,59,31,37,56,34,43,43,19,38,40,28,49,33,38,31,54,38,38,36,49,35,18,25,37,31,38,26,59,26,58,58,18,30,60,51,56,19,24,31,21,48,43,49,57,59,32,28,40,43,34,26,31,30,52,30,42,39],"Education_Level":["Low","High School or College","High School or College","High School or College","High School or College","Graduate","High School or College","High School or College","High School or College","Bachelors","High School or College","High School or College","High School or College","Graduate","High School or College","Low","High School or College","Graduate","Bachelors","Graduate","High School or College","High School or College","High School or College","High School or College","Graduate","Graduate","High School or College","Graduate","Bachelors","High School or College","Bachelors","High School or College","High School or College","Bachelors","High School or College","Graduate","High School or College","High School or College","High School or College","Bachelors","Graduate","High School or College","Bachelors","Graduate","High School or College","Bachelors","Bachelors","Bachelors","High School or College","Bachelors","High School or College","Bachelors","Graduate","Bachelors","Graduate","Bachelors","High School or College","High School or College","Bachelors","Graduate","Bachelors","Bachelors","Graduate","Bachelors","High School or College","Bachelors","Graduate","High School or College","High School or College","Bachelors","High School or College","High School or College","Low"],"Interest_Group":["E","J","E","F","G","G","D","H","D","G","F","B","E","D","E","E","I","B","G","G","G","E","A","B","J","B","D","G","J","E","J","A","G","A","J","G","A","J","H","J","C","C","H","E","C","D","I","G","B","A","A","C","F","D","C","C","D","B","D","G","H","F","G","B","E","D","E","H","G","E","C","J","B"],"Joviality":[0.931240975,0.169054036,0.139818869,0.882253016,0.24297235,0.842954238,0.564718074,0.852187763,0.405851044,0.951577316,0.669281126,0.874083512,0.836787725,0.880967299,0.599616007,0.370084679,0.650831243,0.757226712,0.299174844,0.600454813,0.227355255,0.584828154,0.573738776,0.51011746,0.735837586,0.536520661,0.753234813,0.404476978,0.70247421,0.371688755,0.76530714,0.52722067,0.695894652,0.517662469,0.949412047,0.689153128,0.504323829,0.742684694,0.685091778,0.969102133,0.923037343,0.586290946,0.554244414,0.941687305,0.094335508,0.495874155,0.364100624,0.574526753,0.626384882,0.684335696,0.24858955,0.906449778,0.967555161,0.686982312,0.846974117,0.786524128,0.112504967,0.217382928,0.957400017,0.655361489,0.332054621,0.820903516,0.554827306,0.992351674,0.777990984,0.807027625,0.880591759,0.549042649,0.132914203,0.502257508,0.357706459,0.932521377,0.828330134],"Age_Group":["31-35","51-55","20 & Below","26-30","36-40","21-25","56-60","56-60","21-25","36-40","46-50","46-50","31-35","56-60","51-55","36-40","56-60","31-35","36-40","56-60","31-35","41-45","41-45","20 & Below","36-40","36-40","26-30","46-50","31-35","36-40","31-35","51-55","36-40","36-40","36-40","46-50","31-35","20 & Below","21-25","36-40","31-35","36-40","26-30","56-60","26-30","56-60","56-60","20 & Below","26-30","56-60","51-55","56-60","20 & Below","21-25","31-35","21-25","46-50","41-45","46-50","56-60","56-60","31-35","26-30","36-40","41-45","31-35","26-30","31-35","26-30","51-55","26-30","41-45","36-40"],"group":["High","Low","Low","High","Low","High","Medium to High","High","Medium to Low","High","Medium to High","High","High","High","Medium to High","Medium to Low","Medium to High","High","Medium to Low","Medium to High","Low","Medium to High","Medium to High","Medium to High","Medium to High","Medium to High","High","Medium to Low","Medium to High","Medium to Low","High","Medium to High","Medium to High","Medium to High","High","Medium to High","Medium to High","Medium to High","Medium to High","High","High","Medium to High","Medium to High","High","Low","Medium to Low","Medium to Low","Medium to High","Medium to High","Medium to High","Low","High","High","Medium to High","High","High","Low","Low","High","Medium to High","Medium to Low","High","Medium to High","High","High","High","High","Medium to High","Low","Medium to High","Medium to Low","High","High"],"x":[0.281089846510767,0.0608722122408945,-1,-0.793650906411945,0.660682844782685,0.101524887121867,0.837194311435829,0.544930481047246,-0.657759991110471,-0.880778894238289,0.114431267233602,-0.164729265482233,1,-0.0146677012826435,-0.140845558088299,-0.0443446479801568,0.378006099797602,-0.827295154791059,-0.617785753446684,-0.976566096523077,0.048817681476097,0.541082208918494,-0.576712601180523,-0.716073834673528,0.684126157072944,-0.453862180666426,0.850126725776553,0.587070130080771,0.495155168088511,0.754573442710262,0.256297636964147,0.386712506102566,-0.600155211753343,0.976819241214112,0.431493995905516,-0.746199350888137,-0.426955431331462,0.00734109312277886,0.495993067621329,0.396198999369562,0.364603803752831,0.728018411330267,0.948856028717673,0.588229109877187,0.226595329168817,0.323600246215523,-0.597426788830717,0.286728843812348,0.500835172702656,-0.101077256081542,-0.312494357332828,0.172616730651505,0.325770595475011,0.875329077155199,0.372826912636777,0.642088214986409,-0.789806563611344,-0.904347419363976,-0.776540684474472,-0.76150524142671,-0.442709012348042,0.167484268321371,0.0260985626152117,-0.587907767750796,-0.487836428751005,-0.499007329548956,-0.559520885060989,-0.00660262953221091,0.142293608213529,-0.535667434747594,-0.37614890952119,-0.615592464743697,-0.737420378368915],"y":[0.839083617595815,0.651192494555074,0.281793427400951,0.0699722656727975,-0.324414180510246,-0.672975692860557,0.302380446060727,-0.501544848751033,0.690534109365719,0.434557742885383,0.373859875938849,0.550353600375373,0.130533930187991,0.519508235340984,0.671329558358231,0.71163147165214,0.706040988146485,0.262742570631876,-0.484098112274037,0.15331043366595,-0.975199416950315,-0.202745155790688,0.439946264554657,0.308823252528031,0.133012620692638,0.176928804182156,0.126031233636867,0.870942494019275,0.979899515913229,0.00991144843135494,0.958720840798462,-0.424162375265698,0.300494821848423,-0.0026708868180767,0.846080122268619,0.377982893930213,0.317639311196698,0.323527084845574,-0.337452959427035,-0.186135756326284,1,0.249964576770561,0.258267261771598,0.752196387765701,-0.689903120266633,-0.291507824917726,0.516300593712642,-0.964351807012339,0.673461916430072,0.387929438527077,-0.530614684402989,-0.843478195586913,-0.772483366062965,-0.0532309920665921,-0.875077282998223,-0.441424181930936,0.668952648718021,0.0681002182638937,-0.529981941649825,-0.687106488354504,-0.638953220832349,-1,-0.763163648973578,-0.703554820714575,-0.541641714745062,-0.707059926029933,0.108725217195075,-0.876186648248886,0.499851396916483,-0.366610610836898,-0.401368807887061,-0.613116649837827,0.488607360666064],"label":["21","89","90","145","159","249","252","255","257","258","272","273","277","283","287","291","322","323","333","336","341","342","348","349","355","357","362","363","370","371","390","394","417","421","436","447","450","452","456","460","464","467","469","472","476","478","492","544","556","559","561","565","596","640","650","686","777","803","835","841","861","870","891","915","929","940","948","957","963","977","979","994","1009"]},"edges":{"from":[21,89,90,145,159,249,252,255,257,258,258,272,273,277,283,283,283,283,283,283,283,283,287,291,322,323,323,323,323,323,323,323,323,323,333,333,336,341,342,348,348,349,349,349,355,357,362,362,362,362,362,362,362,362,363,370,371,390,394,417,417,417,417,417,417,417,417,421,436,436,436,436,436,436,436,436,447,447,447,450,452,456,456,456,456,456,456,456,460,464,467,469,472,476,478,492,492,544,556,559,561,565,565,565,565,565,565,565,565,565,596,640,650,686,777,803,835,841,861,861,870,891,915,915,929,929,929,929,929,929,929,929,940,940,948,957,963,977,979,994,994,994,994,994,994,994,1009,1009,1009,1009,1009,1009,1009,1009],"to":[436,283,323,323,456,565,362,456,1009,323,1009,283,283,362,89,272,273,287,291,452,559,963,283,283,436,90,145,258,336,349,417,447,803,1009,929,994,323,565,456,417,1009,323,417,1009,362,417,252,277,355,371,421,467,469,640,436,436,362,436,456,323,348,349,357,447,450,492,948,362,21,322,363,370,390,464,472,556,323,417,1009,417,283,159,255,342,394,460,478,686,456,436,362,362,436,565,456,417,1009,565,436,283,929,249,341,476,544,596,650,870,891,957,565,362,565,456,1009,323,994,994,929,994,565,565,929,994,333,561,861,915,940,977,979,994,929,994,417,565,283,929,929,333,835,841,861,915,929,940,257,258,323,348,349,447,492,777],"Weight":[21,24,22,23,26,21,24,23,22,23,23,24,22,23,24,24,22,23,21,21,23,25,23,21,25,22,23,23,23,24,23,26,23,26,26,24,23,25,25,21,23,24,26,26,23,26,24,23,23,22,21,22,25,24,26,26,22,24,26,23,21,26,26,22,21,21,24,21,21,25,26,26,24,25,25,22,26,22,22,21,21,26,23,25,26,26,23,25,26,25,22,25,25,24,23,21,26,26,22,23,26,21,25,24,26,22,22,22,23,22,22,24,22,25,23,23,23,25,25,25,22,23,21,26,26,26,25,21,23,21,23,25,23,26,24,22,25,21,23,24,23,25,25,26,25,26,22,23,26,23,26,22,26,23]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":false},"physics":{"stabilization":false},"layout":{"randomSeed":1234}},"groups":["High","Low","Medium to High","Medium to Low"],"width":null,"height":null,"idselection":{"enabled":true,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","igraphlayout":{"type":"square"},"highlight":{"enabled":true,"hoverNearest":false,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"},"legend":{"width":0.2,"useGroups":true,"position":"left","ncol":1,"stepX":100,"stepY":100,"zoom":true}},"evals":[],"jsHooks":[]}</script>
+</div>
+<p><strong>Insights</strong></p>
+<ul>
+<li>It is interesting to note that the 10 most initiator and receivers
+of social interactions form 7 closed clusters of interactions with
+others, meaning that some of them are also closely related. As we are
+looking at weekday social interactions, some of them are likely
+colleagues, or even family members.</li>
+<li>It is observed that there are a mixture of joviality groups in terms
+of the most involved people in their social lives, although they
+themselves are mostly high joviality levels.</li>
+<li>By zooming in the graph and selecting particular participant Id, we
+are able to look at these 10 people’s social network closely.</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre
 class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
