@@ -142,7 +142,7 @@ ggplot(sales_report, aes(x=Month, y=Sales)) +
 
 The following code chunk plots a simple bullet chart. 
 
-```{r}
+```{r simple bullet}
 product %>%
   gt::gt() %>%
   gt_plt_bullet(column = current, 
@@ -230,7 +230,7 @@ sales_data %>%
 
 The following codes combines the bullet chart and the sparklines:
 
-```{r combine}
+```{r combine, preview= TRUE}
 bullet <- coffeechain %>%
   filter(Date >= "2013-01-01") %>%
   group_by(`Product`) %>%

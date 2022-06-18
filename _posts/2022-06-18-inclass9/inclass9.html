@@ -113,7 +113,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","categories","description","author","date","preview","output"]}},"value":[{"type":"character","attributes":{},"value":["In-class Exercise 9"]},{"type":"character","attributes":{},"value":["In-class Exercise"]},{"type":"character","attributes":{},"value":["Lesson 9: Information Dashboard Design \n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Leslie Long Nu"]},{"type":"character","attributes":{},"value":["https://www.linkedin.com/in/leslielongnu/"]},{"type":"character","attributes":{},"value":["SMU, MITB"]},{"type":"character","attributes":{},"value":["https://scis.smu.edu.sg/master-it-business"]}]}]},{"type":"character","attributes":{},"value":["2022-06-18"]},{"type":"NULL"},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","categories","description","author","date","preview","output"]}},"value":[{"type":"character","attributes":{},"value":["In-class Exercise 9"]},{"type":"character","attributes":{},"value":["In-class Exercise"]},{"type":"character","attributes":{},"value":["Lesson 9: Information Dashboard Design \n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Leslie Long Nu"]},{"type":"character","attributes":{},"value":["https://www.linkedin.com/in/leslielongnu/"]},{"type":"character","attributes":{},"value":["SMU, MITB"]},{"type":"character","attributes":{},"value":["https://scis.smu.edu.sg/master-it-business"]}]}]},{"type":"character","attributes":{},"value":["2022-06-18"]},{"type":"NULL"},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["code_folding","self_contained","toc","toc_depth"]}},"value":[{"type":"character","attributes":{},"value":["show"]},{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1522,6 +1522,10 @@ and enhance the styling of interactive react-able tables with
 easy-to-use and highly-customizable functions and themes.</li>
 </ul>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>packages</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'tidyverse'</span>, <span class='st'>'lubridate'</span>, <span class='st'>'ggthemes'</span>, <span class='st'>'reactable'</span>, 
              <span class='st'>'reactablefmtr'</span>, <span class='st'>'gt'</span>, <span class='st'>'gtExtras'</span><span class='op'>)</span>
@@ -1533,19 +1537,29 @@ easy-to-use and highly-customizable functions and themes.</li>
 <span class='op'>}</span>
 </code></pre>
 </div>
+</details>
 </div>
 <h2 id="import-data">Import Data</h2>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>coffeechain</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='st'>'data/CoffeeChain.rds'</span><span class='op'>)</span>
 </code></pre>
 </div>
+</details>
 </div>
 <h2 id="plot-bullet-chart-using-ggplot">Plot Bullet Chart using
 ggplot</h2>
 <p>The code chunk below is used to aggregate Sales and Budgeted Sales at
 the Product level.</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>product</span> <span class='op'>&lt;-</span> <span class='va'>coffeechain</span> <span class='op'>%&gt;%</span>
   <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>`Product`</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -1554,10 +1568,15 @@ the Product level.</p>
   <span class='fu'>ungroup</span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
 </div>
+</details>
 </div>
 <p>The code chunk below is used to plot the bullet charts using ggplot2
 functions.</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>ggplot</span><span class='op'>(</span><span class='va'>product</span>, <span class='fu'>aes</span><span class='op'>(</span><span class='va'>Product</span>, <span class='va'>current</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> 
   <span class='fu'>geom_col</span><span class='op'>(</span><span class='fu'>aes</span><span class='op'>(</span><span class='va'>Product</span>, <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>target</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>1.01</span><span class='op'>)</span>,
@@ -1579,11 +1598,16 @@ functions.</p>
   <span class='fu'>coord_flip</span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
 </div>
+</details>
 <p><img src="inclass9_files/figure-html5/bullet%20chart-1.png" width="624" /></p>
 </div>
 <h2 id="plot-sparklines-using-ggplot">Plot Sparklines using ggplot</h2>
 <p>The following code chunk prepares the data for sparklines plot.</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>sales_report</span> <span class='op'>&lt;-</span> <span class='va'>coffeechain</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Date</span> <span class='op'>&gt;=</span> <span class='st'>"2013-01-01"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -1594,10 +1618,15 @@ functions.</p>
   <span class='fu'>select</span><span class='op'>(</span><span class='va'>Month</span>, <span class='va'>Product</span>, <span class='va'>Sales</span><span class='op'>)</span>
 </code></pre>
 </div>
+</details>
 </div>
 <p>The code chunk below is used to compute the minimum, maximum and end
 othe the month sales.</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>mins</span> <span class='op'>&lt;-</span> <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>sales_report</span>, <span class='va'>Product</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>slice</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/which.min.html'>which.min</a></span><span class='op'>(</span><span class='va'>Sales</span><span class='op'>)</span><span class='op'>)</span>
@@ -1607,9 +1636,14 @@ othe the month sales.</p>
   <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Month</span> <span class='op'>==</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>Month</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
+</details>
 </div>
 <p>The code chunk below is used to compute the 25 and 75 quantiles.</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>quarts</span> <span class='op'>&lt;-</span> <span class='va'>sales_report</span> <span class='op'>%&gt;%</span>
   <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>Product</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -1620,9 +1654,14 @@ othe the month sales.</p>
   <span class='fu'>right_join</span><span class='op'>(</span><span class='va'>sales_report</span><span class='op'>)</span>
 </code></pre>
 </div>
+</details>
 </div>
 <p>The following code chunk is used to plot the sparklines.</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='fu'>ggplot</span><span class='op'>(</span><span class='va'>sales_report</span>, <span class='fu'>aes</span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>Month</span>, y<span class='op'>=</span><span class='va'>Sales</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> 
   <span class='fu'>facet_grid</span><span class='op'>(</span><span class='va'>Product</span> <span class='op'>~</span> <span class='va'>.</span>, scales <span class='op'>=</span> <span class='st'>"free_y"</span><span class='op'>)</span> <span class='op'>+</span> 
@@ -1644,11 +1683,16 @@ othe the month sales.</p>
         axis.ticks <span class='op'>=</span> <span class='fu'>element_blank</span><span class='op'>(</span><span class='op'>)</span>, strip.text <span class='op'>=</span> <span class='fu'>element_blank</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 </code></pre>
 </div>
+</details>
 <p><img src="inclass9_files/figure-html5/sparklines-1.png" width="1152" /></p>
 </div>
 <h2 id="putting-together-a-dashboard">Putting Together a Dashboard</h2>
 <p>The following code chunk plots a simple bullet chart.</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>product</span> <span class='op'>%&gt;%</span>
   <span class='fu'>gt</span><span class='fu'>::</span><span class='fu'><a href='https://gt.rstudio.com/reference/gt.html'>gt</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -1660,13 +1704,14 @@ othe the month sales.</p>
   <span class='fu'>gt_theme_538</span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
 </div>
-<div id="lpawhmojrk" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+</details>
+<div id="vlivwzawnf" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 html {
   font-family: Chivo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#lpawhmojrk .gt_table {
+#vlivwzawnf .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1691,7 +1736,7 @@ html {
   border-left-color: #D3D3D3;
 }
 
-#lpawhmojrk .gt_heading {
+#vlivwzawnf .gt_heading {
   background-color: #FFFFFF;
   text-align: left;
   border-bottom-color: #FFFFFF;
@@ -1703,7 +1748,7 @@ html {
   border-right-color: #D3D3D3;
 }
 
-#lpawhmojrk .gt_title {
+#vlivwzawnf .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1715,7 +1760,7 @@ html {
   border-bottom-width: 0;
 }
 
-#lpawhmojrk .gt_subtitle {
+#vlivwzawnf .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1727,13 +1772,13 @@ html {
   border-top-width: 0;
 }
 
-#lpawhmojrk .gt_bottom_border {
+#vlivwzawnf .gt_bottom_border {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#lpawhmojrk .gt_col_headings {
+#vlivwzawnf .gt_col_headings {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1748,7 +1793,7 @@ html {
   border-right-color: #D3D3D3;
 }
 
-#lpawhmojrk .gt_col_heading {
+#vlivwzawnf .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 80%;
@@ -1768,7 +1813,7 @@ html {
   overflow-x: hidden;
 }
 
-#lpawhmojrk .gt_column_spanner_outer {
+#vlivwzawnf .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 80%;
@@ -1780,15 +1825,15 @@ html {
   padding-right: 4px;
 }
 
-#lpawhmojrk .gt_column_spanner_outer:first-child {
+#vlivwzawnf .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#lpawhmojrk .gt_column_spanner_outer:last-child {
+#vlivwzawnf .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#lpawhmojrk .gt_column_spanner {
+#vlivwzawnf .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #000000;
@@ -1800,7 +1845,7 @@ html {
   width: 100%;
 }
 
-#lpawhmojrk .gt_group_heading {
+#vlivwzawnf .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1825,7 +1870,7 @@ html {
   vertical-align: middle;
 }
 
-#lpawhmojrk .gt_empty_group_heading {
+#vlivwzawnf .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1840,15 +1885,15 @@ html {
   vertical-align: middle;
 }
 
-#lpawhmojrk .gt_from_md > :first-child {
+#vlivwzawnf .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#lpawhmojrk .gt_from_md > :last-child {
+#vlivwzawnf .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#lpawhmojrk .gt_row {
+#vlivwzawnf .gt_row {
   padding-top: 3px;
   padding-bottom: 3px;
   padding-left: 5px;
@@ -1867,7 +1912,7 @@ html {
   overflow-x: hidden;
 }
 
-#lpawhmojrk .gt_stub {
+#vlivwzawnf .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 80%;
@@ -1880,7 +1925,7 @@ html {
   padding-right: 5px;
 }
 
-#lpawhmojrk .gt_stub_row_group {
+#vlivwzawnf .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1894,11 +1939,11 @@ html {
   vertical-align: top;
 }
 
-#lpawhmojrk .gt_row_group_first td {
+#vlivwzawnf .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#lpawhmojrk .gt_summary_row {
+#vlivwzawnf .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1908,16 +1953,16 @@ html {
   padding-right: 5px;
 }
 
-#lpawhmojrk .gt_first_summary_row {
+#vlivwzawnf .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#lpawhmojrk .gt_first_summary_row.thick {
+#vlivwzawnf .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#lpawhmojrk .gt_last_summary_row {
+#vlivwzawnf .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1927,7 +1972,7 @@ html {
   border-bottom-color: #D3D3D3;
 }
 
-#lpawhmojrk .gt_grand_summary_row {
+#vlivwzawnf .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1937,7 +1982,7 @@ html {
   padding-right: 5px;
 }
 
-#lpawhmojrk .gt_first_grand_summary_row {
+#vlivwzawnf .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1947,11 +1992,11 @@ html {
   border-top-color: #D3D3D3;
 }
 
-#lpawhmojrk .gt_striped {
+#vlivwzawnf .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#lpawhmojrk .gt_table_body {
+#vlivwzawnf .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1960,7 +2005,7 @@ html {
   border-bottom-color: #D3D3D3;
 }
 
-#lpawhmojrk .gt_footnotes {
+#vlivwzawnf .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1974,7 +2019,7 @@ html {
   border-right-color: #D3D3D3;
 }
 
-#lpawhmojrk .gt_footnote {
+#vlivwzawnf .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1983,7 +2028,7 @@ html {
   padding-right: 5px;
 }
 
-#lpawhmojrk .gt_sourcenotes {
+#vlivwzawnf .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1997,7 +2042,7 @@ html {
   border-right-color: #D3D3D3;
 }
 
-#lpawhmojrk .gt_sourcenote {
+#vlivwzawnf .gt_sourcenote {
   font-size: 12px;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2005,36 +2050,36 @@ html {
   padding-right: 5px;
 }
 
-#lpawhmojrk .gt_left {
+#vlivwzawnf .gt_left {
   text-align: left;
 }
 
-#lpawhmojrk .gt_center {
+#vlivwzawnf .gt_center {
   text-align: center;
 }
 
-#lpawhmojrk .gt_right {
+#vlivwzawnf .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#lpawhmojrk .gt_font_normal {
+#vlivwzawnf .gt_font_normal {
   font-weight: normal;
 }
 
-#lpawhmojrk .gt_font_bold {
+#vlivwzawnf .gt_font_bold {
   font-weight: bold;
 }
 
-#lpawhmojrk .gt_font_italic {
+#vlivwzawnf .gt_font_italic {
   font-style: italic;
 }
 
-#lpawhmojrk .gt_super {
+#vlivwzawnf .gt_super {
   font-size: 65%;
 }
 
-#lpawhmojrk .gt_two_val_uncert {
+#vlivwzawnf .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -2043,31 +2088,31 @@ html {
   margin-left: 0.1em;
 }
 
-#lpawhmojrk .gt_footnote_marks {
+#vlivwzawnf .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#lpawhmojrk .gt_asterisk {
+#vlivwzawnf .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#lpawhmojrk .gt_slash_mark {
+#vlivwzawnf .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#lpawhmojrk .gt_fraction_numerator {
+#vlivwzawnf .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#lpawhmojrk .gt_fraction_denominator {
+#vlivwzawnf .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -2121,6 +2166,10 @@ tbody tr:last-child {
 <p>Before we can prepare the sales report by product by using gtExtras
 functions, code chunk below will be used to prepare the data.</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>report</span> <span class='op'>&lt;-</span> <span class='va'>coffeechain</span> <span class='op'>%&gt;%</span>
   <span class='fu'>mutate</span><span class='op'>(</span>Year <span class='op'>=</span> <span class='fu'>year</span><span class='op'>(</span><span class='va'>Date</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -2133,12 +2182,17 @@ functions, code chunk below will be used to prepare the data.</p>
   <span class='fu'>ungroup</span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
 </div>
+</details>
 </div>
 <p>It is important to note that one of the requirement of gtExtras
 functions is that almost exclusively they require you to pass data.frame
 with list columns. In view of this, code chunk below will be used to
 convert the report data.frame into list columns.</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>report</span> <span class='op'>%&gt;%</span>
   <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>Product</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -2146,6 +2200,7 @@ convert the report data.frame into list columns.</p>
             .groups <span class='op'>=</span> <span class='st'>"drop"</span><span class='op'>)</span>
 </code></pre>
 </div>
+</details>
 <pre><code># A tibble: 13 × 2
    Product           `Monthly Sales`
    &lt;chr&gt;             &lt;list&gt;         
@@ -2165,6 +2220,10 @@ convert the report data.frame into list columns.</p>
 </div>
 <p>Plotting sales report in sparklines plot.</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>report</span> <span class='op'>%&gt;%</span>
   <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>Product</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -2174,12 +2233,13 @@ convert the report data.frame into list columns.</p>
    <span class='fu'>gt_plt_sparkline</span><span class='op'>(</span><span class='st'>'Monthly Sales'</span><span class='op'>)</span>
 </code></pre>
 </div>
-<div id="nuqaxhcawl" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+</details>
+<div id="gkluolfmtg" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#nuqaxhcawl .gt_table {
+#gkluolfmtg .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2204,7 +2264,7 @@ convert the report data.frame into list columns.</p>
   border-left-color: #D3D3D3;
 }
 
-#nuqaxhcawl .gt_heading {
+#gkluolfmtg .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2216,7 +2276,7 @@ convert the report data.frame into list columns.</p>
   border-right-color: #D3D3D3;
 }
 
-#nuqaxhcawl .gt_title {
+#gkluolfmtg .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2228,7 +2288,7 @@ convert the report data.frame into list columns.</p>
   border-bottom-width: 0;
 }
 
-#nuqaxhcawl .gt_subtitle {
+#gkluolfmtg .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2240,13 +2300,13 @@ convert the report data.frame into list columns.</p>
   border-top-width: 0;
 }
 
-#nuqaxhcawl .gt_bottom_border {
+#gkluolfmtg .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#nuqaxhcawl .gt_col_headings {
+#gkluolfmtg .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2261,7 +2321,7 @@ convert the report data.frame into list columns.</p>
   border-right-color: #D3D3D3;
 }
 
-#nuqaxhcawl .gt_col_heading {
+#gkluolfmtg .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2281,7 +2341,7 @@ convert the report data.frame into list columns.</p>
   overflow-x: hidden;
 }
 
-#nuqaxhcawl .gt_column_spanner_outer {
+#gkluolfmtg .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2293,15 +2353,15 @@ convert the report data.frame into list columns.</p>
   padding-right: 4px;
 }
 
-#nuqaxhcawl .gt_column_spanner_outer:first-child {
+#gkluolfmtg .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#nuqaxhcawl .gt_column_spanner_outer:last-child {
+#gkluolfmtg .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#nuqaxhcawl .gt_column_spanner {
+#gkluolfmtg .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2313,7 +2373,7 @@ convert the report data.frame into list columns.</p>
   width: 100%;
 }
 
-#nuqaxhcawl .gt_group_heading {
+#gkluolfmtg .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2338,7 +2398,7 @@ convert the report data.frame into list columns.</p>
   vertical-align: middle;
 }
 
-#nuqaxhcawl .gt_empty_group_heading {
+#gkluolfmtg .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2353,15 +2413,15 @@ convert the report data.frame into list columns.</p>
   vertical-align: middle;
 }
 
-#nuqaxhcawl .gt_from_md > :first-child {
+#gkluolfmtg .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#nuqaxhcawl .gt_from_md > :last-child {
+#gkluolfmtg .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#nuqaxhcawl .gt_row {
+#gkluolfmtg .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2380,7 +2440,7 @@ convert the report data.frame into list columns.</p>
   overflow-x: hidden;
 }
 
-#nuqaxhcawl .gt_stub {
+#gkluolfmtg .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2393,7 +2453,7 @@ convert the report data.frame into list columns.</p>
   padding-right: 5px;
 }
 
-#nuqaxhcawl .gt_stub_row_group {
+#gkluolfmtg .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2407,11 +2467,11 @@ convert the report data.frame into list columns.</p>
   vertical-align: top;
 }
 
-#nuqaxhcawl .gt_row_group_first td {
+#gkluolfmtg .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#nuqaxhcawl .gt_summary_row {
+#gkluolfmtg .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2421,16 +2481,16 @@ convert the report data.frame into list columns.</p>
   padding-right: 5px;
 }
 
-#nuqaxhcawl .gt_first_summary_row {
+#gkluolfmtg .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#nuqaxhcawl .gt_first_summary_row.thick {
+#gkluolfmtg .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#nuqaxhcawl .gt_last_summary_row {
+#gkluolfmtg .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2440,7 +2500,7 @@ convert the report data.frame into list columns.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#nuqaxhcawl .gt_grand_summary_row {
+#gkluolfmtg .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2450,7 +2510,7 @@ convert the report data.frame into list columns.</p>
   padding-right: 5px;
 }
 
-#nuqaxhcawl .gt_first_grand_summary_row {
+#gkluolfmtg .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2460,11 +2520,11 @@ convert the report data.frame into list columns.</p>
   border-top-color: #D3D3D3;
 }
 
-#nuqaxhcawl .gt_striped {
+#gkluolfmtg .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#nuqaxhcawl .gt_table_body {
+#gkluolfmtg .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2473,7 +2533,7 @@ convert the report data.frame into list columns.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#nuqaxhcawl .gt_footnotes {
+#gkluolfmtg .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2487,7 +2547,7 @@ convert the report data.frame into list columns.</p>
   border-right-color: #D3D3D3;
 }
 
-#nuqaxhcawl .gt_footnote {
+#gkluolfmtg .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2496,7 +2556,7 @@ convert the report data.frame into list columns.</p>
   padding-right: 5px;
 }
 
-#nuqaxhcawl .gt_sourcenotes {
+#gkluolfmtg .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2510,7 +2570,7 @@ convert the report data.frame into list columns.</p>
   border-right-color: #D3D3D3;
 }
 
-#nuqaxhcawl .gt_sourcenote {
+#gkluolfmtg .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2518,36 +2578,36 @@ convert the report data.frame into list columns.</p>
   padding-right: 5px;
 }
 
-#nuqaxhcawl .gt_left {
+#gkluolfmtg .gt_left {
   text-align: left;
 }
 
-#nuqaxhcawl .gt_center {
+#gkluolfmtg .gt_center {
   text-align: center;
 }
 
-#nuqaxhcawl .gt_right {
+#gkluolfmtg .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#nuqaxhcawl .gt_font_normal {
+#gkluolfmtg .gt_font_normal {
   font-weight: normal;
 }
 
-#nuqaxhcawl .gt_font_bold {
+#gkluolfmtg .gt_font_bold {
   font-weight: bold;
 }
 
-#nuqaxhcawl .gt_font_italic {
+#gkluolfmtg .gt_font_italic {
   font-style: italic;
 }
 
-#nuqaxhcawl .gt_super {
+#gkluolfmtg .gt_super {
   font-size: 65%;
 }
 
-#nuqaxhcawl .gt_two_val_uncert {
+#gkluolfmtg .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -2556,31 +2616,31 @@ convert the report data.frame into list columns.</p>
   margin-left: 0.1em;
 }
 
-#nuqaxhcawl .gt_footnote_marks {
+#gkluolfmtg .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#nuqaxhcawl .gt_asterisk {
+#gkluolfmtg .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#nuqaxhcawl .gt_slash_mark {
+#gkluolfmtg .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#nuqaxhcawl .gt_fraction_numerator {
+#gkluolfmtg .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#nuqaxhcawl .gt_fraction_denominator {
+#gkluolfmtg .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -2629,6 +2689,10 @@ convert the report data.frame into list columns.</p>
 </div>
 <p>Calculating the summary stats using the code chunk below:</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>report</span> <span class='op'>%&gt;%</span> 
   <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>Product</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
@@ -2641,12 +2705,13 @@ convert the report data.frame into list columns.</p>
     decimals <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
 </code></pre>
 </div>
-<div id="efjnbmmbbc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+</details>
+<div id="uodatjbwbj" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#efjnbmmbbc .gt_table {
+#uodatjbwbj .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2671,7 +2736,7 @@ convert the report data.frame into list columns.</p>
   border-left-color: #D3D3D3;
 }
 
-#efjnbmmbbc .gt_heading {
+#uodatjbwbj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2683,7 +2748,7 @@ convert the report data.frame into list columns.</p>
   border-right-color: #D3D3D3;
 }
 
-#efjnbmmbbc .gt_title {
+#uodatjbwbj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2695,7 +2760,7 @@ convert the report data.frame into list columns.</p>
   border-bottom-width: 0;
 }
 
-#efjnbmmbbc .gt_subtitle {
+#uodatjbwbj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2707,13 +2772,13 @@ convert the report data.frame into list columns.</p>
   border-top-width: 0;
 }
 
-#efjnbmmbbc .gt_bottom_border {
+#uodatjbwbj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#efjnbmmbbc .gt_col_headings {
+#uodatjbwbj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2728,7 +2793,7 @@ convert the report data.frame into list columns.</p>
   border-right-color: #D3D3D3;
 }
 
-#efjnbmmbbc .gt_col_heading {
+#uodatjbwbj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2748,7 +2813,7 @@ convert the report data.frame into list columns.</p>
   overflow-x: hidden;
 }
 
-#efjnbmmbbc .gt_column_spanner_outer {
+#uodatjbwbj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2760,15 +2825,15 @@ convert the report data.frame into list columns.</p>
   padding-right: 4px;
 }
 
-#efjnbmmbbc .gt_column_spanner_outer:first-child {
+#uodatjbwbj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#efjnbmmbbc .gt_column_spanner_outer:last-child {
+#uodatjbwbj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#efjnbmmbbc .gt_column_spanner {
+#uodatjbwbj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2780,7 +2845,7 @@ convert the report data.frame into list columns.</p>
   width: 100%;
 }
 
-#efjnbmmbbc .gt_group_heading {
+#uodatjbwbj .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2805,7 +2870,7 @@ convert the report data.frame into list columns.</p>
   vertical-align: middle;
 }
 
-#efjnbmmbbc .gt_empty_group_heading {
+#uodatjbwbj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2820,15 +2885,15 @@ convert the report data.frame into list columns.</p>
   vertical-align: middle;
 }
 
-#efjnbmmbbc .gt_from_md > :first-child {
+#uodatjbwbj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#efjnbmmbbc .gt_from_md > :last-child {
+#uodatjbwbj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#efjnbmmbbc .gt_row {
+#uodatjbwbj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2847,7 +2912,7 @@ convert the report data.frame into list columns.</p>
   overflow-x: hidden;
 }
 
-#efjnbmmbbc .gt_stub {
+#uodatjbwbj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2860,7 +2925,7 @@ convert the report data.frame into list columns.</p>
   padding-right: 5px;
 }
 
-#efjnbmmbbc .gt_stub_row_group {
+#uodatjbwbj .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2874,11 +2939,11 @@ convert the report data.frame into list columns.</p>
   vertical-align: top;
 }
 
-#efjnbmmbbc .gt_row_group_first td {
+#uodatjbwbj .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#efjnbmmbbc .gt_summary_row {
+#uodatjbwbj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2888,16 +2953,16 @@ convert the report data.frame into list columns.</p>
   padding-right: 5px;
 }
 
-#efjnbmmbbc .gt_first_summary_row {
+#uodatjbwbj .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#efjnbmmbbc .gt_first_summary_row.thick {
+#uodatjbwbj .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#efjnbmmbbc .gt_last_summary_row {
+#uodatjbwbj .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2907,7 +2972,7 @@ convert the report data.frame into list columns.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#efjnbmmbbc .gt_grand_summary_row {
+#uodatjbwbj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2917,7 +2982,7 @@ convert the report data.frame into list columns.</p>
   padding-right: 5px;
 }
 
-#efjnbmmbbc .gt_first_grand_summary_row {
+#uodatjbwbj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2927,11 +2992,11 @@ convert the report data.frame into list columns.</p>
   border-top-color: #D3D3D3;
 }
 
-#efjnbmmbbc .gt_striped {
+#uodatjbwbj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#efjnbmmbbc .gt_table_body {
+#uodatjbwbj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2940,7 +3005,7 @@ convert the report data.frame into list columns.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#efjnbmmbbc .gt_footnotes {
+#uodatjbwbj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2954,7 +3019,7 @@ convert the report data.frame into list columns.</p>
   border-right-color: #D3D3D3;
 }
 
-#efjnbmmbbc .gt_footnote {
+#uodatjbwbj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2963,7 +3028,7 @@ convert the report data.frame into list columns.</p>
   padding-right: 5px;
 }
 
-#efjnbmmbbc .gt_sourcenotes {
+#uodatjbwbj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2977,7 +3042,7 @@ convert the report data.frame into list columns.</p>
   border-right-color: #D3D3D3;
 }
 
-#efjnbmmbbc .gt_sourcenote {
+#uodatjbwbj .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2985,36 +3050,36 @@ convert the report data.frame into list columns.</p>
   padding-right: 5px;
 }
 
-#efjnbmmbbc .gt_left {
+#uodatjbwbj .gt_left {
   text-align: left;
 }
 
-#efjnbmmbbc .gt_center {
+#uodatjbwbj .gt_center {
   text-align: center;
 }
 
-#efjnbmmbbc .gt_right {
+#uodatjbwbj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#efjnbmmbbc .gt_font_normal {
+#uodatjbwbj .gt_font_normal {
   font-weight: normal;
 }
 
-#efjnbmmbbc .gt_font_bold {
+#uodatjbwbj .gt_font_bold {
   font-weight: bold;
 }
 
-#efjnbmmbbc .gt_font_italic {
+#uodatjbwbj .gt_font_italic {
   font-style: italic;
 }
 
-#efjnbmmbbc .gt_super {
+#uodatjbwbj .gt_super {
   font-size: 65%;
 }
 
-#efjnbmmbbc .gt_two_val_uncert {
+#uodatjbwbj .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -3023,31 +3088,31 @@ convert the report data.frame into list columns.</p>
   margin-left: 0.1em;
 }
 
-#efjnbmmbbc .gt_footnote_marks {
+#uodatjbwbj .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#efjnbmmbbc .gt_asterisk {
+#uodatjbwbj .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#efjnbmmbbc .gt_slash_mark {
+#uodatjbwbj .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#efjnbmmbbc .gt_fraction_numerator {
+#uodatjbwbj .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#efjnbmmbbc .gt_fraction_denominator {
+#uodatjbwbj .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -3124,6 +3189,10 @@ convert the report data.frame into list columns.</p>
 </div>
 <p>Below code chunk adds statistics into the table:</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>spark</span> <span class='op'>&lt;-</span> <span class='va'>report</span> <span class='op'>%&gt;%</span>
   <span class='fu'>group_by</span><span class='op'>(</span><span class='va'>Product</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -3140,21 +3209,27 @@ convert the report data.frame into list columns.</p>
 <span class='va'>sales_data</span> <span class='op'>=</span> <span class='fu'>left_join</span><span class='op'>(</span><span class='va'>sales</span>, <span class='va'>spark</span><span class='op'>)</span>
 </code></pre>
 </div>
+</details>
 </div>
 <p>Update table:</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>sales_data</span> <span class='op'>%&gt;%</span>
   <span class='fu'>gt</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>gt_plt_sparkline</span><span class='op'>(</span><span class='st'>'Monthly Sales'</span><span class='op'>)</span>
 </code></pre>
 </div>
-<div id="tgnsiyckpq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+</details>
+<div id="mlanerhjse" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#tgnsiyckpq .gt_table {
+#mlanerhjse .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -3179,7 +3254,7 @@ convert the report data.frame into list columns.</p>
   border-left-color: #D3D3D3;
 }
 
-#tgnsiyckpq .gt_heading {
+#mlanerhjse .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -3191,7 +3266,7 @@ convert the report data.frame into list columns.</p>
   border-right-color: #D3D3D3;
 }
 
-#tgnsiyckpq .gt_title {
+#mlanerhjse .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3203,7 +3278,7 @@ convert the report data.frame into list columns.</p>
   border-bottom-width: 0;
 }
 
-#tgnsiyckpq .gt_subtitle {
+#mlanerhjse .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3215,13 +3290,13 @@ convert the report data.frame into list columns.</p>
   border-top-width: 0;
 }
 
-#tgnsiyckpq .gt_bottom_border {
+#mlanerhjse .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#tgnsiyckpq .gt_col_headings {
+#mlanerhjse .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3236,7 +3311,7 @@ convert the report data.frame into list columns.</p>
   border-right-color: #D3D3D3;
 }
 
-#tgnsiyckpq .gt_col_heading {
+#mlanerhjse .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3256,7 +3331,7 @@ convert the report data.frame into list columns.</p>
   overflow-x: hidden;
 }
 
-#tgnsiyckpq .gt_column_spanner_outer {
+#mlanerhjse .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3268,15 +3343,15 @@ convert the report data.frame into list columns.</p>
   padding-right: 4px;
 }
 
-#tgnsiyckpq .gt_column_spanner_outer:first-child {
+#mlanerhjse .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#tgnsiyckpq .gt_column_spanner_outer:last-child {
+#mlanerhjse .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#tgnsiyckpq .gt_column_spanner {
+#mlanerhjse .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -3288,7 +3363,7 @@ convert the report data.frame into list columns.</p>
   width: 100%;
 }
 
-#tgnsiyckpq .gt_group_heading {
+#mlanerhjse .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3313,7 +3388,7 @@ convert the report data.frame into list columns.</p>
   vertical-align: middle;
 }
 
-#tgnsiyckpq .gt_empty_group_heading {
+#mlanerhjse .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3328,15 +3403,15 @@ convert the report data.frame into list columns.</p>
   vertical-align: middle;
 }
 
-#tgnsiyckpq .gt_from_md > :first-child {
+#mlanerhjse .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#tgnsiyckpq .gt_from_md > :last-child {
+#mlanerhjse .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#tgnsiyckpq .gt_row {
+#mlanerhjse .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3355,7 +3430,7 @@ convert the report data.frame into list columns.</p>
   overflow-x: hidden;
 }
 
-#tgnsiyckpq .gt_stub {
+#mlanerhjse .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3368,7 +3443,7 @@ convert the report data.frame into list columns.</p>
   padding-right: 5px;
 }
 
-#tgnsiyckpq .gt_stub_row_group {
+#mlanerhjse .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3382,11 +3457,11 @@ convert the report data.frame into list columns.</p>
   vertical-align: top;
 }
 
-#tgnsiyckpq .gt_row_group_first td {
+#mlanerhjse .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#tgnsiyckpq .gt_summary_row {
+#mlanerhjse .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3396,16 +3471,16 @@ convert the report data.frame into list columns.</p>
   padding-right: 5px;
 }
 
-#tgnsiyckpq .gt_first_summary_row {
+#mlanerhjse .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#tgnsiyckpq .gt_first_summary_row.thick {
+#mlanerhjse .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#tgnsiyckpq .gt_last_summary_row {
+#mlanerhjse .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3415,7 +3490,7 @@ convert the report data.frame into list columns.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#tgnsiyckpq .gt_grand_summary_row {
+#mlanerhjse .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3425,7 +3500,7 @@ convert the report data.frame into list columns.</p>
   padding-right: 5px;
 }
 
-#tgnsiyckpq .gt_first_grand_summary_row {
+#mlanerhjse .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3435,11 +3510,11 @@ convert the report data.frame into list columns.</p>
   border-top-color: #D3D3D3;
 }
 
-#tgnsiyckpq .gt_striped {
+#mlanerhjse .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#tgnsiyckpq .gt_table_body {
+#mlanerhjse .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3448,7 +3523,7 @@ convert the report data.frame into list columns.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#tgnsiyckpq .gt_footnotes {
+#mlanerhjse .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3462,7 +3537,7 @@ convert the report data.frame into list columns.</p>
   border-right-color: #D3D3D3;
 }
 
-#tgnsiyckpq .gt_footnote {
+#mlanerhjse .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -3471,7 +3546,7 @@ convert the report data.frame into list columns.</p>
   padding-right: 5px;
 }
 
-#tgnsiyckpq .gt_sourcenotes {
+#mlanerhjse .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3485,7 +3560,7 @@ convert the report data.frame into list columns.</p>
   border-right-color: #D3D3D3;
 }
 
-#tgnsiyckpq .gt_sourcenote {
+#mlanerhjse .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -3493,36 +3568,36 @@ convert the report data.frame into list columns.</p>
   padding-right: 5px;
 }
 
-#tgnsiyckpq .gt_left {
+#mlanerhjse .gt_left {
   text-align: left;
 }
 
-#tgnsiyckpq .gt_center {
+#mlanerhjse .gt_center {
   text-align: center;
 }
 
-#tgnsiyckpq .gt_right {
+#mlanerhjse .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#tgnsiyckpq .gt_font_normal {
+#mlanerhjse .gt_font_normal {
   font-weight: normal;
 }
 
-#tgnsiyckpq .gt_font_bold {
+#mlanerhjse .gt_font_bold {
   font-weight: bold;
 }
 
-#tgnsiyckpq .gt_font_italic {
+#mlanerhjse .gt_font_italic {
   font-style: italic;
 }
 
-#tgnsiyckpq .gt_super {
+#mlanerhjse .gt_super {
   font-size: 65%;
 }
 
-#tgnsiyckpq .gt_two_val_uncert {
+#mlanerhjse .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -3531,31 +3606,31 @@ convert the report data.frame into list columns.</p>
   margin-left: 0.1em;
 }
 
-#tgnsiyckpq .gt_footnote_marks {
+#mlanerhjse .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#tgnsiyckpq .gt_asterisk {
+#mlanerhjse .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#tgnsiyckpq .gt_slash_mark {
+#mlanerhjse .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#tgnsiyckpq .gt_fraction_numerator {
+#mlanerhjse .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#tgnsiyckpq .gt_fraction_denominator {
+#mlanerhjse .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
@@ -3646,6 +3721,10 @@ convert the report data.frame into list columns.</p>
 </div>
 <p>The following codes combines the bullet chart and the sparklines:</p>
 <div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+show
+</summary>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>bullet</span> <span class='op'>&lt;-</span> <span class='va'>coffeechain</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Date</span> <span class='op'>&gt;=</span> <span class='st'>"2013-01-01"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
@@ -3668,13 +3747,14 @@ convert the report data.frame into list columns.</p>
   <span class='fu'>gt_theme_538</span><span class='op'>(</span><span class='op'>)</span>
 </code></pre>
 </div>
-<div id="dozicarvmp" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+</details>
+<div id="akjwydnuqa" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>@import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 html {
   font-family: Chivo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#dozicarvmp .gt_table {
+#akjwydnuqa .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -3699,7 +3779,7 @@ html {
   border-left-color: #D3D3D3;
 }
 
-#dozicarvmp .gt_heading {
+#akjwydnuqa .gt_heading {
   background-color: #FFFFFF;
   text-align: left;
   border-bottom-color: #FFFFFF;
@@ -3711,7 +3791,7 @@ html {
   border-right-color: #D3D3D3;
 }
 
-#dozicarvmp .gt_title {
+#akjwydnuqa .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -3723,7 +3803,7 @@ html {
   border-bottom-width: 0;
 }
 
-#dozicarvmp .gt_subtitle {
+#akjwydnuqa .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -3735,13 +3815,13 @@ html {
   border-top-width: 0;
 }
 
-#dozicarvmp .gt_bottom_border {
+#akjwydnuqa .gt_bottom_border {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#dozicarvmp .gt_col_headings {
+#akjwydnuqa .gt_col_headings {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3756,7 +3836,7 @@ html {
   border-right-color: #D3D3D3;
 }
 
-#dozicarvmp .gt_col_heading {
+#akjwydnuqa .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 80%;
@@ -3776,7 +3856,7 @@ html {
   overflow-x: hidden;
 }
 
-#dozicarvmp .gt_column_spanner_outer {
+#akjwydnuqa .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 80%;
@@ -3788,15 +3868,15 @@ html {
   padding-right: 4px;
 }
 
-#dozicarvmp .gt_column_spanner_outer:first-child {
+#akjwydnuqa .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#dozicarvmp .gt_column_spanner_outer:last-child {
+#akjwydnuqa .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#dozicarvmp .gt_column_spanner {
+#akjwydnuqa .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #000000;
@@ -3808,7 +3888,7 @@ html {
   width: 100%;
 }
 
-#dozicarvmp .gt_group_heading {
+#akjwydnuqa .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3833,7 +3913,7 @@ html {
   vertical-align: middle;
 }
 
-#dozicarvmp .gt_empty_group_heading {
+#akjwydnuqa .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -3848,15 +3928,15 @@ html {
   vertical-align: middle;
 }
 
-#dozicarvmp .gt_from_md > :first-child {
+#akjwydnuqa .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#dozicarvmp .gt_from_md > :last-child {
+#akjwydnuqa .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#dozicarvmp .gt_row {
+#akjwydnuqa .gt_row {
   padding-top: 3px;
   padding-bottom: 3px;
   padding-left: 5px;
@@ -3875,7 +3955,7 @@ html {
   overflow-x: hidden;
 }
 
-#dozicarvmp .gt_stub {
+#akjwydnuqa .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 80%;
@@ -3888,7 +3968,7 @@ html {
   padding-right: 5px;
 }
 
-#dozicarvmp .gt_stub_row_group {
+#akjwydnuqa .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -3902,11 +3982,11 @@ html {
   vertical-align: top;
 }
 
-#dozicarvmp .gt_row_group_first td {
+#akjwydnuqa .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#dozicarvmp .gt_summary_row {
+#akjwydnuqa .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3916,16 +3996,16 @@ html {
   padding-right: 5px;
 }
 
-#dozicarvmp .gt_first_summary_row {
+#akjwydnuqa .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#dozicarvmp .gt_first_summary_row.thick {
+#akjwydnuqa .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#dozicarvmp .gt_last_summary_row {
+#akjwydnuqa .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3935,7 +4015,7 @@ html {
   border-bottom-color: #D3D3D3;
 }
 
-#dozicarvmp .gt_grand_summary_row {
+#akjwydnuqa .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -3945,7 +4025,7 @@ html {
   padding-right: 5px;
 }
 
-#dozicarvmp .gt_first_grand_summary_row {
+#akjwydnuqa .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3955,11 +4035,11 @@ html {
   border-top-color: #D3D3D3;
 }
 
-#dozicarvmp .gt_striped {
+#akjwydnuqa .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#dozicarvmp .gt_table_body {
+#akjwydnuqa .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3968,7 +4048,7 @@ html {
   border-bottom-color: #D3D3D3;
 }
 
-#dozicarvmp .gt_footnotes {
+#akjwydnuqa .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3982,7 +4062,7 @@ html {
   border-right-color: #D3D3D3;
 }
 
-#dozicarvmp .gt_footnote {
+#akjwydnuqa .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -3991,7 +4071,7 @@ html {
   padding-right: 5px;
 }
 
-#dozicarvmp .gt_sourcenotes {
+#akjwydnuqa .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -4005,7 +4085,7 @@ html {
   border-right-color: #D3D3D3;
 }
 
-#dozicarvmp .gt_sourcenote {
+#akjwydnuqa .gt_sourcenote {
   font-size: 12px;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -4013,36 +4093,36 @@ html {
   padding-right: 5px;
 }
 
-#dozicarvmp .gt_left {
+#akjwydnuqa .gt_left {
   text-align: left;
 }
 
-#dozicarvmp .gt_center {
+#akjwydnuqa .gt_center {
   text-align: center;
 }
 
-#dozicarvmp .gt_right {
+#akjwydnuqa .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#dozicarvmp .gt_font_normal {
+#akjwydnuqa .gt_font_normal {
   font-weight: normal;
 }
 
-#dozicarvmp .gt_font_bold {
+#akjwydnuqa .gt_font_bold {
   font-weight: bold;
 }
 
-#dozicarvmp .gt_font_italic {
+#akjwydnuqa .gt_font_italic {
   font-style: italic;
 }
 
-#dozicarvmp .gt_super {
+#akjwydnuqa .gt_super {
   font-size: 65%;
 }
 
-#dozicarvmp .gt_two_val_uncert {
+#akjwydnuqa .gt_two_val_uncert {
   display: inline-block;
   line-height: 1em;
   text-align: right;
@@ -4051,31 +4131,31 @@ html {
   margin-left: 0.1em;
 }
 
-#dozicarvmp .gt_footnote_marks {
+#akjwydnuqa .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#dozicarvmp .gt_asterisk {
+#akjwydnuqa .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#dozicarvmp .gt_slash_mark {
+#akjwydnuqa .gt_slash_mark {
   font-size: 0.7em;
   line-height: 0.7em;
   vertical-align: 0.15em;
 }
 
-#dozicarvmp .gt_fraction_numerator {
+#akjwydnuqa .gt_fraction_numerator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: 0.45em;
 }
 
-#dozicarvmp .gt_fraction_denominator {
+#akjwydnuqa .gt_fraction_denominator {
   font-size: 0.6em;
   line-height: 0.6em;
   vertical-align: -0.05em;
