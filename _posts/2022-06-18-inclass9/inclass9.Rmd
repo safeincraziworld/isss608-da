@@ -1,5 +1,5 @@
 ---
-title: "Information Dashboard Design in R"
+title: "Information Dashboard Design"
 categories: In-class Exercise 
 description: |
   Lesson 9: In-class Exercise 

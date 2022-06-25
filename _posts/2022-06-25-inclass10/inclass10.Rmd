@@ -1,5 +1,5 @@
 ---
-title: "Visualizaing Financial Data in R"
+title: "Visualizaing Financial Data"
 categories: In-class Exercise 
 description: |
   Lesson 10: In-class Exercise
