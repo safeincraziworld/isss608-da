@@ -1,0 +1,271 @@
+---
+title: "Visualizaing Financial Data in R"
+categories: In-class Exercise 
+description: |
+  Lesson 10: In-class Exercise
+author:
+  - name: Leslie Long Nu
+    url: https://www.linkedin.com/in/leslielongnu/
+    affiliation: SMU, MITB
+    affiliation_url: https://scis.smu.edu.sg/master-it-business
+date: 2022-06-25
+preview: 
+output:
+  distill::distill_article:
+    code_folding: show
+    self_contained: false
+    toc: true
+    toc_depth: 3
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Import Libraries
+For the purpose of this hands-on exercise, the following R packages will be used.
+
+```{r libraries}
+packages = c('tidyverse', 'lubridate', 'tidyquant', 'ggHoriPlot',
+             'timetk', 'ggthemes', 'plotly')
+for (p in packages){
+  if(!require(p, character.only = T)){
+    install.packages(p)
+  }
+  library(p,character.only = T)
+}
+```
+
+* `tidyverse` provides a collection of functions for performing data science task such as importing, tidying, wrangling data and visualising data. It is not a single package but a collection of modern R packages including but not limited to `readr`, `tidyr`, `dplyr`, `ggplot`, `tibble`, `stringr`, `forcats` and `purrr`.
+* `lubridate` provides functions to work with dates and times more efficiently.
+* `tidyquant` bringing business and financial analysis to the `tidyverse`. It provides a convenient wrapper to various `xts`, `zoo`, `quantmod`, `TTR` and `PerformanceAnalytics` package functions and returns the objects in the tidy tibble format.
+* `ggHoriPlot`: A user-friendly, highly customizable R package for building horizon plots in the `ggplot2` environment.
+
+# Data Extraction with `tidyquant`
+`tidyquant` integrates resources for collecting and analyzing financial data with the tidy data infrastructure of the tidyverse, allowing for seamless interaction between each.
+
+**Step 1** 
+
+We will import a pre-prepared company list called companySG.csv onto R. The list consists of top 45 companies by market capitalization in Singapore. However, we just want the top 40.
+
+```{r read data}
+company <- read_csv("data/companySG.csv")
+Top40 <- company %>% 
+  slice_max(`marketcap`, n=40) %>% 
+  select(symbol)
+```
+
+**Step 2** 
+
+`tq_get()` method will be used to extract daily values of these stocks from Yahoo Finance via APIs. The time period for the data was set from 1st January 2020 to 31st March 2021. The data are specified to be returned in daily intervals.
+
+```{r crawl data}
+Stock40_daily <- Top40 %>%
+  tq_get(get = "stock.prices", 
+         from = "2020-01-01", 
+         to = "2022-03-31") %>%
+  group_by(symbol) %>%
+  tq_transmute(select = NULL, 
+               mutate_fun = to.period, 
+               period  = "days")
+```
+
+# Visualizations 
+## Horizon Graph 
+The following code plots a horizon graph using `geom_horizon`.
+
+```{r horizon, fig.height= 6, fig.width=12}
+Stock40_daily %>% 
+  ggplot() +
+  geom_horizon(aes(x = date, y=adjusted), origin = "midpoint", horizonscale = 6)+
+  facet_grid(symbol~.)+
+  theme_few() +
+  scale_fill_hcl(palette = 'RdBu') +
+  theme(panel.spacing.y=unit(0, "lines"), 
+    strip.text.y = element_text(size = 10, angle = 0, hjust = 0),
+    legend.position = 'none',
+    axis.text.y = element_blank(),
+    axis.text.x = element_text(size=10),
+    axis.title.y = element_blank(),
+    axis.title.x = element_blank(),
+    axis.ticks.y = element_blank(),
+    panel.border = element_blank(),
+    plot.title = element_text(size= 22)
+    ) +
+  scale_x_date(expand=c(0,0), date_breaks = "1 month", date_labels = "%b%y") +
+  ggtitle('Daily Adjusted Prices (Jan 2020 to Mar 2022)')
+```
+
+### Horizon Graph Makeover
+`left_join()` of dplyr package is used to append fields from company data.frame onto Stock_daily data.frame. Next `select()` is used to select columns 1 to 8 and 11 to 12.
+
+```{r join}
+Stock40_daily <- Stock40_daily %>%
+  left_join(company) %>%
+  select(1:8, 11:12)
+```
+
+`geom_vline()` is used to add the vertical reference lines. 
+
+```{r makeover horizon, fig.height= 6, fig.width=12}
+Stock40_daily %>% 
+  ggplot() +
+  geom_horizon(aes(x = date, y=adjusted), origin = "midpoint", horizonscale = 6)+
+  facet_grid(Name~.)+
+  geom_vline(xintercept = as.Date("2020-03-11"), colour = "grey15", linetype = "dashed", size = 0.5)+
+  geom_vline(xintercept = as.Date("2020-12-14"), colour = "grey15", linetype = "dashed", size = 0.5)+
+  theme_few() +
+  scale_fill_hcl(palette = 'RdBu') +
+  theme(panel.spacing.y=unit(0, "lines"),
+        strip.text.y = element_text(size = 10, angle = 0, hjust = 0),
+    legend.position = 'none',
+    axis.text.y = element_blank(),
+    axis.text.x = element_text(size=8),
+    axis.title.y = element_blank(),
+    axis.title.x = element_blank(),
+    axis.ticks.y = element_blank(),
+    panel.border = element_blank(),
+    plot.title = element_text(size= 22)
+    ) +
+  scale_x_date(expand=c(0,0), date_breaks = "1 month", date_labels = "%b%y") +
+  ggtitle('Daily Adjusted Prices (Jan 2020 to Mar 2022)')
+```
+
+## Interactive Stock Price Line Graphs
+
+**Step 1**
+
+Select the four stocks of interest. 
+
+```{r}
+selected_stocks <-  Stock40_daily %>%
+  filter (`symbol` == c("C09.SI", "SINGF", "SNGNF", "C52.SI"))
+
+```
+
+**Step 2** Plotting line graphs using `ggplot2` and `ggplotly()`. 
+
+```{r plotly line}
+p <- ggplot(selected_stocks, aes(x = date, y = adjusted))+
+        scale_y_continuous() +
+        geom_line() +
+        facet_wrap(~Name, scales = "free_y",) +
+        theme_tq() +
+        labs(title = "Daily stock prices of selected weak stocks", x = "", y = "Adjusted Price") +
+        theme(axis.text.x = element_text(size = 6), axis.text.y = element_text(size = 6))
+ggplotly(p)
+```
+
+## Candlestick Charts
+### Candlestick Chart: `tidyquant` method
+
+Before plotting the candlesticks, the code chunk below will be used to define the end data parameter. It will be used when setting date limits throughout the examples.
+
+```{r set end date}
+end <- as_date("2022-03-31")
+```
+
+The following code chunk plots the candlestick plot. 
+
+```{r candlestick}
+Stock40_daily %>%
+  filter(symbol == "DBSDF") %>%
+  ggplot(aes(
+    x = date, y = close)) +
+  geom_candlestick(aes(
+    open = open, high = high, 
+    low = low, close = close)) +
+  geom_line(size = 0.5)+
+    coord_x_date(xlim = c(end - weeks(12), 
+                          end),
+                 ylim = c(20, 35),
+                 expand = TRUE) +
+  labs(title = "DBS Group Holdings Ltd (DBSDF) Daily Stock Price", 
+       y = "Closing Price", x = "") + 
+  theme_tq()
+```
+
+### Candlestick Chart with Moving Average Lines
+`geom_MA` is used to add the moving average line. It is a wrapper function of SMA() from the TTR package.
+
+```{r moving avg}
+Stock40_daily %>%
+  filter(symbol == "DBSDF") %>%
+  ggplot(aes(
+    x = date, y = close)) +
+  geom_candlestick(aes(
+    open = open, high = high, 
+    low = low, close = close)) +
+  geom_line(size = 0.5)+
+  geom_ma(color = "darkgreen") +
+  geom_ma(color = "lightgreen", n = 5) + 
+    coord_x_date(xlim = c(end - weeks(12), 
+                          end),
+                 ylim = c(20, 35),
+                 expand = TRUE) +
+  labs(title = "DBS Group Holdings Ltd (DBSDF) Daily Stock Price",
+       subtitle = "lightgreen = 5-day MA, darkgreen = 20-day MA",
+       y = "Closing Price", x = "") + 
+  theme_tq()
+```
+
+### Candlestick Chart: Interactive
+**Step 1** 
+
+A `candleStick_plot()` function is written as follows:
+
+```{r candlestick function}
+candleStick_plot<-function(symbol, from, to){
+  tq_get(symbol, from = from, to = to, warnings = FALSE) %>% 
+    mutate(greenRed=ifelse(open-close>0, "Red", "Green")) %>% 
+    ggplot()+
+    geom_segment(aes(x = date, xend=date, y =open, yend =close, colour=greenRed), size=3)+
+    theme_tq()+
+    geom_segment(aes(x = date, xend=date, y =high, yend =low, colour=greenRed))+
+    scale_color_manual(values=c("ForestGreen","Red"))+
+    ggtitle(paste0(symbol," (",from," - ",to,")"))+
+    theme(legend.position ="none",
+          axis.title.y = element_blank(),
+          axis.title.x=element_blank(),
+          axis.text.x = element_text(angle = 0, vjust = 0.5, hjust=1),
+          plot.title= element_text(hjust=0.5))
+}
+```
+
+**Step 2** 
+
+Using the function to specify symbol name and time duration, an interactive candlestick chart is created. 
+
+```{r interactive candlestick}
+p <- candleStick_plot("DBSDF",
+                      from = '2022-01-01',
+                      to = today())
+ggplotly(p)
+```
+
+## Bollinger Bands Plot
+
+The following code chunk is used to plot bollinger bands. `geom_bbands()` plots a range around a moving average, typically two standard deviations up and down. The moving average functions used are specified in `SMA()` from the `TTR` package.
+
+```{r bollinger bands}
+Stock40_daily %>%
+  filter(symbol == "DBSDF") %>% 
+  ggplot(aes(x=date, y=close))+
+  geom_line(size=0.25)+
+  geom_bbands(aes(
+    high = high, low = low, close = close), 
+    ma_fun = SMA, sd = 2, n = 20,
+    size = 0.8, color_ma = "royalblue4", 
+    color_bands = "#ff7f50")+
+    coord_x_date(xlim = c("2020-02-01", 
+                          "2022-03-31"), 
+                 expand = TRUE)+
+    labs(title = "DBS Group Holdings Ltd (DBSDF) Daily Stock Price",
+         subtitle = "dotted orange lines = bollinger bands",
+         x = "Date", y ="Price") +
+theme(legend.position="none")
+```
+
+
+

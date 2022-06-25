@@ -1,8 +1,8 @@
 ---
-title: "In-class Exercise 9"
+title: "Information Dashboard Design in R"
 categories: In-class Exercise 
 description: |
-  Lesson 9: Information Dashboard Design 
+  Lesson 9: In-class Exercise 
 author:
   - name: Leslie Long Nu
     url: https://www.linkedin.com/in/leslielongnu/
@@ -142,7 +142,7 @@ ggplot(sales_report, aes(x=Month, y=Sales)) +
 
 The following code chunk plots a simple bullet chart. 
 
-```{r simple bullet}
+```{r simple bullet, preview=TRUE}
 product %>%
   gt::gt() %>%
   gt_plt_bullet(column = current, 
@@ -230,7 +230,7 @@ sales_data %>%
 
 The following codes combines the bullet chart and the sparklines:
 
-```{r combine, preview= TRUE}
+```{r combine}
 bullet <- coffeechain %>%
   filter(Date >= "2013-01-01") %>%
   group_by(`Product`) %>%
@@ -241,6 +241,9 @@ bullet <- coffeechain %>%
 sales_data <- sales_data %>%
   left_join(bullet)
 
+```
+
+```{r combine plot, preview= TRUE}
 sales_data %>%
   gt() %>%
   gt_plt_sparkline('Monthly Sales') %>%
@@ -251,7 +254,6 @@ sales_data %>%
                           "black")) %>%
   gt_theme_538()
 ```
-
 
 
 
